@@ -1,0 +1,81 @@
+package id4yh6yczhshj8cczhxqg25;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.GenericCommDriver:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommDriverEvent:oiref><oihard>
+@__modelType reference 
+*/
+class reference59 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommDriverListener:oiref><oihard>
+@__modelType reference 
+*/
+class reference61 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommDriver:oiref><oihard>
+@__modelType reference 
+*/
+class reference62 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommStatusListener:oiref><oihard>
+@__modelType reference 
+*/
+class reference172 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommStatusEvent:oiref><oihard>
+@__modelType reference 
+*/
+class reference173 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommDriverExceptionException:oiref><oihard>
+@__modelType reference 
+*/
+class reference1 {
+}}/**
+Helper classes and interfaces for DPI implementations.
+@__tags
+@shapeType ClassDiagram
+@stereotype problem domain 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Implements#com.ewarna.spectro.helpers.GenericCommDriver#com.ewarna.spectro.helpers.CommDriver:oiref>=265,627,265,400:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.helpers.CommStatusListener#lnkCommStatusEvent:oiref>=230,55,137,55:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#post#(#byte[]#java.lang.Object#)#:oiref>=20,303,194,13,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.helpers.CommDriver#lnkCommDriverListener:oiref>=371,270,451,270:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.GenericCommDriver:oiref>=187,627,157,169,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.helpers.CommDriver#lnkCommDriverEvent:oiref>=335,211,335,156,451,156,451,100:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#setReceiveTimeout#(#long#)#:oiref>=20,355,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#send#(#byte[]#)#:oiref>=20,290,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#receive#(##)#:oiref>=20,316,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommStatusEvent:oiref>=10,10,127,90,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#getSendTimeout#(##)#:oiref>=20,394,194,13,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.helpers.CommDriver#lnkCommStatusListener:oiref>=300,211,300,135:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommDriverListener:oiref>=451,211,144,113,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#addCommDriverListener#(#com.ewarna.spectro.helpers.CommDriverListener#)#:oiref>=20,329,194,13,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.helpers.CommDriver#lnkCommStatusEvent:oiref>=235,211,235,156,73,156,73,100:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommDriverExceptionException:oiref>=630,100,200,101,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#removeCommDriverListener#(#com.ewarna.spectro.helpers.CommDriverListener#)#:oiref>=20,342,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommStatusListener:oiref>=230,10,143,125,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.helpers.CommDriverEvent#lnkCommDriverListener:oiref>=493,100,493,211:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommDriverEvent:oiref>=409,10,127,90,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#getReceiveTimeout#(##)#:oiref>=20,368,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommDriver:oiref>=171,211,200,189,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#setSendTimeout#(#long#)#:oiref>=20,381,194,13,1:oigroup>
+*/
+class __positions {
+}

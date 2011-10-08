@@ -1,0 +1,296 @@
+;
+; OVTCAM.INF  -- This file contains installation information 
+; for OVT USBDCam
+;             
+[Version]
+LayoutFile=Layout.inf, Layout1.inf, Layout2.inf
+signature="$CHICAGO$"
+
+Class=Image
+ClassGUID={6bdd1fc6-810f-11d0-bec7-08002be2092f}
+
+Provider=%SWMfg%
+DriverVer=08/28/2001,2.1.11.28 
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[Manufacturer]
+%HWMfg%=OVT
+ 
+[DestinationDirs]
+DefaultDestDir = 11
+OVT.USBDCam511P.Files = 10,System32\Drivers
+OVT.USBDCam511P.2000= 10,System32\Drivers
+OVT.TWAIN.CopyFiles = 10,TWAIN_32\OMCAM
+OVT.AP.CopyFiles = 10
+OVT.Setting.CopyFiles = 10,OvtCam
+
+[OVT]
+%USB\VID_05A9&PID_A511.DeviceDesc%=OVT.USBDCam511P,USB\VID_05A9&PID_A511
+
+[OVT.USBDCam511P]
+Include=    ks.inf, kscaptur.inf, ksfilter.inf
+Needs=      KS.Registration,KSCAPTUR.Registration
+
+SubClass=StillImage
+DeviceType=2
+DeviceSubType=0xA511
+Capabilities=1
+;PropertyPages="OmCamcpl.DLL ,EnumStiPropPages"
+Events=OVT.Events
+DeviceData=OVT.STI.DeviceData
+ICMProfiles="sRGB Color Space Profile.icm"
+UpdateInis= OVT.USBDCam511P.Links
+DelReg=OVT.DelReg
+AddReg=OVT.USBDCam511P.AddReg, OVT.USBDCam511P.BasicSetting, OVT.511P.AddReg
+CopyFiles=OVT.STI.CopyFiles, OVT.Setting.CopyFiles, OVT.TWAIN.CopyFiles, OVT.USBDCam511P.Files, OVT.AP.CopyFiles
+
+[OVT.USBDCam511P.NT]
+Include=    ks.inf, kscaptur.inf, ksfilter.inf
+Needs=      KS.Registration,KSCAPTUR.Registration.NT
+
+SubClass=StillImage
+DeviceType=2
+DeviceSubType=0xA511
+Capabilities=1
+;PropertyPages="omcamcpl.DLL ,EnumStiPropPages"
+Events=OVT.Events
+DeviceData=OVT.STI.DeviceData
+ICMProfiles="sRGB Color Space Profile.icm"
+UpdateInis= OVT.USBDCam511P.Links
+DelReg=OVT.DelReg
+AddReg=OVT.USBDCam511P.AddReg, OVT.USBDCam511P.BasicSetting, OVT.511P.AddReg, OVT.2000.AddReg
+CopyFiles=OVT.STI.CopyFiles, OVT.Setting.CopyFiles, OVT.TWAIN.CopyFiles, OVT.USBDCam511P.2000, OVT.AP.CopyFiles
+;*****************************************
+
+[OVT.DelReg]
+HKLM,%Run%,"SetFirst"
+HKLM,%Run%,"Autolaunch"
+HKLM,"Software\Omnivision"
+HKLM,"System\CurrentControlSet\Control\MediaResources\msvideo\MSVideo.OVFWWDM"
+HKLM,"System\CurrentControlSet\Control\MediaResources\msvideo\MSVideo.CVFWWDM"
+HKLM,"System\CurrentControlSet\Control\MediaResources\msvideo\MSVideo.OVTCAM"
+HKLM,"Software\OVTUsbCamera\DeviceName"
+
+[OVT.STI.DeviceData]
+TwainDS=%TwainDsName%
+SpecialInfo="My very special information"
+
+[OVT.Events]
+StillCaptured="%StillCaptured%",{06B70A41-729C-11D3-83FC-0050047A963E},%omcamSti%
+AutoLaunch="%AutoLaunch%",{06B70A40-729C-11D3-83FC-0050047A963E},%omcamcap%
+
+[OVT.USBDCam511P.AddReg]
+HKR,,HardwareConfig,1,1
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,omcamvid.sys
+HKR,,OkToHibernate,3,01
+;HKR,,PageOutWhenUnopened,3,01
+;HKR,,PowerDownWhenUnopened,3,01
+HKR,,USDClass,,"{89151040-729C-11D3-83FC-0050047A963E}"
+HKCR,CLSID\{89151040-729C-11D3-83FC-0050047A963E} ,,,"OmniVision Dual Mode USB Camera USD"
+HKCR,CLSID\{89151040-729C-11D3-83FC-0050047A963E}\InProcServer32,,,%11%\OmCamUSD.dll
+HKCR,CLSID\{89151040-729C-11D3-83FC-0050047A963E}\InProcServer32,ThreadingModel,,"Both"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\StillImage\Registered Applications",%omcamSti%,,"%10%\omcamcap.exe /StiDevice:%1 /StiEvent:%2"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\StillImage\Registered Applications",%omcamcap%,,"%10%\amcap.exe /StiDevice:%1 /StiEvent:%2"
+HKR,Events\AutoLaunch, LaunchApplications,,%omcamcap%
+;
+;  Custome Property Interface
+;
+HKCR,CLSID\{F39E07C0-7D67-11D3-83FC-0050047A963E} ,,,"OmniVision Dual Mode USB Camera"
+HKCR,CLSID\{F39E07C0-7D67-11D3-83FC-0050047A963E}\InProcServer32,,,omcamext.ax
+HKCR,CLSID\{F39E07C0-7D67-11D3-83FC-0050047A963E}\InProcServer32,ThreadingModel,,"Both"
+;
+; CLSID_VideoProcAmp Property Page
+HKCR,CLSID\{30af8142-7b74-11d3-b0ea-0060974cffd9},,,%PropPage_CustomVideoProcAmp%
+HKCR,CLSID\{30af8142-7b74-11d3-b0ea-0060974cffd9}\InprocServer32,,,omcamext.ax
+HKCR,CLSID\{30af8142-7b74-11d3-b0ea-0060974cffd9}\InprocServer32,ThreadingModel,,Both
+
+; CLSID_CameraControl Property Page
+HKCR,CLSID\{30af8145-7b74-11d3-b0ea-0060974cffd9},,,%PropPage_CustomCameraControl%
+HKCR,CLSID\{30af8145-7b74-11d3-b0ea-0060974cffd9}\InprocServer32,,,omcamext.ax
+HKCR,CLSID\{30af8145-7b74-11d3-b0ea-0060974cffd9}\InprocServer32,ThreadingModel,,Both
+;
+; Associate the property set with the property page
+HKLM,System\CurrentControlSet\Control\MediaSets\{F39E07C0-7D67-11D3-83FC-0050047A963E}\PropertyPages\{30af8142-7b74-11d3-b0ea-0060974cffd9},,,%PropPage_CustomVideoProcAmp%
+HKLM,System\CurrentControlSet\Control\MediaSets\{F39E07C0-7D67-11D3-83FC-0050047A963E}\PropertyPages\{30af8145-7b74-11d3-b0ea-0060974cffd9},,,%PropPage_CustomCameraControl%
+;
+[OVT.USBDCam511P.BasicSetting]
+;
+HKR,,ModulFileName,,omcamtwn.ds
+;
+HKR,%CamSet%, StillSupportType, 0x10001, 2
+;HKR,%CamSet%, CustomID, 0x10001, 2
+HKR,%CamSet%, EnableAutoLaunch, 1, 52,03,FF, 78,7,ff
+HKR,%CamSet%, DisableAutoLaunch, 1, 52,02,FF
+HKR,%CamSet%, ClearSnapButton, 1, 52,02,FF
+HKR,%CamSet%, CheckAutoLaunch, 1, 78,6,FF
+HKR,%CamSet%, SupportEvent, 0x10001, 1
+HKR,%CamSet%, EnableSystem, 1, 53,1,FF
+HKR,%CamSet%, DisableSystem, 1, 53,0,FF
+HKR,%CamSet%, ResetUsb, 1, 50,40,FF, 53,01,FF, 50,3f,ff, 53,01,FF, 50,0,ff
+HKR,%CamSet%, SetUsbInit, 1, 50,3D,FF
+HKR,%CamSet%, SetUsbWork, 1, 50,3f,ff, 50,0,ff
+HKR,%CamSet%, BandwidthAllocateRule, 0x10001, 0
+HKR,%CamSet%, FileDir,, \DosDevices\%10%\OvtCam
+;HKR,%CamSet%, LoadSettingOnce,0x10001,0
+
+
+[OVT.511P.AddReg]
+HKR,%CamSet%\CamSettingFiles,7610p,,7610p.set
+HKR,%CamSet%\CamSettingFiles,7620p,,7620p.set
+HKR,%CamSet%\CamSettingFiles,7620aep,,7620aep.set
+HKR,%CamSet%\CamSettingFiles,7630p,,7630p.set
+HKR,%CamSet%\CamSettingFiles,6620p,,6620p.set
+HKR,%CamSet%\CamSettingFiles,6630p,,6630p.set
+HKR,%CamSet%\CamSettingFiles,6630adp,,6630adp.set
+HKR,%CamSet%\CamSettingFiles,6630afp,,6630afp.set
+HKR,%CamSet%\CamSettingFiles,8600p,,8600p.set
+HKR,%CamSet%\CamSettingFiles,customp,,customp.set
+HKR,%CamSet%, IdleAltSetting, 0x10001, 0x0
+;; for remove program group
+HKR,,ShortCutString,,%511plus%
+
+ 
+
+[OVT.2000.AddReg]
+;The path must consist with LegencyPath setting in each .SET file.
+;HKR,%76BGDP%,LegencyPath,,\Registry\Machine\Software\OmniVision\PC Camera
+HKLM,"Software\OmniVision\PC Camera","PushModeEvent",,"Enable"
+
+[OVT.USBDCam511P.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,OVT.USBDCam511P.Interface
+
+[OVT.USBDCam511P.NT.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,OVT.USBDCam511P.Interface
+
+[OVT.USBDCam511P.Interface]
+AddReg=OVT.USBDCam511P.Intf.AddReg
+         
+[OVT.USBDCam511P.Intf.AddReg]
+HKR,,CLSID,,%ProxyVCap.CLSID%
+HKR,,FriendlyName,,%USB\VID_05A9&PID_A511.DeviceDesc%
+HKR,,ExtensionDLL,,%Ovt.ExtensionDLL%
+
+[OVT.USBDCam511P.NT.Services]
+AddService = OVT511Plus,0x00000002,OVT.USBDCam511P.ServiceInstall
+
+[OVT.USBDCam511P.ServiceInstall]
+DisplayName   = %USB\VID_05A9&PID_A511.DeviceDesc%
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_DEMAND_START%
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+ServiceBinary = %10%\System32\Drivers\omcamvid.sys
+
+
+
+[OVT.USBDCam511P.Links]
+;create folders
+setup.ini, progman.groups,,"ProductGroup=%511plus%"
+; create links
+; second param must match above and the linked to file must really exist
+setup.ini, ProductGroup,,"%UNS511P%,%10%\omniuns.exe USB\VID_05A9&PID_A511,,,"
+setup.ini, ProductGroup,,"%WDMCAPTURE%,%10%\amcap.exe,,,"
+setup.ini, ProductGroup,,"%VFWCAPTURE%,%10%\vidcap32.exe,,,"
+;Add desktop icons here
+
+[OVT.STI.CopyFiles]
+OmCamUSD.dll,,,4 
+omcamext.dll,,,4 
+Omcamext.ax,,,4 
+omcamsti.dll,,,4
+bmpproc.dll,,,4
+
+[OVT.AP.CopyFiles]
+omcamcap.exe,,,4 
+amcap.exe,,,4 
+vidcap32.exe,,,4 
+omniuns.exe,,,4 
+omcamdib.dll,,,4 
+
+[OVT.TWAIN.CopyFiles]
+omcamtwn.ds,,,4 
+
+[OVT.USBDCam511P.Files]
+omcamvid.sys,,,4 
+ovtcamd.sys,,,4 
+stream.sys,,,4  ;; add for win98(se)
+
+[OVT.USBDCam511P.2000]
+omcamvid.sys,,,4 
+ovtcamd.sys,,,4 
+
+[OVT.Setting.CopyFiles]
+7610p.set,,,4
+7620p.set,,,4
+7620aep.set,,,4
+7630p.set,,,4
+76BE.set,,,4
+6620p.set,,,4
+6630p.set,,,4
+6630adp.set,,,4
+6630afp.set,,,4
+8600p.set,,,4
+customp.set,,,4
+
+[SourceDisksNames]
+1="Dual mode PC Camera Driver Disk","Ov511p.cab",,
+
+[SourceDisksFiles]
+ovtcamd.sys=1
+omcamvid.sys=1
+omcamtwn.ds=1
+omcamcap.exe=1
+amcap.exe=1
+vidcap32.exe=1
+omcamdib.dll=1
+OmCamUSD.dll=1
+omcamext.dll=1
+omcamext.ax=1
+omniuns.exe=1
+7610p.set=1
+7620p.set=1
+7620aep.set=1
+7630p.set=1
+76BE.set=1
+6620p.set=1
+6630ad.set=1
+6630p.set=1
+6630adp.set=1
+6630afp.set=1
+8600p.set=1
+customp.set=1
+omcamsti.dll=1
+bmpproc.dll=1
+
+[Strings]
+
+ProxyVCap.CLSID="{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+KSCATEGORY_CAPTURE="{65E8773D-8F56-11D0-A3B9-00A0C9223196}"
+SERVICE_KERNEL_DRIVER=1
+SERVICE_DEMAND_START=3
+SERVICE_ERROR_NORMAL=1
+
+; IHV's extension DLL
+OVT.ExtensionDLL = "omcamext.dll"
+
+SWMfg="OmniVision"
+
+HWMfg="OVT"
+USB\VID_05A9&PID_A511.DeviceDesc="Dual Mode USB Camera Plus"
+
+StillCaptured = "Still Image Captured"
+AutoLaunch = "Launch Image Application"
+omcamsti = "OmniVision Still image capture A/P"
+omcamcap = "OmniVision WDM Capture A/P"
+CamSet="CameraSetting"
+PropPage_CustomVideoProcAmp= "Custom VideoProcAmp Property Page"
+PropPage_CustomCameraControl= "Custom CameraControl Property Page"
+511plus="OmniVision\Dual Mode USB Camera Plus"
+  
+UNS511P="Uninstall OmniVision Dual Mode USB Camera Plus"
+WDMCAPTURE="OmniVision PC Camera WDM Capture"
+VFWCAPTURE="OmniVision PC Camera VFW Capture"
+Run="SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+TwainDsName = "Dual Mode USB Camera"

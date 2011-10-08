@@ -1,0 +1,29 @@
+package id37831czhshj8cczhsnih7;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:design#Class#id20rdiczhshj8cczhso9el.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#com.ewarna.spectro:oiref> 
+*/
+class reference10 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:design#Class#id20rdiczhshj8cczhso9el.diagram:oiref>=240,100,200,273,1:oigroup>
+ 
+*/
+class __positions {
+}

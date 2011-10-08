@@ -1,0 +1,287 @@
+package id34tq7czhshj8cczhzbhc0;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63:oiref><oihard>
+@__modelType reference 
+*/
+class reference64 {
+}/**
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66:oiref><oihard>
+@__modelType reference 
+*/
+class reference67 {
+}/**
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node84:oiref><oihard>
+@__modelType reference 
+*/
+class reference85 {
+}/**
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node90:oiref><oihard>
+@__modelType reference 
+*/
+class reference91 {
+}}/**
+Describing the synchronous operation of the SPI.
+@__tags
+@shapeType SequenceDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.node:oiref>=298,201,14,214,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link92:oiref>=322,288,63,12,0,0.0,1.0:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link86:oiref>=322,343,63,12,0,0.0,1.0:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link68:oiref>=322,219,144,12,0,0.0,1.0:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link70:oiref>=322,244,113,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66.node:oiref>=523,231,14,20,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66.node83:oiref>=523,115,14,20,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63:oiref>=244,30,122,465,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66:oiref>=484,30,92,465,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66.node77:oiref>=523,140,14,20,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node.link:oiref>=96,189,223,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link86:oiref>=312,355,775,355:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node:oiref>=34,30,90,465,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link93:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link70:oiref>=312,256,523,256:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link69:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link87:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link82:oiref>=312,115,523,115:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node.link:oiref>=86,201,298,201:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link76:oiref>=312,140,523,140:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node90.node:oiref>=667,300,14,50,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link82:oiref>=322,103,169,12,0,0.0,1.0:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link76:oiref>=322,128,186,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node90:oiref>=611,265,127,230,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node84:oiref>=775,320,138,175,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node84.node:oiref>=837,355,14,50,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66.node71:oiref>=523,256,14,20,1:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node.link65:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link92:oiref>=312,300,611,300:oigroup>
+<oigroup:<oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link68:oiref>=312,231,523,231:oigroup>
+*/
+class __positions {
+}/**
+@shapeType Object
+@__modelType node
+@name Client
+@stereotype actor 
+*/
+class node {
+/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63:oiref><oihard>
+@sendingInstant 201
+@processingDuration 214
+@sequenceNumber 3
+@operation <oiref:java#Member#com.ewarna.spectro.Spectrophotometer#measure#(##)#:oiref>
+@operationNameAsText 'measure():SpectroReading' 
+@showReturnArrow
+@return reading
+@controlFlowType call
+*/
+class link {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63:oiref><oihard> 
+*/
+class link65 {
+}}/**
+@shapeType Object
+@__modelType node
+@name SpectroImpl 
+*/
+class node63 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.Spectrophotometer:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation1
+@activationMessage <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node.link:oiref> 
+*/
+class node {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66:oiref><oihard>
+@sendingInstant 231
+@processingDuration 20 
+@sequenceNumber 3.1
+@operation <oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#send#(#byte[]#)#:oiref>
+@operationNameAsText 'send(byte[]):boolean'
+*/
+class link68 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66:oiref><oihard> 
+*/
+class link69 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66:oiref><oihard>
+@sendingInstant 256
+@processingDuration 20
+@sequenceNumber 3.2
+@operation <oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#receive#(##)#:oiref>
+@operationNameAsText 'receive():byte[]' 
+*/
+class link70 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66:oiref><oihard>
+@sendingInstant 140
+@processingDuration 20
+@sequenceNumber 2
+@operation <oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#setReceiveTimeout#(#long#)#:oiref>
+@operationNameAsText 'setReceiveTimeout(long):void' 
+*/
+class link76 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node66:oiref><oihard>
+@sendingInstant 115
+@processingDuration 20
+@sequenceNumber 1
+@operation <oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#setSendTimeout#(#long#)#:oiref>
+@operationNameAsText 'setSendTimeout(long):void' 
+*/
+class link82 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node84:oiref><oihard>
+@sendingInstant 355
+@processingDuration 50
+@sequenceNumber 3.4
+@creationMessage true
+@label create*/
+class link86 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node84:oiref><oihard> 
+*/
+class link87 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node90:oiref><oihard>
+@sendingInstant 300
+@processingDuration 50
+@sequenceNumber 3.3
+@creationMessage true
+@label create
+*/
+class link92 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node90:oiref><oihard> 
+*/
+class link93 {
+}}/**
+@shapeType Object
+@__modelType node
+@name CommDriver 
+*/
+class node66 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommDriver:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation2
+@activationMessage <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link68:oiref> 
+*/
+class node {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation3
+@activationMessage <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link70:oiref> 
+*/
+class node71 {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation5
+@activationMessage <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link76:oiref> 
+*/
+class node77 {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation4
+@activationMessage <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link82:oiref> 
+*/
+class node83 {
+}}/**
+@shapeType Object
+@__modelType node
+@name SpectroReadingImpl
+@created true 
+@backgroundColor 180,230,180
+*/
+class node84 {
+/**
+@shapeType Activation
+@__modelType node
+@name Activation6
+@activationMessage <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link86:oiref> 
+*/
+class node {
+}/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroReading:oiref><oihard> 
+*/
+class link {
+}}/**
+@shapeType Object
+@__modelType node
+@name SpectroStatusImpl
+@created true 
+@backgroundColor 180,200,210
+*/
+class node90 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroStatus:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation7
+@activationMessage <oiref:design#Class#id34tq7czhshj8cczhzbhc0.node63.link92:oiref> 
+*/
+class node {
+}}

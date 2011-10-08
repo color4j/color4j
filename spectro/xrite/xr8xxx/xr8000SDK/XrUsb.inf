@@ -1,0 +1,68 @@
+; Copyright 2002 X-Rite, Incorporated
+
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Provider=%X-Rite%
+DriverVer=9/10/2002, 2.1.0.0
+LayoutFile=layout.inf
+
+[SourceDisksNames]
+1="X-Rite USB Driver","XrUsb.cab",0
+
+[SourceDisksFiles]
+XrUsb.sys=1
+
+[DestinationDirs]
+INF = 10,inf
+SYS = 10,system32\drivers
+SYS.NT = 10,system32\drivers
+
+[Manufacturer]
+%X-Rite%=X-Rite
+
+[X-Rite]
+%XR8000%=XrUsb, USB\VID_0765&PID_1000
+
+[XrUsb]
+DriverVer=9/10/2002, 2.1.0.0
+AddReg=XrUsb.AddReg
+CopyFiles=SYS
+
+[XrUsb.NT]
+DriverVer=9/10/2002, 2.1.0.0
+AddReg=XrUsb.AddReg.NT
+CopyFiles=SYS.NT
+
+[XrUsb.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,XrUsb.SYS
+
+[XrUsb.AddReg.NT]
+HKR,,NTMPDriver,,XrUsb.SYS
+
+[SYS]
+XrUsb.sys
+
+[SYS.NT]
+XrUsb.sys
+
+[XrUsb.NT.Services]
+AddService = X-Rite,0x00000002, XrUsb.NT.AddService
+
+[XrUsb.NT.AddService]
+DisplayName    = %X-Rite.Usb.Service%
+ServiceType    = 1
+StartType      = 2
+ErrorControl   = 1
+ServiceBinary  = %12%\XrUsb.sys
+LoadOrderGroup = Base
+
+
+;---------------------------------------------------------------;
+
+[Strings]
+X-Rite = "X-Rite"
+X-Rite.Usb.Service = "X-Rite USB Service"
+XR8000 = "X-Rite 8000"

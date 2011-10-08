@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mode PUBLIC
+          "-//NetBeans//DTD Mode Properties 1.2//EN"
+          "http://www.netbeans.org/dtds/mode-properties1_2.dtd">
+
+<mode version="1.2">
+  <name unique="ManualReader" display="CTL_ManualReaderWindow" from-bundle="true" bundle="com.ewarna.spectro.drivers.manual.Bundle" />
+
+  <ui-type type="any" >
+    <relative-bounds x="30" y="0" width="70" height="100" />
+    <frame type="window" state="normal" />
+    <container type="split">
+    </container>
+    <icon url="nbresloc:/com/ewarna/nbcolorimetry/spectro/SpectroDataIcon.gif" />
+    <other defined-by="module" mode-state="visible" />
+  </ui-type>
+
+</mode>

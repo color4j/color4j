@@ -1,0 +1,218 @@
+<!--
+  ~ Copyright (c) 2011 Niclas Hedhman.
+  ~
+  ~ Licensed  under the  Apache License, Version 2.0  (the "License");
+  ~ you may not use  this file  except in  compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed  under the  License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  ~ implied.
+  ~
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+    <META NAME="GENERATOR" Content="Visual Page 2.0 for Windows">
+    <TITLE>Comm API Implementation</TITLE>
+</HEAD>
+
+<BODY LINK="blue" VLINK="purple">
+
+<P ALIGN="CENTER"><B><U><FONT SIZE="6">javax.comm API</FONT></U></B></P>
+
+<P ALIGN="CENTER"><FONT SIZE="4">Implemented entirely with SerialPort</FONT></P>
+
+<P>The Comm API 2.0 (the first release in spite of the version number) has been implemented completely using the
+    SerialPort API.</P>
+
+<P><B><U>Limitations of Comm API 2.0 design</U></B></P>
+
+<P>When Sun released the first early version of the Comm API Solutions Consulting implemented that API using SerialPort
+    and reported these design problems with the API. Many of the issues reported were apparently ignored by Sun, as
+    those issues still remain with the Comm API in the initial release (long after the issues were reported).</P>
+
+<P>There should be some way to determine if some set/is???, and noifyOn??? API methods are supported. The SerialPort
+    product does this with the 'isSupported' methods. Since the Comm API does not provide this feature, it should at
+    least define some of the methods to throw unsupportedCommOperationException. For example, Macintosh hardware does
+    not have DSR or RTS hardware so isDSR and setRTS make absolutely no sense on the Mac. Likewise, notifyOnCD, and
+    notifyOnRingIndicator make no sense on the Mac. When using our javax.comm.SerialPort implementation on a platform
+    that does not support one of these features (e.g. setDTR on UnixWareIA32) a message similar to the one shown below
+    will appear on the console:</P>
+
+<P><FONT FACE="Courier New, Courier">The correct thing to do is to throw an <BR>
+    UnsupportedCommOperationException however Sun's API does<BR>
+    not define this. For source code compatability with Sun's <BR>
+    API we can not do it the correct way. You should contact <BR>
+    Sun and encourage them to fix their API. (We suggested <BR>
+    they do this in early 1998)</FONT></P>
+
+<P>It also seems odd that methods like setDTR, setRTS, and sendBreak are not declared to throw an IOExcepion.</P>
+
+<P>Note that the Comm API defines isDTR and isRTS methods. From the serial hardware level, these signals are write-only,
+    so these methods can be misleading. In addition these methods make no sense on some platforms.</P>
+
+<P>The Comm API provides no method for polling (or to disable event generation). For many applications this is
+    not a problem, however for some high-performance applications the overhead of event creation/propagation can be
+    limiting. Note also that some platforms may not provide a mechanism to generate interrupts for all of the events
+    defined in the Comm API. This means that a thread must be dedicated to polling at the Java level to generate the
+    required events.</P>
+
+<P>Dynamic port configuration is a questionable cross-platform strategy. In the Comm API when the methods
+    setSerialPortParams
+    and setFlowControlMode are called, the driver must reconfigure an open port. Performing port configuration changes
+    without resetting the port can be risky since some OS’s do not support the concept, or can have subtle bugs
+    associated
+    with it. (This is one of the reasons the Solutions Consulting SerialPort API uses the SerialConfig object)</P>
+
+<P>The file name UnsupportedCommOperationException.java is too long for the Mac file system.</P>
+
+<P>The Solutions Consulting SerialPort product has none of these limitations. In fact our implementation of the
+    Comm API is done with SerialPort reflecting SerialPort's robust design. By using SerialPort the developer is
+    provided
+    with maximum flexibility since the Comm API or the SerialPort API can be used.</P>
+
+<P><B><U>Is it 100% Java?</U></B></P>
+
+<P>It is unfortunate, but there seems to be much confusion about what 100% Pure Java means. One of the requirements
+    to be 100% pure is that classes do not contain native methods. Since native methods are required to implement the
+    Java Virtual Machine (VM) this in effect means that Java itself is not 100% Pure. Only applications can be 100%
+    pure Java. Classes for doing things like communicating with serial ports cannot be 100% pure, however this does
+    not mean that applications that use these classes cannot be 100% pure. Many 100% pure Java applications/applets
+    have been written that use the SerialPort product.</P>
+
+<P>Sun has said that the Comm API provides a Java extension API that allows applications that use the Comm API
+    to be certified as 100% pure. Implementations of the Comm API are not 100% pure and thus <B><I>the Comm API
+        implementations
+        from Sun are not 100% pure, </I></B>any more than other implementations. This is an unfortunate confusion since
+    many people tend to think if it comes from Sun it is 100% pure. In summary, applications that use implementations
+    of the Comm API should at some future time be capable of being labeled 100% pure, implementations themselves can
+    not be 100% pure. Currently even applications that use the Comm API cannot be 100% pure because Sun has not provided
+    the specs for testing to KeyLabs (the company that does 100% Java certification).</P>
+
+<P>Note: Using the Comm API 2.0 release your application may in the future be able to be 100% pure, however it
+    will be less cross-platform compatible than an application written using the SerialPort API. This is due to the
+    above listed design issues with the Comm API release 2.0.</P>
+
+<P><B><U>Installation</U></B></P>
+
+<P>Install SerialPort per instructions. SerialPort must be installed for the Comm API to function.</P>
+
+<P>Update any Serialio files included with the Comm API package (e.g. SerialPortLocal.java, SerInputStream.java)
+    and rebuild the Serialio class file(s).</P>
+
+<P>Here are two common ways to install the Comm API classes</P>
+
+<P>You can use the JAR file as follows:</P>
+
+<P>1) Add the jspComm.jar file to the CLASSPATH. For example on Windows if you have jspComm.jar in c:\jsp then
+    CLASSPATH=…;c:\jsp\jspComm.jar;…</P>
+
+<P>Or do it this way if you have the separate classes:</P>
+
+<P>1) Create a directory named javax.comm (case sensitive) that is a subdirectory of where the main Java Comm API
+    classes will exist e.g. on Windows create the directory C:\jsp\javax\comm</P>
+
+<P>2) Copy the Comm API class files into the directory created in 1).</P>
+
+<P>3) Add the <I>parent</I> directory of the javax.comm directory to the CLASSPATH. For this example on Windows
+    CLASSPATH=…;c:\jsp;… <BR>
+</P>
+
+<P><B><U>Port enumeration</U></B></P>
+
+<P>Note enumeration requires that the OS provide some type of ‘registry’ functionality, this is not provided on
+    all platforms. The Solutions Consulting implementation is very flexible in that it provides the developer the direct
+    ability to add ports in case the developer does not wish to rely on enumeration. This is done as follows:</P>
+
+<P><FONT FACE="Courier New">CommPortIdentifier.addPortName(devName, CommPortIdentifier.PORT_SERIAL, null);</FONT></P>
+
+<P>Where devName is the device name (e.g. &quot;COM2&quot;, &quot;/dev/tty1&quot;, &quot;Modem Port&quot;). Note
+    that the Driver parameter is set to null. This indicates you simply want to add a name to the list, and use the
+    the default (Solutions Consulting) driver.</P>
+
+<P>You can see an example of this in the Comm API version of TermTest.java.</P>
+
+<P>You can also hard code device names into the list by modifying JSPDriver.java. <BR>
+    &nbsp; <BR>
+    <B><U>Events</U></B></P>
+
+<P>The term <I>event</I> is misleading. Those who have worked with serial ports at the UART level might immediately
+    think that this means these would be hardware interrupt driven. This certainly makes sense, if the platform serial
+    port drivers supported such an interface, unfortunately many do not. Even for those platforms that do provide some
+    event type of event interface <I>there is no guarantee that the driver itself is not polling the hardware</I>.
+</P>
+
+<P>Although we have no access to Sun's implementation of javax.comm, it is our belief that this implmentation is
+    similar to ours in that it has a thread that does the polling and delivery of events. If you dump out Sun's comm.jar
+    (jar -tvf comm.jar) you will see this class<BR>
+    <FONT FACE="Courier New"> com/sun/comm/NotificationThread.class<BR>
+    </FONT></P>
+
+<P>If you dump out jspComm.jar in SerialPort you will see this class<BR>
+    <FONT FACE="Courier New"> javax/comm/SerialPortEventTask.class<BR>
+    </FONT></P>
+
+<P><FONT FACE="Courier New"></FONT>We believe that these are functionally equivalent. As for performance, our last
+    test showed the implementation provided with SerialPort was about 2% faster than Sun's on WinNT. Considering the
+    implementation we provide, sits on top of the SerialPort API, this is quite good. So even if we are wrong, and
+    Sun has gone to great links to use 'events' in Win32 (i.e. Overlapped IO) then our polling strategy is still faster.
+    As for polling directly with the SerialPort API (i.e. doing essentially what javax.comm.SeralPort does, but directly
+    in the application) SerialPort will happily run 96 port (or more) on a single machine.</P>
+
+<P><I><B>Polling is very efficient when done properly</B></I>. </P>
+
+<P><B><U>Example code</U></B></P>
+
+<P>All the serial port example code that ships with the 2.0 release of the Comm API. Has been tested with the Solutions
+    Consulting implementation. Depending on your VM, when you run the SimpleWrite.java example you may need to use
+    CTL-C to stop the program. You can avoid this by adding the following one line of code to SimpleWrite.java where
+    the code exits.
+
+<UL>
+    <UL>
+        <FONT FACE="Courier New">System.exit(1); //proper exit</FONT>
+    </UL>
+</UL>
+
+<P>Sun's <I>SerialDemo</I> example: Note when using this example program it may appear that it will not work when
+    trying to communicate with a modem. This is NOT a problem with Solutions Consulting javax.comm.SerialPort
+    implementation.
+    There are two issues here. First some modems (and other devices) will not respond unless the DTR is set, since
+    <I>SerialDemo</I> does not provide a hook to set DTR your modem will not send a reply. Secondly, if you note that
+    SerialDemo works with your modem on JDK 1.1.x, but not JDK 1.2.x, then this is an issue of a change that Sun made
+    to the way the Enter key event is handled. In JDK 1.2.x the Enter key does not send the CR, and the modem will
+    not respond until it sees a CR. You should use JavaTerm not SerialDemo, as JavaTerm provides smart and flexible
+    CR control as well as the ability to set DTR.</P>
+
+<P><B><U>Implementation Requirements &amp; Limitations</U></B>
+
+<UL>
+    <LI>Split flow control (handshake) is not supported for SerialPort versions previous to 3.2.
+    <LI>Parallel ports are not currently supported (Parallel ports don’t even exist on many of the platforms that
+        SerialPort
+        runs on)
+    <LI>Port enumeration is not supported for SerialPort versions previous to 4.0.
+    <LI>Port enumeration is currently supported only on WinNT/98/95, Mac &amp; OS/2, and only on JNI compliant VM’s.
+        This feature requires jspWin.dll version 3.7 or later on Win32 and shared library version 2.8 or later on Mac,
+        and 3.2 or later on OS/2.
+</UL>
+
+<P ALIGN="CENTER"></P>
+
+<P ALIGN="CENTER"><B><U>Contact US</U></B> <BR>
+    If you have questions or comments please contact us. <BR>
+    <B><FONT SIZE="4">Solutions Consulting</FONT></B> <BR>
+    <B>info@serialio.com</B>
+
+</BODY>
+
+</HTML>

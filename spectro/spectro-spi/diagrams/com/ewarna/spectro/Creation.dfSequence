@@ -1,0 +1,468 @@
+package idltx9czhshj8cczhvkwk6;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref><oihard>
+@__modelType reference 
+*/
+class reference16 {
+}/**
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node22:oiref><oihard>
+@__modelType reference 
+*/
+class reference23 {
+}/**
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref><oihard>
+@__modelType reference 
+*/
+class reference33 {
+}/**
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node43:oiref><oihard>
+@__modelType reference 
+*/
+class reference44 {
+}/**
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node49:oiref><oihard>
+@__modelType reference 
+*/
+class reference50 {
+}/**
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node178:oiref><oihard>
+@__modelType reference 
+*/
+class reference179 {
+}}/**
+The Sequence of the Creation.
+<p>The basics center around the DriverManager, which handles al the various types of Drivers for Spectrophotometers. The DriverManager must be informed of the driver classes (<code>registerDriver</code>), and any automatic registration of drivers takes place at a higher level, and is not part of this specification.</p>
+@__tags
+@shapeType SequenceDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions 
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link55:oiref>=195,587,1045,587:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link170:oiref>=195,287,406,287:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node178:oiref>=30,30,90,657,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link29:oiref>=195,312,554,312:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.node:oiref>=406,140,14,142,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link34:oiref>=195,337,554,337:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node32.node39:oiref>=1045,403,14,20,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link170:oiref>=205,275,195,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node43.node:oiref>=875,457,14,50,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.node30:oiref>=554,312,14,20,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.link25:oiref>=430,137,22,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node32.node47:oiref>=1045,537,14,20,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node49:oiref>=660,177,121,510,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.link25:oiref>=420,149,516,149:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref>=991,313,122,374,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link46:oiref>=205,525,206,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.node:oiref>=554,149,14,50,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.link26:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node49.node:oiref>=713,212,14,50,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.link27:oiref>=430,192,115,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node178.link:oiref>=82,140,406,140:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.link27:oiref>=420,204,554,204:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.node28:oiref>=554,204,14,68,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link181:oiref>=568,212,660,212:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link46:oiref>=195,537,1045,537:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link24:oiref>=:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link53:oiref>=205,445,52,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node178.link180:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link182:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.node35:oiref>=554,337,14,96,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link181:oiref>=578,200,74,12,0,0.0,1.0:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node178.link:oiref>=92,128,164,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node32.node56:oiref>=1045,587,14,20,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.node171:oiref>=406,287,14,20,1:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link36:oiref>=578,336,63,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link36:oiref>=568,348,991,348:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref>=516,114,90,573,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link48:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node32.node:oiref>=1045,348,14,50,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link37:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link31:oiref>=:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link55:oiref>=205,575,252,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link53:oiref>=195,457,813,457:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link29:oiref>=205,300,85,12,0,0.0,1.0:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link38:oiref>=578,391,115,12,0,0.0,1.0:oigroup>
+<oigroup:Composite#$messageInplaceEditing#<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link34:oiref>=205,325,286,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node43:oiref>=813,422,139,265,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link38:oiref>=568,403,1045,403:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link54:oiref>=:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node22:oiref>=361,30,105,657,1:oigroup>
+<oigroup:<oiref:design#Class#idltx9czhshj8cczhvkwk6.node:oiref>=143,30,90,657,0:oigroup>
+
+*/
+class __positions {
+}/**
+The Client will be software that implements the UI of the Spectro drivers. In the first instance, this is part of Labworks Pro, but may be shipped in other eWarna products, as well as third-party product.
+@shapeType Object
+@__modelType node
+@name User
+@stereotype actor 
+@author Niclas Hedhman
+*/
+class node {
+/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node22:oiref><oihard> 
+*/
+class link24 {
+}/**
+Query the Driver for capabilities.
+<p>The Driver interface contains many methods to obtain information about the capabilities of the Spectro Driver as well as the Spectro instrument itself.</p>
+<p>It is essential that the Driver implementation correctly supports these query methods, as they will determine the behaviour of the client.</p>
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref><oihard>
+@sendingInstant 312
+@processingDuration 20
+@sequenceNumber 3
+@label query driver 
+*/
+class link29 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref><oihard> 
+*/
+class link31 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref><oihard>
+@sendingInstant 337
+@processingDuration 96
+@sequenceNumber 4
+@operation <oiref:java#Member#com.ewarna.spectro.SpectroDriver#createSpectrophotometer#(##)#:oiref>
+@operationNameAsText 'createSpectrophotometer():Spectrophotometer' 
+*/
+class link34 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref><oihard>
+@sendingInstant 537
+@processingDuration 20
+@sequenceNumber 6
+@operation <oiref:java#Member#com.ewarna.spectro.Spectrophotometer#setSettings#(#com.ewarna.spectro.SpectroSettings#)#:oiref>
+@operationNameAsText 'setSettings(SpectroSettings):void'
+*/
+class link46 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref><oihard> 
+*/
+class link48 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node43:oiref><oihard>
+@sendingInstant 457
+@processingDuration 50
+@sequenceNumber 5
+@creationMessage true 
+@label create
+*/
+class link53 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node43:oiref><oihard> 
+*/
+class link54 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref><oihard>
+@sendingInstant 587
+@processingDuration 20
+@sequenceNumber 7
+@operation <oiref:java#Member#com.ewarna.spectro.Spectrophotometer#addSpectroListener#(#com.ewarna.spectro.SpectroListener#)#:oiref>
+@operationNameAsText 'addSpectroListener(SpectroListener):void'*/
+class link55 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node22:oiref><oihard>
+@sendingInstant 287
+@processingDuration 20
+@sequenceNumber 2
+@operation <oiref:java#Member#com.ewarna.spectro.DriverManager#getDriver#(#java.lang.String#)#:oiref>
+@operationNameAsText 'getDriver(String):SpectroDriver' 
+*/
+class link170 {
+}}/**
+Definition of a Spectrophotometer driver.
+<p>The <code>SpectroDriver</code> implementation must properly
+implement these methods, primarily for the user client software
+to query for functionality and operational issues.</p>
+@shapeType Object
+@__modelType node
+@name DriverImpl 
+@created true
+@author Niclas Hedhman
+*/
+class node15 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroDriver:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation2
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.link25:oiref> 
+*/
+class node {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation3
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node22.link27:oiref> 
+*/
+class node28 {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation4
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link29:oiref> 
+*/
+class node30 {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation5
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link34:oiref> 
+*/
+class node35 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref><oihard>
+@sendingInstant 348
+@processingDuration 50
+@sequenceNumber 4.1
+@creationMessage true
+@label create
+*/
+class link36 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref><oihard> 
+*/
+class link37 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node32:oiref><oihard>
+@sendingInstant 403
+@processingDuration 20 
+@sequenceNumber 4.2
+@operation <oiref:java#Member#com.ewarna.spectro.Spectrophotometer#initialize#(##)#:oiref>
+@operationNameAsText 'initialize():void'
+*/
+class link38 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node49:oiref><oihard>
+@sendingInstant 212
+@processingDuration 50
+@sequenceNumber 1.2.1
+@creationMessage true
+@label create
+*/
+class link181 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node49:oiref><oihard> 
+*/
+class link182 {
+}}/**
+Handles the registration and rerieval of Drivers.
+<p>The DriverManager is only responsible to receive a registration, and upon such, load the <code>Class</code> (optional), instantiate a single object and initialize it. If this is successful, the DriverManager makes the instance available for use, via the <code>getDriver</code> method.</p>
+@shapeType Object
+@__modelType node
+@name DriverManager 
+@author Niclas Hedhman
+*/
+class node22 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.DriverManager:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation1
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node178.link:oiref> 
+*/
+class node {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref><oihard>
+@sendingInstant 149
+@processingDuration 50
+@sequenceNumber 1.1
+@creationMessage true
+*/
+class link25 {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref><oihard> 
+*/
+class link26 {
+}/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15:oiref><oihard>
+@sendingInstant 204
+@processingDuration 68
+@sequenceNumber 1.2
+@operation <oiref:java#Member#com.ewarna.spectro.SpectroDriver#initialize#(##)#:oiref>
+@operationNameAsText 'initialize():void'
+*/
+class link27 {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation10
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link170:oiref> 
+*/
+class node171 {
+}}/**
+@shapeType Object
+@__modelType node
+@name SpectroImpl
+@created true 
+@author Niclas Hedhman
+*/
+class node32 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.Spectrophotometer:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation6
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link36:oiref> 
+*/
+class node {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation7
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link38:oiref> 
+*/
+class node39 {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation9
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link46:oiref> 
+*/
+class node47 {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation11
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link55:oiref> 
+*/
+class node56 {
+}}/**
+Definition of a Spectrophotometer driver.
+<p>The <code>SpectroDriver</code> implementation must properly
+implement these methods, primarily for the user client software
+to query for functionality and operational issues.</p>
+@shapeType Object
+@__modelType node
+@name SpectroSettingsImpl
+@created true
+@backgroundColor 180,200,210
+@author Niclas Hedhman*/
+class node43 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroSettings:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation8
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node.link53:oiref> 
+*/
+class node {
+}}/**
+@shapeType Object
+@__modelType node
+@name CommDriverImpl
+@author Niclas Hedhman
+@created true*/
+class node49 {
+/**
+@shapeType DependencyLink
+@__modelType link
+@__ref <oiref:java#Class#com.ewarna.spectro.helpers.CommDriver:oiref><oihard> 
+*/
+class link {
+}/**
+@shapeType Activation
+@__modelType node
+@name Activation12
+@activationMessage <oiref:design#Class#idltx9czhshj8cczhvkwk6.node15.link181:oiref> 
+*/
+class node {
+}}/**
+@shapeType Object
+@__modelType node
+@name Registrator
+@stereotype actor 
+*/
+class node178 {
+/**
+@shapeType MessageLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node22:oiref><oihard>
+@sendingInstant 140
+@processingDuration 142
+@sequenceNumber 1
+@operation <oiref:java#Member#com.ewarna.spectro.DriverManager#registerDriver#(#java.lang.Class#)#:oiref>
+@operationNameAsText 'registerDriver(Class):void'
+*/
+class link {
+}/**
+@shapeType CollaborationLink
+@__modelType link
+@__ref <oiref:design#Class#idltx9czhshj8cczhvkwk6.node22:oiref><oihard> 
+*/
+class link180 {
+}}

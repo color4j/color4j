@@ -1,0 +1,16 @@
+
+
+
+
+    ERROR: Instrument Calibration File Not Found on Diskette.
+
+    1.  Check that proper diskette is in Disk Drive.
+
+    2.  Continue, as if another diskette, if diskette was incorrect.
+
+
+            Call Support Facility if diskette is missing
+                             - or -
+                if file is not on proper diskette.
+
+

@@ -1,0 +1,235 @@
+<!--
+  ~ Copyright (c) 2011 Niclas Hedhman.
+  ~
+  ~ Licensed  under the  Apache License, Version 2.0  (the "License");
+  ~ you may not use  this file  except in  compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed  under the  License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  ~ implied.
+  ~
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+    <META NAME="GENERATOR" Content="Visual Page 2.0 for Windows">
+    <TITLE>Serialio.modem API</TITLE>
+</HEAD>
+
+<BODY LINK="blue" VLINK="purple">
+
+<P ALIGN="CENTER"><B><U><FONT SIZE="6">Serialio.modem API</FONT></U></B></P>
+
+<P ALIGN="CENTER"><FONT SIZE="4">A 100% Java modem interface class</FONT></P>
+
+<P>The Serialio.modem classes are a set of classes that provide high-level modem functionality and conform to the
+    100% Java guidelines. These classes can be used with any serial port classes that implement serial port
+    functionality,
+    such as the SerialPort API and the javax.SerialPort API.<BR>
+    <BR>
+    The Serialio.modem provides functionality for common modem tasks like initialization, dialing, connecting,
+    disconnecting
+    and sending modem commands.<BR>
+    <BR>
+    The modem class runs in its own thread, and accepts requests asynchronously. Synchronous functionality can be
+    achieved
+    by WAIT_DONE request. The WAIT_DONE request blocks if the previous request has not completed. Requests to the modem
+    object are processed serially so Pseudo-synchronous functionality can be achieved by issuing multiple requests
+    to the modem object. When a request is received while the modem object is not ready, the request caller will block
+    until the modem object has finished processing the current request.<BR>
+    <BR>
+    <B><U>Callbacks</U></B></P>
+
+<P>The modem object is designed such that a request is considered finish before calling the modemEvent with the
+    type code = DONE. This will allow the modemEvent to issue a request without deadlocking the modem thread. This
+    feature can be useful for implementing modem functionality from a single threaded GUI environment (e.g.
+    Swing/JFC).</P>
+
+<P><B><U>Internationalization</U></B></P>
+
+<P>The Serialio.modem was designed for internationalization. The default Locale is us en_US. To set a Locale use
+    the modem.setLocale(Locale newLocale) method.</P>
+
+<P><B><U>Example code</U></B></P>
+
+<P>The following example code block used the modem object to initialize the modem, this example assumes a SerialPort
+    object (sp) exists, and that a config object (cfg) holds the initialization string, and that the variable nLang
+    holds the index for the desired locale. Note that the modem object is used here only for initialization so it is
+    stopped when initialization is complete.</P>
+
+<DL>
+    <DT><FONT FACE="Courier New">private void initializeModem() <BR>
+        throws ModemException, IOException<BR>
+        {</FONT></DT>
+    <DL>
+        <DT><FONT FACE="Courier New">SerOutputStream serOs = new SerOutputStream(sp);<BR>
+            SerInputStream serIs = new SerInputStream(sp);<BR>
+            Modem modem = new Modem(this, serOs, serIs);<BR>
+            Locale myLocale[] = { <BR>
+            new Locale(&quot;en&quot;, &quot;US&quot;), new Locale(&quot;es&quot;, &quot;ES&quot;) };<BR>
+            modem.setLocale(myLocale[nLang]);<BR>
+            String mInit = cfg.getModemInit() + &quot;\r&quot;;<BR>
+            modem.setInitCommand(mInit);<BR>
+            modem.request(Modem.INITIALIZE);<BR>
+            modem.request(Modem.WAIT_DONE);<BR>
+            modem.stop(); //only used for initialization</FONT></DT>
+    </DL>
+    <DT><FONT FACE="Courier New">}</FONT></DT>
+</DL>
+
+<P>The following example code blocks used the modem object to initialize and connect the modem.</P>
+
+<DL>
+    <DT><FONT FACE="Courier New">openModemPort(boolean flow) <BR>
+        throws ModemException <BR>
+        {</FONT></DT>
+    <DL>
+        <DT><FONT FACE="Courier New">String pName = cfg.getModemPort();<BR>
+            try {</FONT></DT>
+        <DL>
+            <DT><FONT FACE="Courier New">SerialConfig sc = new SerialConfig(pName);<BR>
+                sc.setBitRate(SerialConfig.BR_1200);<BR>
+                sc.setParity(SerialConfig.PY_EVEN);<BR>
+                sc.setDataBits(SerialConfig.LN_7BITS);<BR>
+                sc.setStopBits(SerialConfig.ST_1BITS);<BR>
+                if (flow) {</FONT></DT>
+            <DL>
+                <DT><FONT FACE="Courier New">int handshake = <BR>
+                    SerialConfig.HS_HARD_IN + SerialConfig.HS_HARD_OUT +<BR>
+                    SerialConfig.HS_SOFT_IN + SerialConfig.HS_SOFT_OUT;<BR>
+                    // int handshake = SerialConfig.HS_CTSRTS; //this works too<BR>
+                    sc.setHandshake(handshake);</FONT></DT>
+            </DL>
+            <DT><FONT FACE="Courier New">}</FONT></DT>
+        </DL>
+        <DD><FONT FACE="Courier New">sp = new SerialPortLocal(sc);<BR>
+            sp.setDTR(true);<BR>
+            sp.rxFlush();<BR>
+            sp.setTimeoutRx(0);<BR>
+            // pause(500); //some modems might need this<BR>
+            spy = new SerLooker(sp, 1024);</FONT>
+        <DT><FONT FACE="Courier New">}</FONT><BR>
+            <FONT FACE="Courier New">catch(IOException e) {</FONT></DT>
+        <DL>
+            <DT><FONT FACE="Courier New">String eMsg = e.getMessage();</FONT><BR>
+                <FONT FACE="Courier New">throw new ModemException(&quot;Could not open &quot;+pName+&quot;: &quot;+eMsg);</FONT>
+            </DT>
+        </DL>
+        <DT><FONT FACE="Courier New">}</FONT></DT>
+    </DL>
+    <DT><FONT FACE="Courier New">}</FONT></DT>
+</DL>
+
+<P></P>
+
+<P>Here the modem object is created. Be sure to implement the interfaces.</P>
+
+<DL>
+    <DT><FONT FACE="Courier New">implements ModemInterfaceProvider, ModemStatusAcceptor<BR>
+        ...<BR>
+        try {</FONT></DT>
+    <DL>
+        <DT><FONT FACE="Courier New">openModemPort(true); //creates sp object<BR>
+            SerOutputStream serOs = new SerOutputStream(sp);<BR>
+            SerInputStream serIs = new SerInputStream(sp);<BR>
+            modem = new Modem(this, serOs, serIs);<BR>
+            modem.setLocale(myLocale[nLang]);<BR>
+            modem.setModemStatusAcceptor(this); //send us msgs<BR>
+            String mInit = cfg.getModemInit() + &quot;\r&quot;;<BR>
+            modem.setInitCommand(mInit);<BR>
+            String phoneNum = cfg.getDialPhoneNum();<BR>
+            String prefix = cfg.getDialPrefix();<BR>
+            if (prefix.length() &gt; 0) phoneNum = prefix + phoneNum;<BR>
+            modem.setPhoneNumber(phoneNum);<BR>
+            //because Java threading has a loose spec, in theory request for <BR>
+            //connect could return before call to waitConnected. isConnected<BR>
+            //is used to insure proper operation on all Java implementations<BR>
+            isConnected = false;<BR>
+            modem.request(Modem.INITIALIZE);<BR>
+            pause(2000); //slow modems need time before next cmd<BR>
+            setModemSpeaker();<BR>
+            pause(100);//some modems are slow<BR>
+            //thread will block on next call until INITIALIZE completes<BR>
+            modem.request(Modem.CONNECT); <BR>
+            modem.request(Modem.WAIT_DONE); //see option below<BR>
+            if (!isConnected) throw new ModemException();</FONT></DT>
+    </DL>
+    <DT><FONT FACE="Courier New">}<BR>
+        catch(Exception e) {</FONT></DT>
+    <DL>
+        <DT><FONT FACE="Courier New">e.printStackTrace();<BR>
+            statusMsgLn(&quot;&quot;+e);</FONT></DT>
+    </DL>
+    <DT><FONT FACE="Courier New">}</FONT></DT>
+</DL>
+
+<P>Note that the line</P>
+
+<BLOCKQUOTE>
+    <P><FONT FACE="Courier New">modem.request(Modem.WAIT_DONE);</FONT></P>
+</BLOCKQUOTE>
+
+<P>could alternately be replaced by this line</P>
+
+<BLOCKQUOTE>
+    <P><FONT FACE="Courier New">waitConnectDone(false);</FONT></P>
+</BLOCKQUOTE>
+
+<P>which is supported by this code</P>
+
+<DL>
+    <DT><FONT FACE="Courier New">public synchronized void waitConnectDone(boolean connected) {</FONT></DT>
+    <DL>
+        <DT><FONT FACE="Courier New">while (!connected &amp;&amp; !isConnected) {</FONT></DT>
+        <DL>
+            <DT><FONT FACE="Courier New">try {</FONT></DT>
+            <DL>
+                <DT><FONT FACE="Courier New">wait();</FONT></DT>
+            </DL>
+            <DT><FONT FACE="Courier New">} catch (InterruptedException e) {}</FONT></DT>
+        </DL>
+        <DT><FONT FACE="Courier New">}<BR>
+            if (connected) {</FONT></DT>
+        <DL>
+            <DT><FONT FACE="Courier New">notifyAll();</FONT></DT>
+        </DL>
+        <DT><FONT FACE="Courier New">}</FONT></DT>
+    </DL>
+    <DT><FONT FACE="Courier New">}</FONT></DT>
+    <DT><FONT FACE="Courier New">public void modemEvent(ModemEvent mev) {</FONT></DT>
+    <DL>
+        <DT><FONT FACE="Courier New">int reqType = mev.getEventRequest();<BR>
+            int mevType = mev.getEventType();<BR>
+            if (mevType == ModemEvent.EXCEPTION) {</FONT></DT>
+        <DL>
+            <DT><FONT FACE="Courier New">statusMsgLn(mev.getEventMessage());</FONT></DT>
+        </DL>
+        <DT><FONT FACE="Courier New">}<BR>
+            if (reqType == Modem.DIAL_BLIND) return; //dialBlind from connect<BR>
+            if (reqType == Modem.CONNECT) {</FONT></DT>
+        <DL>
+            <DT><FONT FACE="Courier New">if (mevType == ModemEvent.DONE) isConnected = true;<BR>
+                waitConnectDone(true);</FONT></DT>
+        </DL>
+        <DT><FONT FACE="Courier New">}</FONT></DT>
+    </DL>
+    <DT><FONT FACE="Courier New">}</FONT></DT>
+</DL>
+
+<P ALIGN="CENTER"><B><U>Contact US</U></B> <BR>
+    If you have questions or comments please contact us. <BR>
+    <B><FONT SIZE="4">Solutions Consulting</FONT></B> <BR>
+    <B>support@serialio.com</B>
+
+</BODY>
+
+</HTML>

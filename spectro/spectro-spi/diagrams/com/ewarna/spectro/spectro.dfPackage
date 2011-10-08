@@ -1,0 +1,218 @@
+package id20rdiczhshj8cczhso9el;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:design#Class#id4yh6yczhshj8cczhxqg25.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#com.ewarna.spectro.helpers:oiref> 
+*/
+class reference58 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroDriver:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroStatus:oiref><oihard>
+@__modelType reference 
+*/
+class reference152 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.Spectrophotometer:oiref><oihard>
+@__modelType reference 
+*/
+class reference153 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.DriverNotAvailableException:oiref><oihard>
+@__modelType reference 
+*/
+class reference154 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroException:oiref><oihard>
+@__modelType reference 
+*/
+class reference155 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroReading:oiref><oihard>
+@__modelType reference 
+*/
+class reference156 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.DriverManager:oiref><oihard>
+@__modelType reference 
+*/
+class reference157 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.Aperture:oiref><oihard>
+@__modelType reference 
+*/
+class reference158 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroSettings:oiref><oihard>
+@__modelType reference 
+*/
+class reference159 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.LightFilter:oiref><oihard>
+@__modelType reference 
+*/
+class reference160 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroListener:oiref><oihard>
+@__modelType reference 
+*/
+class reference161 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroEvent:oiref><oihard>
+@__modelType reference 
+*/
+class reference162 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroCalibration:oiref><oihard>
+@__modelType reference 
+*/
+class reference163 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.LensPosition:oiref><oihard>
+@__modelType reference 
+*/
+class reference164 {
+}/**
+@__ref <oiref:java#Class#com.ewarna.spectro.SpectroParameter:oiref><oihard>
+@__modelType reference 
+*/
+class reference165 {
+}}/**
+This package contains the definition of the Spectrophotometer instrumentation, without the UI aspect of it. The classes and interfaces herein are self-sufficient and not depending on any other classes, interfaces or packages other than the JDK 1.4 Standard Edition, including the Java Comm API.
+@__tags
+@shapeType ClassDiagram 
+@stereotype specification
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#isBandpassFilter#(##)#:oiref>=342,182,179,13,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroListener:oiref>=442,1083,442,391:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#canIncludeSpecular#(##)#:oiref>=-338,304,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroListener:oiref>=207,234,277,157,0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroReading#getValues#(##)#:oiref>=-338,11,191,13,1:oigroup>
+<oigroup:Composite#supplierRole#MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroEvent:oiref>=830,385,49,12,0,1.0,0.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getNoOfOfflineStandards#(##)#:oiref>=-338,447,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroEvent#m_Reading:oiref>=-61,-25,189,13,1:oigroup>
+<oigroup:Composite#clientRole#MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroListener#lnkSpectroEvent:oiref>=489,307,47,12,0,0.0,1.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#canExcludeSpecular#(##)#:oiref>=-338,317,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#post#(#byte[]#java.lang.Object#)#:oiref>=12,271,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#canMeasureOffline#(##)#:oiref>=-338,421,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#getSettings#(##)#:oiref>=75,304,194,13,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroEvent:oiref>=590,1083,590,727,815,727,815,380:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroStatus#getMessages#(##)#:oiref>=-118,330,167,13,1:oigroup>
+<oigroup:Composite#clientRole#MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroEvent:oiref>=593,1078,42,12,0,-1.0,0.0:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.DriverNotAvailableException:oiref>=947,205,192,101,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.DriverManager#loadDriver#(#java.lang.String#)#:oiref>=295,252,170,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroReading#getSettings#(##)#:oiref>=-338,24,191,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.LightFilter:oiref>=851,750,169,255,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#setSettings#(#SpectroSetting#)#:oiref>=75,317,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroSettings#getAperture#(##)#:oiref>=352,121,178,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#receive#(##)#:oiref>=12,284,194,13,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroEvent#m_Reading:oiref>=815,234,815,199,485,199,485,164:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getNoOfOfflineMeasurements#(##)#:oiref>=-338,434,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#getReceiveTimeout#(##)#:oiref>=12,336,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#send#(#byte[]#)#:oiref>=12,258,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroException:oiref>=982,10,122,125,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#getType#(##)#:oiref>=342,234,179,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroSettings#getLightFilter#(##)#:oiref>=352,134,178,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#isLowpassFilter#(##)#:oiref>=342,195,179,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroEvent#SpectroEvent#(#java.lang.Object#com.ewarna.spectro.SpectroReading#)#:oiref>=-61,17,189,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#getStoredMeasurement#(#int#)#:oiref>=75,343,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#canMeasureReflectance#(##)#:oiref>=-338,278,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroStatus#getWarnings#(##)#:oiref>=-118,304,167,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#removeSpectroListener#(#com.ewarna.spectro.SpectroListener#)#:oiref>=75,434,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#getStandard#(#int#)#:oiref>=75,369,194,13,1:oigroup>
+<oigroup:Composite#supplierRole#MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroListener#lnkSpectroEvent:oiref>=714,319,32,12,0,0.0,-1.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroListener#calibrated#(#com.ewarna.spectro.SpectroEvent#)#:oiref>=352,134,155,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroCalibration:oiref>=10,234,177,159,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#getSerialNo#(##)#:oiref>=75,330,194,13,1:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroEvent#m_Reading:oiref>=482,169,7,12,0,1.0,0.0:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroEvent:oiref>=719,234,193,146,1:oigroup>
+<oigroup:Composite#stereotype#MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroDriver#lnkSpectrophotometer:oiref>=580,1575,100,12,0,1.0,0.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#isHighpassFilter#(##)#:oiref>=342,208,179,13,1:oigroup>
+<oigroup:<oiref:java#Extends#com.ewarna.spectro.SpectroCalibration#com.ewarna.spectro.SpectroReading:oiref>=98,234,98,199,427,199,427,164:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroStatus:oiref>=835,530,154,178,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#TYPE_HIGHPASS:oiref>=342,88,179,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getInterval#(##)#:oiref>=-338,369,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Aperture#getName#(##)#:oiref>=382,128,127,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroReading:oiref>=369,10,175,154,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#setStandard#(#int#com.ewarna.spectro.SpectroReading#)#:oiref>=75,356,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getCommParameterDef#(##)#:oiref>=-338,499,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#getNoOfStoredStandards#(##)#:oiref>=75,395,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#setReceiveTimeout#(#long#)#:oiref>=12,323,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroSettings#getCommParameters#(##)#:oiref>=352,147,178,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#dispose#(##)#:oiref>=-338,473,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.DriverManager#loadDriver#(#java.lang.Class#)#:oiref>=295,265,170,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#addSpectroListener#(#com.ewarna.spectro.SpectroListener#)#:oiref>=75,447,194,13,1:oigroup>
+<oigroup:<oiref:design#Class#id4yh6yczhshj8cczhxqg25.diagram:oiref>=766,1690,200,144,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#dispose#(##)#:oiref>=75,421,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroListener#settingsChanged#(#com.ewarna.spectro.SpectroEvent#)#:oiref>=352,147,155,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#initialize#(##)#:oiref>=75,408,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#canMeasureTransmittance#(##)#:oiref>=-338,291,194,13,1:oigroup>
+<oigroup:Composite#clientRole#MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroListener:oiref>=445,1078,57,12,0,-1.0,0.0:oigroup>
+<oigroup:Composite#stereotype#MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroEvent:oiref>=752,727,100,12,0,0.0,-1.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#getCutoffWavelength2#(##)#:oiref>=342,156,179,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getApertures#(##)#:oiref>=-338,408,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getEndingWavelength#(##)#:oiref>=-338,356,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getWhiteTilePrecision#(##)#:oiref>=-338,382,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#calibrate#(##)#:oiref>=75,291,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#getName#(##)#:oiref>=342,143,179,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroParameter:oiref>=851,1050,189,235,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getFilters#(##)#:oiref>=-338,330,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Aperture#getDoorRadius#(##)#:oiref>=382,141,127,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#initialize#(##)#:oiref>=-338,460,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#isNotchFilter#(##)#:oiref>=342,221,179,13,1:oigroup>
+<oigroup:Composite#clientCardinality#MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroEvent#m_Reading:oiref>=800,229,7,12,0,-1.0,0.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getStartingWavelength#(##)#:oiref>=-338,343,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#TYPE_NOTCH:oiref>=342,114,179,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroSettings#getLocation#(##)#:oiref>=352,108,178,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroReading#getStatus#(##)#:oiref>=-338,-2,191,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroSettings:oiref>=851,1330,236,157,0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#getSendTimeout#(##)#:oiref>=12,362,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#measure#(##)#:oiref>=75,278,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.DriverManager:oiref>=766,1530,161,113,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#TYPE_BANDPASS:oiref>=342,101,179,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.CommDriver#addCommDriverListener#(#CommDriverListener#)#:oiref>=12,297,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroStatus#isSuccess#(##)#:oiref>=-118,278,167,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.GenericCommDriver#setSendTimeout#(#long#)#:oiref>=12,349,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.LensPosition:oiref>=600,1530,146,130,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#getCutoffWavelength1#(##)#:oiref>=342,169,179,13,1:oigroup>
+<oigroup:Composite#supplierRole#MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroListener:oiref>=457,396,45,12,0,1.0,0.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroListener#measured#(#com.ewarna.spectro.SpectroEvent#)#:oiref>=352,121,155,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommDriverListener:oiref>=232,291,146,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.helpers.CommDriver#removeCommDriverListener#(#CommDriverListener#)#:oiref>=12,310,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroEvent#getReading#(##)#:oiref>=-61,30,189,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.LightFilter#TYPE_LOWPASS:oiref>=342,75,179,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.Aperture:oiref>=947,350,141,130,1:oigroup>
+<oigroup:Composite#stereotype#MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroListener#lnkSpectroEvent:oiref>=629,307,56,12,0,0.0,-1.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#createSpectrophotometer#(##)#:oiref>=-338,486,194,13,1:oigroup>
+<oigroup:Composite#stereotype#MemberLink#<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#lnkSpectroListener:oiref>=442,705,63,12,0,1.0,0.0:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.Spectrophotometer#getNoOfStoredMeasurements#(##)#:oiref>=75,382,194,13,1:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.Spectrophotometer:oiref>=422,1083,317,345,0:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.helpers.CommDriver:oiref>=10,180,200,209,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroDriver#getEstimatedAccuracy#(##)#:oiref>=-338,395,194,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroStatus#isFailure#(##)#:oiref>=-118,291,167,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroSettings#getSpecular#(##)#:oiref>=352,95,178,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroEvent#$$constructor$$#(#java.lang.Object#)#:oiref>=-61,4,189,13,1:oigroup>
+<oigroup:<oiref:java#Member#com.ewarna.spectro.SpectroStatus#getErrors#(##)#:oiref>=-118,317,167,13,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroListener#lnkSpectroEvent:oiref>=484,307,719,307:oigroup>
+<oigroup:<oiref:java#Class#com.ewarna.spectro.SpectroDriver:oiref>=414,1822,332,378,0:oigroup>
+<oigroup:<oiref:java#Extends#com.ewarna.spectro.DriverNotAvailableException#com.ewarna.spectro.SpectroException:oiref>=1043,205,1043,135:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#com.ewarna.spectro.SpectroDriver#lnkSpectrophotometer:oiref>=580,1822,580,1428:oigroup>
+*/
+class __positions {
+}

@@ -1,0 +1,822 @@
+
+
+
+
+           CE-7000A PROTOCOL OF HEAD COMMANDS AND DOCUMENTATION
+
+
+Rev 1.1 7/1/96
+------------------------------------------------------------------------
+     HOST          <<--- communication --->>          CYCLOPS
+------------------------------------------------------------------------
+RESET - 
+  Resets the head to a known state.  Returns the head number (the 
+  first 6 characters) and the tile number (the second 6 characters)
+  to the host.
+  The communications and I/O control chips are reset.  The data
+  previously downloaded will be converted from integer to floating point.
+  Note that the reset is not necessary for the conversion of
+  downloaded data.  It is automatically converted when the end of the
+  Intel hex file (:00000001FF) is received.
+  The XON/XOFF protocol is being used by the Color-Eye 7000 so the
+  first byte recieved will often be the XON control character.  This
+  character must be ignored unless the XON/XOFF protocol is being
+  used.  The XON is a control-Q (11H) and XOFF is a control-S (13H). 
+        
+                            IMPORTANT!!!
+                   This is an immediate command.
+                   The <cr> MUST NOT follow this command.
+
+    R         ------------------------------->>   
+              <<-------------------------------ALPHA2ALPHA2(cr)(lf)>
+
+------------------------------------------------------------------------
+BARIUM (100%) CALIBRATION -
+  The white standard coefficients for transmission (100%) are always
+  used for barium.
+  Black calibration is not required before this command is performed
+  because the black values used are always 0.
+  Subsequent measurements will be barium (transmission) until the
+  instrument is recalibrated with the ceramic calibration command.
+  The spectrophotometer must be recalibrated before the next measurement.
+  The 16 character status code is returned from the instrument and
+  each field is described in the DIAGNOSTIC STATUS section below.
+
+    B<cr>     ------------------------------->>      
+              <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS section below for description of fields.
+
+
+
+
+-------------------------------------------------------------------------
+CERAMIC CALIBRATION -
+  The calibration function uses the sensor settings to identify the
+  group of calibration coefficients to be updated with the new
+  values.  There are 24 possible combinations of calibration coefficients.
+  Ceramic calibration implies reflection mode, however status(2) may be
+  set to either transmission or reflection mode.  Refer to the 'T'
+  command for further explanation.
+  The 16 character status code is returned from the instrument and
+  each field is described in the DIAGNOSTIC STATUS section below.
+
+    C<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS section below for description of fields.
+        See CALIBRATION TABLES below for more information.
+
+
+
+
+-------------------------------------------------------------------------
+DUMP CALIBRATION TABLES - 
+  The current status, white and black calibration tables are sent to the
+  host.  The order is the same as in the description CALIBRATION TABLES
+  below.  The spaces seperate the groups by row from the tables.  The
+  first line of the calibration table dump represents the white sci
+  conditions, the second line is the white sce conditions and the third is
+  the black calibration table.
+
+    D<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+              <<-------------------------------1000 0000...0000(cr)(lf)
+              <<-------------------------------0100 0000...0000(cr)(lf)
+              <<-------------------------------0100 0000...0000(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+        See CALIBRATION TABLES for description of fields.
+
+-------------------------------------------------------------------------
+MOVE SPECULAR COMPONENT - 
+  Move the motor connected to the specular component to SCI or SCE.       
+  n = 0 for SCI 
+      1 for SCE
+
+    En<cr>    ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+-------------------------------------------------------------------------
+** Not implemented in firmware.  Used for life testing only. **   
+FLASH LAMP EVERY 2 SECONDS - sets or resets constant flash.
+  n = 1 to set constant flash
+      0 to disable
+
+    Fn<cr>    ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+
+
+
+-------------------------------------------------------------------------
+** Must not be used unless specifications are supplied by Engineering. **
+**   Used for testing only. **   
+UPDATE TIMING VALUES - 
+  Sets new timing values and returns the status when completed.  The timing
+  variables must be 2 digit hex numbers (01-FF).  If 00 is used the timing
+  value in the cyclops will not change.  There must be 3 pairs of numbers
+  so the length of the message will be 8 bytes, otherwise the results of
+  this command will be unpredictable.
+  xx = time 1 -- default is 0CH
+       time delay for 6*xx microsecs 
+  yy = time 2 -- default is 75H
+       time delay for flash
+  zz = time 3 -- default is 70H
+       delay between light and dark reading
+
+    Hxxyyzz<cr> ------------------------------->>
+                <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+
+-------------------------------------------------------------------------
+BLACK CALIBRATE - 
+  Calibration on black tile updates the black coefficients for the area
+  view specified by the lens position sensor.
+  The 16 character status code is returned from the instrument and
+  each field is described in the DIAGNOSTIC STATUS section below.
+
+    I<cr>     ------------------------------->>      
+              <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+---------------------------------------------------------------------------
+BLACK DATA - 
+  Returns the black coefficients for the area currently indicated by the
+  lens sensor.
+
+    J<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+               <--- 100.243,   80.162,  --------,   78.283(cr)(lf)  /*360-410*/
+               <---  66.378,   22.243,  --------,   10.223(cr)(lf)  /*420-470*/
+               <---  12.723,   99.356,  --------,    1.412(cr)(lf)  /*480-530*/
+               <--- 110.000,   95.959,  --------,   50.095(cr)(lf)  /*540-590*/
+               <---  99.995,   98.010,  --------,    1.001(cr)(lf)  /*600-650*/
+               <---  24.451,   99.020,  --------,    5.431(cr)(lf)  /*660-710*/
+               <---  99.995,   99.010,   100.000,    1.001(cr)(lf)  /*720-750*/
+               <---(1 byte checksum)(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+        See CHECKSUM CALCULATION for explanation.
+
+
+
+
+---------------------------------------------------------------------------
+REFERENCE LAMP MEASURE - 
+  Flashes reference lamp and returns normalized reference lamp data to host.
+  The reference lamps normalized data used in measurements are updated.
+
+    L<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+               <--- 100.243,   80.162,  --------,   78.283(cr)(lf)  /*360-410*/
+               <---  66.378,   22.243,  --------,   10.223(cr)(lf)  /*420-470*/
+               <---  12.723,   99.356,  --------,    1.412(cr)(lf)  /*480-530*/
+               <--- 110.000,   95.959,  --------,   50.095(cr)(lf)  /*540-590*/
+               <---  99.995,   98.010,  --------,    1.001(cr)(lf)  /*600-650*/
+               <---  24.451,   99.020,  --------,    5.431(cr)(lf)  /*660-710*/
+               <---  99.995,   99.010,   100.000,    1.001(cr)(lf)  /*720-750*/
+               <---(1 byte checksum)(cr)(lf)>
+
+  NOTE: See CHECKSUM CALCULATION for explanation.
+
+---------------------------------------------------------------------------
+MEASURE - 
+  If the instrument is calibrated in the current mode selected by the
+  sensors or set by the override command then the value's will be
+  returned with the status.  If not the status is returned without
+  any data.  The frequency range of the Reflectance results is 360nm
+  to 750nm with a 10nm increment.  Each field returned is 10
+  characters long.  For example, starting at 360nm "b100.243,b" makes
+  up the first field.  The last on that line at 410nm is "bb78.283(cr)(lf)".
+
+  Refer to the 2020+ CONVERSION below for the algorithm to convert the
+  data to 2020+ (every 20nm from 360nm to 740nm) format.
+
+    M<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+               <--- 100.243,   80.162,  --------,   78.283(cr)(lf)  /*360-410*/
+               <---  66.378,   22.243,  --------,   10.223(cr)(lf)  /*420-470*/
+               <---  12.723,   99.356,  --------,    1.412(cr)(lf)  /*480-530*/
+               <--- 110.000,   95.959,  --------,   50.095(cr)(lf)  /*540-590*/
+               <---  99.995,   98.010,  --------,    1.001(cr)(lf)  /*600-650*/
+               <---  24.451,   99.020,  --------,    5.431(cr)(lf)  /*660-710*/
+               <---  99.995,   99.010,   100.000,    1.001(cr)(lf)  /*720-750*/
+               <---(1 byte checksum)(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+        See CHECKSUM CALCULATION for explanation.
+
+
+
+
+---------------------------------------------------------------------------
+NORMALIZED DATA - 
+  Returns calibration coefficients for the configuration selected, ref lamp
+  and measured lamp data, and measured reflectance.
+
+    N<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+               <--- 100.243,   80.162,  --------,   78.283(cr)(lf)  /*360-410*/
+               <---  66.378,   22.243,  --------,   10.223(cr)(lf)  /*420-470*/
+               <---  12.723,   99.356,  --------,    1.412(cr)(lf)  /*480-530*/
+               <--- 110.000,   95.959,  --------,   50.095(cr)(lf)  /*540-590*/
+               <---  99.995,   98.010,  --------,    1.001(cr)(lf)  /*600-650*/
+               <---  24.451,   99.020,  --------,    5.431(cr)(lf)  /*660-710*/
+               <---  99.995,   99.010,     3.005,    1.001(cr)(lf)  /*720-750*/
+               <---   3.243,    0.162,  --------,    8.283(cr)(lf)  /*360-410*/
+               <---   6.378,    2.243,  --------,    0.223(cr)(lf)  /*420-470*/
+               <---   2.723,    9.356,  --------,    1.412(cr)(lf)  /*480-530*/
+               <---   0.100,    5.959,  --------,    0.095(cr)(lf)  /*540-590*/
+               <---   9.995,    8.010,  --------,    1.001(cr)(lf)  /*600-650*/
+               <---   4.451,    9.020,  --------,    5.431(cr)(lf)  /*660-710*/
+               <---   9.995,    9.010,     2.430,    1.001(cr)(lf)  /*720-750*/
+               <---   0.243,    0.162,  --------,    8.283(cr)(lf)  /*360-410*/
+               <---   6.378,    2.243,  --------,    0.223(cr)(lf)  /*420-470*/
+               <---   2.723,    9.356,  --------,    1.412(cr)(lf)  /*480-530*/
+               <---   0.032,    5.959,  --------,    0.095(cr)(lf)  /*540-590*/
+               <---   9.995,    8.010,  --------,    1.001(cr)(lf)  /*600-650*/
+               <---   4.451,    9.020,  --------,    5.431(cr)(lf)  /*660-710*/
+               <---   9.995,    9.010,     1.000,    1.001(cr)(lf)  /*720-750*/
+               <--- 100.243,   80.162,  --------,   78.283(cr)(lf)  /*360-410*/
+               <---  66.378,   22.243,  --------,   10.223(cr)(lf)  /*420-470*/
+               <---  12.723,   99.356,  --------,   91.412(cr)(lf)  /*480-530*/
+               <--- 110.000,   95.959,  --------,   50.095(cr)(lf)  /*540-590*/
+               <---  99.995,   98.010,  --------,   91.001(cr)(lf)  /*600-650*/
+               <---  24.451,   99.020,  --------,   95.431(cr)(lf)  /*660-710*/
+               <---  99.995,   99.010,   100.000,   91.001(cr)(lf)  /*720-750*/
+               <---(1 byte checksum)(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+        See CHECKSUM CALCULATION for explanation.
+
+
+
+
+
+-------------------------------------------------------------------------
+OVERRIDE CALIBRATION TABLES -
+  All position sensors may be overridden by setting the second character
+  (a) in the override command to either 1 or 2 depending on the condition
+  desired.  If a=2 then the only way to enable the sensors again is to 
+  send another override command with a 0 as the second character.
+  
+  a = override off='0'; on til location sensors change='1'; override on='2'
+  b = set specular component included '0'; excluded '1'
+  c = filter out '0'; in '1'; partial '2'
+  d = lens position '0'; '1'; '2'; '3'
+  e = door position '0'; '1'; '2'; '3'
+    A '9' in any one of the last 4 positions will not change the last
+    setting of that variable.  Use a '9' if no change is desired.
+
+    Oabcde<cr>  ------------------------------->>
+                <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+---------------------------------------------------------------------------
+PREVIOUS RAW DATA - 
+  Measurement or reference uncorrected raw data used in previous calculations.
+    M lt = measure analyzer light readings
+    R lt = reference analyzer light readings  
+    M dk = measure analyzer dark readings  
+    R dk = reference analyzer dark readings  
+
+    P<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+                         32123, 20000, ---------, 12000(cr)(lf) ;360-450 M lt
+                         13012, 22222, ---------, 11010(cr)(lf) ;460-550 
+                         23098,  9823, ---------, 8890(cr)(lf)  ;560-650
+                          9023,  9902, ---------, 12012>cr><lf> ;660-750 
+                         32123, 20000, ---------, 12000(cr)(lf) ;360-450 R lt
+                         13012, 22222, ---------, 11010(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012>cr><lf> ;660-750 
+                           123,   450, ---------,   600(cr)(lf) ;360-450 M dk
+                           412,   222, ---------,   410(cr)(lf) ;460-550 
+                           598,   423, ---------,   690(cr)(lf) ;560-650
+                           723,   902, ---------,   812(cr)(lf) ;660-750 
+                           123,   100, ---------,   200(cr)(lf) ;360-450 R dk
+                           912,   222, ---------,   910(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012(cr)(lf)> ;660-750
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+
+
+
+
+-------------------------------------------------------------------------
+STATUS  - 
+  Returns the status of the instrument.
+
+    S<cr>     ------------------------------->>     
+              <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+-------------------------------------------------------------------------
+TRANSMISSION/REFLECTION MODE SELECTION -
+  Status(2) is set to indicate reflection or transmission mode.  The
+  calibration status bytes 0 and 1 are reset to '9' to indicate that
+  the instrument has not been calibrated.  The mode has no affect on
+  the instruments calibration or measurements.
+  n = 0 for reflection
+      1 for transmission
+
+      Tn<cr>    ------------------------------->>     
+                <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+-------------------------------------------------------------------------
+UV FILTER CONTROL - Decrement/Increment
+  If 'U' is followed by a 'V' then the uv filter is either decremented or 
+  incremented by the amount specified.
+  nn = 00	Decrement amount of UV content
+  nn = 01	Increment amount of UV content
+  xxx = # of steps to move the filter (range 000 - 999)
+
+      UVnnxxx<cr>  ------------------------------->>     
+                <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+-------------------------------------------------------------------------
+UV FILTER CONTROL - To move the UV filter to the excluded position
+
+      G<cr>  ------------------------------->>     
+                <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+-------------------------------------------------------------------------
+
+STORE A UV LOCATION -  
+  If 'W' is followed by nn the current UV postion will be stored in that location.
+  nn = 00 for uv location #1
+       01 for uv location #2
+       02 for uv location #3
+  
+    Wnn<cr>  ------------------------------->>     
+             <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+-------------------------------------------------------------------------
+
+UV MOTOR CONTROL -  
+  If 'U' is followed by a 'M' then the uv motor will be moved to one of three
+  stored positions.
+  nn = 00 for uv location #1
+       01 for uv location #2
+       02 for uv location #3
+  xxx = 000 (required for padding purposes ONLY !!!)
+    UMnnxxx<cr>  ------------------------------->>     
+              <<-------------------------------0123456789012345(cr)(lf)>
+
+  NOTE: See DIAGNOSTIC STATUS for description of fields.
+
+
+-------------------------------------------------------------------------
+UV Filter Position (Raw counts)- 
+  Returns the current position of the UV filter assembly. Range (0-1050)
+  The counts will be embedded in the status string. Any command send after this 
+  command will write over the count value.
+
+    K<cr>        --------------------------->>
+                 <<---------------------------0123456789012345(cr)(lf)>
+
+Byte Position	Value
+	7		Thousands
+	8		Hundreds
+	9		Tens
+	10		Ones
+
+
+-------------------------------------------------------------------------
+Download status strings for touch display- This commnad will download all the 
+strings required by the touch display. This comand will only be used for first time 
+initialzation of the EEPROM (this is where all strings are stored) and anytime the 
+EEPROM memory is corrupted.
+
+
+    Q9<cr>        --------------------------->>
+
+
+-------------------------------------------------------------------------
+VERSION - 
+  Returns the current version number of the code in the proms.
+
+    V<cr>        --------------------------->>
+                 <<---------------------------V2.01(cr)(lf)> 
+
+-------------------------------------------------------------------------
+COLD RESET - 
+  Resets the head to a known state.  Returns the head number (the 
+  first 6 characters) and the tile number (the second 6 characters)
+  to the host.
+  The difference between this command and the R command is
+  that the memory and all coefficients are cleared to the
+  power on state.  No calibration values are saved and the
+  prom values are reloaded.
+
+                            IMPORTANT!!!
+                   This is an immediate command.
+                   The <cr> MUST NOT follow this command.
+
+    X         ------------------------------->>
+              <<-------------------------------ALPHA2ALPHA2(cr)(lf)>
+
+ 
+
+
+                            
+---------------------------------------------------------------------------
+MEASUREMENT LAMP RAW DATA - 
+  Returns the uncorrected raw data for the measurement lamp.
+    M lt = measure analyzer light readings  
+    R lt = reference analyzer light readings  
+    M dk = measure analyzer dark readings  
+    R dk = reference analyzer dark readings  
+
+    Y<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+                         32123, 20000, ---------, 12000(cr)(lf) ;360-450 M lt
+                         13012, 22222, ---------, 11010(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012>cr><lf> ;660-750 
+                         32123, 20000, ---------, 12000(cr)(lf) ;360-450 R lt
+                         13012, 22222, ---------, 11010(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012>cr><lf> ;660-750 
+                           123,   450, ---------,   600(cr)(lf) ;360-450 M dk
+                           412,   222, ---------,   410(cr)(lf) ;460-550 
+                           598,   423, ---------,   690(cr)(lf) ;560-650
+                           723,   902, ---------,   812(cr)(lf) ;660-750 
+                           123,   100, ---------,   200(cr)(lf) ;360-450 R dk   
+                           912,   222, ---------,   910(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012(cr)(lf)> ;660-750
+ 
+---------------------------------------------------------------------------
+REFERENCE LAMP RAW DATA - 
+  Returns the uncorrected raw data for the reference lamp.
+    M lt = measure analyzer light readings  
+    R lt = reference analyzer light readings  
+    M dk = measure analyzer dark readings  
+    R dk = reference analyzer dark readings  
+
+    Z<cr>     ------------------------------->>
+              <<-------------------------------0123456789012345(cr)(lf)
+                         32123, 20000, ---------, 12000(cr)(lf) ;360-450 M lt
+                         13012, 22222, ---------, 11010(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012>cr><lf> ;660-750 
+                         32123, 20000, ---------, 12000(cr)(lf) ;360-450 R lt
+                         13012, 22222, ---------, 11010(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012>cr><lf> ;660-750 
+                           123,   450, ---------,   600(cr)(lf) ;360-450 M dk
+                           412,   222, ---------,   410(cr)(lf) ;460-550 
+                           598,   423, ---------,   690(cr)(lf) ;560-650
+                           723,   902, ---------,   812(cr)(lf) ;660-750 
+                           123,   100, ---------,   200(cr)(lf) ;360-450 R dk
+                           912,   222, ---------,   910(cr)(lf) ;460-550 
+                         23098,  9823, ---------,  8890(cr)(lf) ;560-650
+                          9023,  9902, ---------, 12012(cr)(lf)> ;660-750
+ 
+
+
+
+--------------------------------------------------------------------------
+DIAGNOSTICS STATUS  
+
+POSITION     DESCRIPTION                     OPTIONS
+--------     -----------            ------------------------------------------
+   0    white calibration           ['1'=SUCCESS | '9'=FAILURE]
+   1    black calibration           ['1'=SUCCESS | '9'=FAILURE]
+
+   2    transmission/reflection     ['0'=REFLECTION | '1'=TRANSMISSION]
+
+   3    specular component          ['0'=SCI | '1'=SCE| '9'=ERROR]
+   4    filter                      ['1'=IN | '2'=PARTIAL | '9'=ERR]
+   5    lens                        ['0'|'1'|'2'|'3'  | '9'=ERROR]
+   6    door                        ['0'|'1'|'2'|'3'  | '9'=ERROR]
+
+   7    floating point error        ['0'=SUCCESS | 'chr code'=FLT PT ERROR]
+                                    refer to note below for details.
+
+   8    light limits                ['0'=SUCCESS | '1'=(<low) | '2'=(>high)]
+   9    dark limits                 ['0'=SUCCESS | '1'=(<low) | '2'=(>high)]
+   10   400nm ratio test            ['0'=SUCCESS | '1'=FAILURE]
+   11   repeatability test          ['0'=SUCCESS | '1'=FLT PT ERROR |
+                                     'A'+CHANNEL=FAILED REP TEST]
+        note: calibration fails only if '1' returned from repeatability test.
+   12   black measurement check     ['0' currently not used]
+
+   13   lamp used last              ['M'=MEASURE | 'R'=REFERENCE]
+
+   14   1 chan lt. limit checked    ['0'=SUCCESS | '1'=FAILURE]
+   15   Misc. status                ['0'= SUCCESS                  ]
+                                    ['9'= FAILURE                  ]
+	   PIC Commands
+        (UVxxxxx, Wxx, Ex and       ['0'= SUCCESS                  ]
+         UMxxxxx, G, K only)        ['9'= FAILURE                  ]
+	   	                  	['8'= Unknown command betweeen ]
+						[ PIC and 8085                 ]
+						[ '7' = Rx time out from PIC   ]
+						[ to the 8085                  ]
+						[ 'I' = Increment command successful ]
+						[ 'D' = Decrement command successful ]
+						[ '1' = store location #1 command successful ]
+ 						[ '2' = store location #2 command successful ]
+						[ '3' = store location #3 command successful ]
+      
+
+FLOATING POINT ERROR
+  The 'chr code' is a single character with the error encoded into
+  the lowest 4 bits as follows.
+  The bit pattern for the error number indicates:
+    bit 0 = division by 0
+    bit 1 = underflow
+    bit 2 = overflow
+    bit 3 = invalid operand
+  For example, if a 'J' appears in position 7 calculate the error by
+  converting 'J' to 4A Hex and subtract 41 Hex.  The result (9) means
+  that an invalid operand and division by 0 were both encountered.
+  These are fatal errors and usually indicate bad channel readings
+  or one of the lamps stopped flashing.
+  
+                     ACCEPTABLE LIMITS
+     CONDITIONS                          VALID RANGES
+  all light readings                      5000 - 60000  (counts)
+  all dark readings                         10 -  4000  (counts)
+  400nm lt. measure/400nm lt. reference   <= 2          (counts raw)
+    Repeatability
+  abs(prom %R - stdwht %R)                <= .05        (% refl)
+
+
+
+--------------------------------------------------------------------------
+CALIBRATION TABLES
+
+WHITE$CAL$STATUS (24) STRUCTURE (DOOR (4) BYTE);
+  This is a 96 element matrix that contains a 1 if the instrument is
+  calibrated for the condition on the left.  If the door position is
+  changed the instrument must be recalibrated for that condition.
+  For example, the instrument was calibrated when the sensors
+  indicated SCI, UV OUT, AREA 1, and DOOR POSITION 1.  If the DOOR
+  POSITION changes but the 3 other conditions remain the same you may
+  not take a measurement until you recalibrate.  The same holds for the
+  BLACK$CAL$STATUS table below.  Once the instrument is calibrated for
+  SCI, UV OUT, AREA 1 it may be calibrated for UV IN without loosing
+  the calibration coefficients for the UV OUT condition.
+  The command letter 'D' is available for the host to retrieve the
+  current settings of the calibration tables as well as the status.
+  The variable CAL$PTR determines which group of conditions to vector
+  to.  CAL$PTR = 12*SC + 4*FILTER + LENS.  Note that filter out is equal
+  to uv included and filter in is uv excluded.
+
+                                        DOOR
+                                  1     2     3     4
+                              --------------------------
+SCI, FILTER OUT, AREA 1       |   1  |  0  |  0  |  0  |
+SCI, FILTER OUT, AREA 2       |   0  |  0  |  0  |  0  |
+SCI, FILTER OUT, AREA 3       |   0  |  0  |  0  |  0  |
+SCI, FILTER OUT, AREA 4       |   0  |  0  |  0  |  0  |
+SCI, FILTER IN, AREA 1        |   0  |  1  |  0  |  0  |
+SCI, FILTER IN, AREA 2        |   0  |  0  |  0  |  0  |
+SCI, FILTER IN, AREA 3        |   0  |  0  |  0  |  0  |
+SCI, FILTER IN, AREA 4        |   0  |  0  |  0  |  0  |
+SCI, FILTER PARTIAL, AREA 1   |   0  |  0  |  0  |  0  |
+SCI, FILTER PARTIAL, AREA 2   |   0  |  0  |  0  |  0  |
+SCI, FILTER PARTIAL, AREA 3   |   0  |  0  |  0  |  0  |
+SCI, FILTER PARTIAL, AREA 4   |   0  |  0  |  0  |  0  |
+SCE, FILTER OUT, AREA 1       |   0  |  0  |  0  |  0  |
+SCE, FILTER OUT, AREA 2       |   0  |  0  |  0  |  0  |
+SCE, FILTER OUT, AREA 3       |   0  |  0  |  0  |  0  |
+SCE, FILTER OUT, AREA 4       |   0  |  0  |  0  |  0  |
+SCE, FILTER IN, AREA 1        |   0  |  0  |  0  |  0  |
+SCE, FILTER IN, AREA 2        |   0  |  0  |  0  |  0  |
+SCE, FILTER IN, AREA 3        |   0  |  0  |  0  |  0  |
+SCE, FILTER IN, AREA 4        |   0  |  0  |  0  |  0  |
+SCE, FILTER PARTIAL, AREA 1   |   0  |  0  |  0  |  0  |
+SCE, FILTER PARTIAL, AREA 2   |   0  |  0  |  0  |  0  |
+SCE, FILTER PARTIAL, AREA 3   |   0  |  0  |  0  |  0  |
+SCE, FILTER PARTIAL, AREA 4   |   0  |  0  |  0  |  0  |
+                              --------------------------
+
+
+
+
+BLACK$CAL$STATUS (4) STRUCTURE (DOOR (4) BYTE);
+  Black calibrations must be performed before any white calibration that
+  requires the same area view.  If the specular component or filter selections
+  are changed, a black calibration is not required again.  However, if the
+  area view is changed and the black calibration for that area was not 
+  previously performed it must be done before the white calibration.  Also,
+  if the door position is changed a black calibration must be performed before
+  the white calibration.  Only one byte may be set for each row at one time.
+  For example, if the unit is black calibrated in area 1 for door 1 you may 
+  perform 6 calibrations on the white tile using the same black calibration
+  values.  If the door position is changed to door 2 the black calibration
+  must be done again.  If it is changed back to door 1 for a white calibration
+  that was already done (SCI, FILTER OUT, AREA 1) the black calibration must
+  be done again.
+                                     DOOR
+                              1     2     3     4
+                          --------------------------
+             AREA 1       |   1  |  0  |  0  |  0  |
+             AREA 2       |   0  |  0  |  0  |  0  |
+             AREA 3       |   0  |  0  |  0  |  0  |
+             AREA 4       |   0  |  0  |  0  |  0  |
+                          --------------------------
+ 
+
+
+
+------------------------------------------------------------------------
+ERROR RESPONSE
+
+  <<---------------------X(cr)(lf)>
+                         This error is returned for any command
+                         'letter' that is out of range ('A'--'Z') or
+                         contains the wrong number of parameters or
+                         characters for the particular message being
+                         sent.  However, if too few characters are
+                         sent from the host the error won't be sent
+                         back to the host until the length of the
+                         original message is reached and the
+                         character at that length is not a (cr).
+     
+---------------------------------------------------------------------------
+CHECKSUM CALCULATION
+
+  The checksum is calculated by setting an integer (2 byte) variable
+  to 256 (100 Hex) and subtracting the ascii value of each byte 
+  received from the beginning of the status to the line feed before
+  the checksum byte itself.  If the low byte of the checksum is a
+  control character (< 20H) then add an ascii space (checksum =
+  checksum + 20H).
+
+  An example for use with C is as follows:
+    int checksum;               /* accumulator for calculating sum */
+    char receiver_buffer[500];
+
+    checksum = 256;
+    for (i=0; i < CHECKSUM_POSITION; i++)
+      checksum = checksum - receiver_buffer[i];
+
+    If ((checksum && 0x00ff) < 0x20) 
+      checksum = checksum + 0x20;
+
+    /* Compare the low byte (&& 0x00ff) of the check sum with the value
+       in the CHECKSUM_POSITION. */
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+MATH
+
+CALIBRATION CALCULATION:  for each wavelength 360-750 nm
+
+  CC = %R /  ({(Mlt-Mdk)/(Rlt-Rdk)} - Blk.area ) /{(mlt-mdk)/(rlt-rdk)}
+              ^{measurement lamp}                   ^{reference lamp}
+  
+  %R represents 40 reflectance values of cal tile initially in PROM.
+  100% transmission, SCE and SCI each have a set of %R's.
+  A seperate set of CC's are stored in RAM for all combinations of
+  sc, uv, and lens.
+
+REFLECTANCE CALCULATION:  for each wavelength 360-750 nm
+
+  %R = CC * [ {(Mlt-Mdk)/(Rlt-Rdk)} / {(mlt-mdk)/(rlt-rdk)} ]
+               ^(measurement lamp)     ^(reference lamp)
+                note: reference lamp will not be flashed every measurement
+
+LINEARITY CALCULATION:  linearity correction for each wavelength
+
+  (Mlt-Mdk) = (Mlt-Mdk) + LL* [(Mlt-Mdk)*(Mlt-Mdk)]
+  LL = 40 coefficients (second order) stored in PROM>RAM memory
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+MEASUREMENT SEQUENCE
+
+               NUMCHN set to 80 channels (40 measure analyzer +
+                                          40 reference analyzer readings)
+               FLPTR set to light source 
+                     MEASURE$LAMP = 10H
+                     REFER$LAMP   = 20H
+                     reset flash  = 40H  (bit 6 currently not connected)
+               POINTR set to destination buffer
+                     DATA$BUFFER$LIGHT
+                     DATA$BUFFER$DARK
+
+READ$DATA PROCEDURE
+
+	DISABLE;	          /* No transmission is allowed */
+	NUMCHN=80;                /* Set number of channels  */
+	FLPTR=LIGHT$SOURCE;       /* Set the flash  */
+	POINTR=.DATA$BUFFER$LIGHT;/* Point to the buffer */
+	CALL RDDATA;	          /* Read the light   */
+	OUTPUT(CONPOR)=0;         /* Clear the control port */
+	CALL TIME(TIME3);         /* Wait for about 2 mil.sec*/
+	FLPTR=40H;	          /* Reset the flash */
+	POINTR=.DATA$BUFFER$DARK; /* Point to the buffer */
+	CALL RDDATA;	          /* Read the dark    */
+	OUTPUT(CONPOR)=0;         /* Clear the control port */
+	ENABLE;
+
+END READ$DATA;
+
+RDDATA:
+         (lamp trigger on)
+         delay 6*time1 us  (~72us)
+         (lamp trigger on + timing b on)
+         delay 6*time2 us  (~702us)
+         (lamp trigger on + time a on + timing b on)
+         Reset mux to 0
+
+  loop:  (lamp trigger on + time a on + timing b on + convert)
+         convert channel selected
+         (lamp trigger on + time a on + timing b on)
+         wait for conv bit on status port (0DH - bit 0)
+         set mux to next channel
+         get data from a/d
+         complement the result
+         store in the buffer and update the pointer
+         loop till 80 channels of data read
+           (40 M analyzer + 40 R analyzer)
+
+         Reset mux and control port (lamp trigger) to 0
+
+END RDDATA;
+
+
+
+
+
+
+---------------------------------------------------------------------------
+2020+ CONVERSION  (16 wavelengths from 400nm to 700nm)
+
+  The following equation will produce the corelated readings for
+  the 2020+ spectrophotometer. Use the reflectance values returned
+  indexing from 4 (400 nm) to 34 (700 nm) by 2. All indices are 
+  based at 0.
+  
+  For example, each result (20nm %R(0..15)) is calculated as:
+
+  float Refl20[16];     /* if the array is made for 20 increase the 
+                           offset (cnt) to 2 and clear the first 2
+                           values in Refl20 to 0. */
+    cnt=0;
+    for (i=4; i<=34; i+=2)
+      {
+        Refl20(cnt) = Refl10(i-1)*.25 + Refl10(i)*.5 + Refl10(i+1)*.25.
+        cnt++;
+      }
+
+      ---------------------------------------
+1500 CONVERSION  (20 wavelengths from 360nm to 740nm)
+
+  If the 1500 is being simulated, use the same equation starting
+  with 2 (380 nm) and ending with 38 (740 nm) by 2.
+  However, the first wavelength at 360 nm is used from the 
+  spectrophotometer without calculation.
+  
+  The code for this conversion may be:
+
+  float Refl20[20];
+
+    Refl20(0) = Refl10(0)       /* set the 20 nm reflectance at 360 
+                                   equal to the 10 nm reflectance or
+                                   use (3/4 of 360) + (1/4 of 370). */
+    cnt=1;
+    for (i=2; i<=38; i+=2)
+      {
+        Refl20(cnt) = Refl10(i-1)*.25 + Refl10(i)*.5 + Refl10(i+1)*.25.
+        cnt++;
+      }
+
+      ---------------------------------------
+
+
+

@@ -1,0 +1,86 @@
+SCOPE'S CE7000A MEASUREMENT PROCEDURES
+======================================
+
+Upon initiation of the measurement panel[1], SCOPE sets the
+instrument to the default settings of Large (LAV) aperture,
+Specular Component Excluded(SCE) and Ultra Violet Excluded (UVE).
+
+SETTINGS
+========
+Available settings on the measurment panel are:
+
+Aperture:
+    - Large
+    - Medium
+    - Small
+    - Ultra Small
+
+Specular:
+    - Included
+    - Excluded
+
+Ultra Violet:
+    - Included [ UVD64 ]
+    - Excluded( Cut-off 400nm )
+    - UV Location #1
+    - UV Location #2
+    - UV Location #3
+    - Calibratior 100%
+
+Mode:
+    - Reflectance
+    - Transmittance
+
+SETTINGS PROCEDURE
+==================
+
+The setting of specular and uv filter for the instrument are immediate upon 
+selection on the measurment panel, however, the software blocks[2] while the 
+setting is being put in place.
+
+As for the aperture[3] what SCOPE does is that everytime the user changes the 
+aperture setting, the application prompts the user to change the port plate[4].
+From there on I am guessing it does a query on the instrument and checks if
+the correct port plate have been inserted. If not it re-prompts the user
+until either the prompt is cancelled or when the correct port plate is inserted.
+
+There is also a seperate option where by users are given control of the UV Location
+settings. Basically it's a small window where you are given a slider of 0 - 100% and
+a pull down menu of the three UV Locations; UVD64, UVAD1 and UVAD2. The slider moves
+the filter to whatever is set by the slider. Then the user is expected select save
+to save the slider setting to the Instrument's memory. This in my opinion is a bit
+redundant as the CE7000A has a user panel[5] that allows user to set the filter position.
+
+CALIBRATION PROCEDURE
+=====================
+
+Settings are immediate, as in what is set on the panel is immediately set on the 
+instrument. This means at the time the calibration button is clicked calibration
+would be performed based on whatever settings the instrument is in at the moment
+of calibration initiation. However, if the settings was manually changed by the user
+via the user panel[5] then the calibration proceeds but upon completion the panel
+is updated to reflect whatever the calibration status reports was the settings.
+
+Calibration was done with a single flash to measure the Black Light Trap and a
+single flash to measure the White Tile.
+
+MEASUREMENT PROCEDURE
+=====================
+
+The measurement process is simple, user is prompt to load the sample. According to
+how many measurements required was set on the measurement panel[1], the application
+would prompt for next measurement. After completion of the measurements, user is
+prompt to enter a name. After the name is entered, the software proceeds to initiate
+a subsequent measurement procedure until user selects cancel.
+
+
+GLOSSARY
+========
+
+[1]measurement panel -  SCOPE's measurement window where measurements are made.
+[2]blocks	     -  User is not allowed to do anything and mouse cursor remains as
+			a sand timer.
+[3]aperture	     -	The setting on the measurement panel[1] indicating the port plate
+			used.
+[4]port plate	     -	The plate with the aperture that user places on the instrument.
+[5]user panel	     -	The LCD touch screen on the CE7000A spectrophotometer

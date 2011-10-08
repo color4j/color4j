@@ -1,0 +1,124 @@
+<!--
+  ~ Copyright (c) 2011 Niclas Hedhman.
+  ~
+  ~ Licensed  under the  Apache License, Version 2.0  (the "License");
+  ~ you may not use  this file  except in  compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed  under the  License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+  ~ implied.
+  ~
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+    <META NAME="GENERATOR" Content="Visual Page 2.0 for Windows">
+    <TITLE>jspEpoc</TITLE>
+</HEAD>
+
+<BODY>
+
+<P ALIGN="CENTER"><B><U><FONT SIZE="6">SerialPort</FONT></U></B> <BR>
+    <FONT SIZE="4">Notes for the EPOC32 platform</FONT></P>
+
+<P>
+<H4><B><U>EPOC32 on Psion Notes</U></B></H4>
+
+<P>When the serial port is opened, the 'Link to desktop' is checked. If no connection is active, the link is disabled,
+    the port is opened, and the link is enabled when the port is closed. When the link is active it works different.
+    When SerialConfig.setDisableActiveLink=false (the default) then SerialPort.open will throw an exception saying
+    &quot;Remote Link is active&quot;. When SerialConfig.setDisableActiveLink=true the link will be shutdown and
+    SerialPort.close
+    it will enable it again.</P>
+
+<P>To see &quot;Link to desktop&quot; go to the System app (tap the EPOC icon <IMG SRC="Epoc.gif" WIDTH="48" HEIGHT="48"
+                                                                                   ALIGN="BOTTOM" BORDER="0">) then
+    press Ctrl-L.</P>
+
+<P>Sending breaks is not supported on the integral ARM serial hardware.</P>
+
+<P>Detecting breaks is not supported on the integral ARM serial hardware.</P>
+
+<P>The transmit and receive buffers are always the same size, and are currently limited to 8192 (size can be modified
+    with Professional package)</P>
+
+<P>ARM does not support the Ring Indicator input, so sigRing will always return false.</P>
+
+<P>EPOC timeouts have microsecond resolution in the native code (and use a signed int). This means that the maximum
+    read/write timeout available using setTimeoutRx/setTimeoutTx is about 2100 seconds (70 minutes).</P>
+
+<P>EPOC ER5 has a bug that prevents implementation of txBufCount consistent with other platforms. When using
+    javax.comm.SerialPort
+    <B>OutputStream.flush must be used</B> to insure that the OUTPUT_BUFFER_EMPTY event will be generated. This is
+    done in the JavaTerm example when CTRL-F is entered in the send TextArea.</P>
+
+<P>When txDrain is performed on EPOC, it will timeout after the period set by setTimeoutTx. This means if setTimeoutTx=0
+    the drain will very likely fail. Normally this would not be an issue since one could use txBufCount to drain the
+    queue, however EPOC does provide any way to determine the state of the txQueue without performing a drain. One
+    would think that if a drain timed out this information could be used to determine that the txQueue was not empty.
+    Unfortunately, EPOC has a bug that 'loses' the first byte in the txQueue when a drain is requested and times
+    out.</P>
+
+<P>Writing a length of 0 bytes is functionally equivalent to a txDrain.</P>
+
+<P>The SerialPort native code for EPOC is designed to allow multiple Java threads can be used on the port (e.g.
+    JavaTerm runs 3 simultaneous threads on one port). Due to the EPOC architecture however, some care should be used
+    when running multiple threads on a single port. First, you<B> MUST </B>ensure all threads that access the port
+    (apart from the one calling close) are stopped before closing the port (JavaTerm does this as an example). Second,
+    if some thread T issues a command that may block e.g. SerialPortLocal.txDrain (or OutputStream.flush when using
+    the comm API) and another thread R thread attempts to access the same port, thread R will block until thread T
+    has finished.</P>
+
+<P>When using javax.comm.SerialPort 'Link to desktop' must be disabled manually since javax.comm provides no method
+    to control this feature. Customers with javax.comm.SerialPort source license, may modify the code to always disable
+    the link if active.</P>
+
+<P>When using javax.comm.SerialPort provides no methods for disabling the remote link you do not call
+    SerialPort.setSerialPortParams
+    or SerialPort.close from an event callback.</P>
+
+<P>Reads and writes cannot currently be cancelled so rxFlush/txFlush have no affect. Read/write timeouts should
+    be used to insure a responsive application in the event that the operation may not complete as expected. (this
+    is really no different from other platforms, it is just that EPOC requires code to be more 'strict')</P>
+
+<P>The list of ports reported by EPOC (SerialPortLocal.getPortList) may not accurately reflect the actual available
+    devices. For example the netBook will report COMM::0, COMM::1, COMM::2 even when only one serial port is
+    available.</P>
+
+<P>The maximum rate of detecting signal changes (e.g. CTS, DSR, CD) on the serial port is about about 4x per second.</P>
+
+<P>Emulator bug EM5: If you 'manually' do XON-XOFF flow control note that the EPOC EM driver appears to have a
+    bug where it will obey XOFF, but will not generate XON if the buffer gets empty. This bug is only on the emulator,
+    the device works properly.</P>
+
+<P>To enable the Java console on EPOC create the file &quot;console.txt&quot; (no contents are required) and copy
+    it to \System\Java (on any drive) on the device. By default JavaTerm directs the console output to the file
+    JTermLog.txt.</P>
+
+<P>For more detailed serial port information see E:\sysdoc\cpp\commapi\CSAPI-000.html (if the SDK is installed
+    on E:)</P>
+
+<P>The LITE version of SerialPort (i.e. JTermLite) is not built to be installed after the licensed version. has
+    been installed. Doing so may prevent some programs from running properly (e.g. JavaTerm).</P>
+
+<P>Misc EPOC Note: When your code encounters a nullPointerException, Java may not be able to be shutdown without
+    a reset (SerialPort has no bearing on this).<BR>
+    &nbsp; &nbsp;</P>
+
+<P ALIGN="CENTER"><B><U>Contact US</U></B> <BR>
+    If you have questions or comments please contact us. <BR>
+    <B><FONT SIZE="4">Solutions Consulting</FONT></B> <BR>
+    <B>support@serialio.com</B>
+
+</BODY>
+
+</HTML>
