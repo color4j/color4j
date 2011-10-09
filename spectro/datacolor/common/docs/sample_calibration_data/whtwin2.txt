@@ -1,3 +1,0 @@
-
-
-  Overwrite `C:\WINDOWS\WHITEDO.DAT' white tile files?

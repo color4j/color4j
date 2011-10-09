@@ -1,3 +1,0 @@
-
-
-  Overwrite `C:\ACSDATA\WHITED0.DAT' white tile files?
