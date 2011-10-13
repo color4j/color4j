@@ -20,20 +20,22 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.color4j</groupId>
-  <artifactId>spectro</artifactId>
-  <name>Color4j Spectro (Build POM)</name>
+  <artifactId>colorimetry</artifactId>
+  <name>Color4j Colorimetry (Build POM)</name>
   <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
-  <!-- This POM is ONLY to initiate the modules to be built. -->
-  <modules>
-    <module>spectro-spi</module>
-    <module>manual</module>
-    <module>gretagmacbeth</module>
-    <module>datacolor</module>
-    <module>hunterlabs</module>
-    <module>xrite</module>
-    <module>minolta</module>
-  </modules>
-
+    <dependencies>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.6.1</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.7</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
 </project>

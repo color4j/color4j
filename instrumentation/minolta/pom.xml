@@ -19,21 +19,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.color4j</groupId>
-  <artifactId>spectro</artifactId>
-  <name>Color4j Spectro (Build POM)</name>
-  <version>1.0-SNAPSHOT</version>
+  <parent>
+    <groupId>org.color4j</groupId>
+    <artifactId>spectro</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>org.color4j.spectro</groupId>
+  <artifactId>minolta</artifactId>
   <packaging>pom</packaging>
+  <name>Color4j Spectro - Minolta</name>
+  <version>1.0-SNAPSHOT</version>
 
-  <!-- This POM is ONLY to initiate the modules to be built. -->
   <modules>
-    <module>spectro-spi</module>
-    <module>manual</module>
-    <module>gretagmacbeth</module>
-    <module>datacolor</module>
-    <module>hunterlabs</module>
-    <module>xrite</module>
-    <module>minolta</module>
+    <module>cm2002</module>
+    <module>cm2600d</module>
+    <module>cm3600d</module>
+    <module>cm3700d</module>
+    <module>cm503c</module>
+    <module>cm508c</module>
+    <module>cm508d</module>
   </modules>
-
 </project>
