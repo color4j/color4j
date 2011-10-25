@@ -40,7 +40,6 @@ import org.openide.windows.Workspace;
 /**
  * An openable window available to the IDE's window manager.
  *
- * @author chc
  */
 //public class ManualReader extends CloneableTopComponent implements TableModelListener
 public class ManualReader extends TopComponent implements TableModelListener, FocusListener

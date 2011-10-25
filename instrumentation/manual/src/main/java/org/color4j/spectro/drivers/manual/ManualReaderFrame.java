@@ -30,8 +30,6 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 /**
- * @author Choong Hong Cheng
- * @created May 8, 2002
  */
 public class ManualReaderFrame
     extends javax.swing.JFrame
@@ -39,8 +37,6 @@ public class ManualReaderFrame
     /**
      * Description of the Class
      *
-     * @author chc
-     * @created May 9, 2002
      */
     class DoubleCompare
         implements Comparator

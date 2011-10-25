@@ -26,7 +26,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.color4j.spectro.xrite</groupId>
   <artifactId>spectro.sp62</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Color4j Spectro - SP62</name>
   <version>1.0-SNAPSHOT</version>
 

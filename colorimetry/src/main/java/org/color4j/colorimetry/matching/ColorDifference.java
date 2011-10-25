@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public abstract class ColorDifference
-    implements java.io.Serializable
 {
     public static final String DELTA_E = "DeltaE";  //NOI18N
     public static final String DELTA_L_s = "DeltaLStar";  //NOI18N
@@ -37,8 +36,6 @@ public abstract class ColorDifference
     public static final String DELTA_L = "DeltaL";  //NOI18N
     public static final String DELTA_c = "DeltaC";  //NOI18N
     public static final String DELTA_h = "DeltaH";  //NOI18N
-
-    static final long serialVersionUID = 3L;
 
     private DifferenceAlgorithm m_Algorithm;
 

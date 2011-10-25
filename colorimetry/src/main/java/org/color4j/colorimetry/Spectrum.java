@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,10 +19,7 @@
 package org.color4j.colorimetry;
 
 public class Spectrum
-    implements java.io.Serializable
 {
-    static final long serialVersionUID = 1L;
-
     private int m_StartWavelength;
     private int m_Interval;
     private double[] m_Values;

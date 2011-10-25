@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2011 Niclas Hedhman.
+  ~ Copyright (c) 2000-2011 Niclas Hedhman.
   ~
   ~ Licensed  under the  Apache License, Version 2.0  (the "License");
   ~ you may not use  this file  except in  compliance with the License.
@@ -19,9 +19,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.color4j</groupId>
+    <artifactId>color4j</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
   <groupId>org.color4j</groupId>
   <artifactId>colorimetry</artifactId>
-  <name>Color4j Colorimetry (Build POM)</name>
+  <name>Color4j Colorimetry Library</name>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 

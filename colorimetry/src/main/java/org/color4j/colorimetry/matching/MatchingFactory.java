@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -110,7 +110,7 @@ public class MatchingFactory
     private void initializeAlgorithms()
     {
         register( CMC11, new CMC( 1.0 ) );
-        register( CMC21, m_DefaultAlgorithm );
+        register( CMC21, new CMC( 2.0 ) );
         register( BFD, new BFD() );
         //register( LUVDE, new CIELuvDE( ) );
         register( CIE94DE, new CIE94() );

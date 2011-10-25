@@ -26,7 +26,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.color4j.spectro.minolta</groupId>
   <artifactId>spectro.cm508d</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Color4j Spectro - Minolta CM508D</name>
   <version>1.0-SNAPSHOT</version>
 

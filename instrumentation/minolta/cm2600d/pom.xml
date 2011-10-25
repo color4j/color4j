@@ -26,7 +26,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.color4j.spectro.minolta</groupId>
   <artifactId>spectro.cm2600d</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Color4j Spectro - Minolta CM2600D</name>
   <version>1.0-SNAPSHOT</version>
 

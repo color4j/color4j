@@ -32,7 +32,6 @@ import org.color4j.spectro.spi.SpectroEvent;
 import org.color4j.spectro.spi.SpectroSettings;
 
 /**
- * @author devteam
  *         this class retrieves BOTH trials and standards and interprets both exactly the same
  */
 public class RetrieveStoredReflectanceCommand implements SpectroCommand

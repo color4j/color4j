@@ -34,7 +34,6 @@ import org.color4j.spectro.spi.SpectroEvent;
 import org.color4j.spectro.spi.SpectroSettings;
 
 /**
- * @author chc
  */
 public class MeasureCommand implements SpectroCommand
 {

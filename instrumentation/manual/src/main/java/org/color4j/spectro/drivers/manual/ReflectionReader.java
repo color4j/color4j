@@ -29,14 +29,9 @@ import java.util.TreeMap;
 
 /**
  * Description of the Class
- *
- * @author chc
- * @created May 9, 2002
  */
 public class ReflectionReader
 {
-    final static long serialVersionUID = 1L;
-
     private TreeMap m_Readings;
 
     /**

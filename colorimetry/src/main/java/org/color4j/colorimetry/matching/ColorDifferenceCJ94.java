@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -19,10 +19,7 @@
 package org.color4j.colorimetry.matching;
 
 public class ColorDifferenceCJ94 extends ColorDifference
-    implements java.io.Serializable
 {
-    static final long serialVersionUID = 2L;
-
     /**
      * the variable end with star mean is using CIELab model,just the difference of
      * the the value, without star means is more complex, ex:

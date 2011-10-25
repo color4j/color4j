@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -25,8 +25,6 @@ import java.util.TreeMap;
 
 public class Observer_1931 extends ObserverImpl
 {
-    static final long serialVersionUID = 1L;
-
     private static double[] x =
         {
             0.000129900000, 0.000145847000, 0.000163802100, 0.000184003700, 0.000206690200, // 360 - 364

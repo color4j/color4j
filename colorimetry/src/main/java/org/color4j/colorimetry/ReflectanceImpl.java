@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,6 +18,8 @@
 
 package org.color4j.colorimetry;
 
+import java.util.Date;
+import java.util.HashMap;
 import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.colorimetry.entities.Spectro;
 import java.util.Map;
@@ -27,12 +29,14 @@ import java.util.TreeMap;
 public class ReflectanceImpl
     implements Reflectance
 {
-    private SortedMap m_SpectrumMap;
+    private SortedMap<Integer,Double> m_SpectrumMap;
     private Spectrum m_Spectrum;
     private Map m_Conditions;
     private Spectro m_Spectro;
     private String m_Type;
     private String m_Name;
+    private Date m_CreationDate;
+    private HashMap<String, Object> properties = new HashMap<String, Object>();
 
     public static Reflectance create( Spectrum spectrum )
     {
@@ -75,7 +79,7 @@ public class ReflectanceImpl
 
     private void createSpectrumMap()
     {
-        TreeMap map = new TreeMap();
+        TreeMap<Integer,Double> map = new TreeMap<Integer, Double>();
         if( m_Spectrum != null )
         {
             int start = m_Spectrum.getShortestWavelength();
@@ -86,13 +90,13 @@ public class ReflectanceImpl
             int count = 0;
             for( int i = start; i <= end; i += interval )
             {
-                map.put( new Integer( i ), new Double( readings[ count++ ] ) );
+                map.put( i, readings[ count++ ] );
             }
         }
         m_SpectrumMap = map;
     }
 
-    public SortedMap getSpectrumMap()
+    public SortedMap<Integer,Double> getSpectrumMap()
     {
         return m_SpectrumMap;
     }
@@ -127,12 +131,42 @@ public class ReflectanceImpl
         return m_Name;
     }
 
+    @Override
+    public Date getCreationDate()
+    {
+        return m_CreationDate;
+    }
+
+    @Override
+    public void setProperty( String key, Object value )
+    {
+        properties.put( key, value );
+    }
+
+    @Override
+    public Object getProperty( String key )
+    {
+        return properties.get(key);
+    }
+
+    @Override
+    public boolean hasProperty( String key )
+    {
+        return properties.containsKey( key );
+    }
+
+    @Override
+    public void setName( String name )
+    {
+        m_Name = name;
+    }
+
     public Map getConditions()
     {
         return m_Conditions;
     }
 
-    public Class getTypeInterface()
+    public Class<Reflectance> getTypeInterface()
     {
         return Reflectance.class;
     }

@@ -27,8 +27,6 @@ import java.util.EventListener;
  * error conditions. If this functionality is requested, please use the
  * CommErrorListener interface.
  *
- * @author chc
- * @created June 3, 2002
  */
 public interface CommDriverListener extends EventListener
 {

@@ -1,0 +1,26 @@
+                                                  TREEPOINT QTEX Statistics
+    TREEPOINT AG
+    Switzerland                                                Printed on05/09/2003 10:11:01 AM
+    Reference : ID          :STD
+                Name        :MIDNIGHT
+                Description :WOOVEN
+                Date        :05/09/2003 10:09:11 AM
+                Status      :CM3700d/Reflexion/Black-White calibration/SCI/10.4.2003/N:1/UV:0
+    nm     0     10     20     30    40     50    60     70     80    90
+    300                                           0.000  0.000  0.000 0.000
+    400    3.875 3.946  3.936  3.862 3.849  3.796 3.775  3.741  3.666 3.686
+    500    3.738 3.622  3.367  3.098 2.868  2.677 2.537  2.445  2.373 2.353
+    600    2.340 2.339  2.376  2.494 2.735  3.253 4.413  6.783  10.81216.659
+    700    24.24532.862 41.256 49.16455.939
+    No.   ID        Name                dE (CMC)dL*      da*      db*     dC*      dH*
+    1/1   RS-20307  MIDNIGHT            0.76    0.71     0.12     0.46    -0.48    0.05
+    nm     0     10     20     30    40     50    60     70     80    90
+    300                                           0.000  0.000  0.000 0.000
+    400    4.139 4.099  4.033  3.996 3.987  3.927 3.875  3.854  3.781 3.829
+    500    3.879 3.807  3.570  3.304 3.059  2.837 2.681  2.594  2.533 2.496
+    600    2.506 2.494  2.522  2.734 3.171  4.024 5.664  8.472  12.57217.923
+    700    24.56232.248 40.379 48.83156.850
+    Total summary, light used :F2                         Formula used :CMC 2:1
+    Samples      :             Activated sam:0es
+    Passed sample:             Failed sample:0            Checked sampl:0
+                                                                                        Page -1

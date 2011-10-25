@@ -30,7 +30,6 @@ import org.color4j.spectro.spi.SpectroEvent;
 import org.color4j.spectro.spi.SpectroStatus;
 
 /**
- * @author chc
  */
 public class GetMotorPositionCommand implements SpectroCommand
 {

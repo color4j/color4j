@@ -28,6 +28,7 @@
   <!-- This POM is ONLY to initiate the modules to be built. -->
   <modules>
     <module>colorimetry</module>
+    <module>exchange</module>
     <module>instrumentation</module>
   </modules>
 

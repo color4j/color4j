@@ -28,7 +28,6 @@ import java.util.EventObject;
 import java.util.Map;
 
 /**
- * @author hywong
  */
 public class ManualReadingEvent
     extends EventObject

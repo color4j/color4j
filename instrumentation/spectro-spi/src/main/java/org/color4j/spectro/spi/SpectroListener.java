@@ -23,7 +23,6 @@ import java.util.EventListener;
 /**
  * Listener interface for Spectrophotometer activity.
  *
- * @author Niclas Hedhman
  */
 public interface SpectroListener extends EventListener
 {

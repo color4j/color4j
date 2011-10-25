@@ -27,7 +27,6 @@ package org.color4j.spectro.gretagmacbeth.ce7000;
 import org.color4j.spectro.spi.LightFilter;
 
 /**
- * @author chc
  */
 public class UVD65LightFilter implements LightFilter
 {

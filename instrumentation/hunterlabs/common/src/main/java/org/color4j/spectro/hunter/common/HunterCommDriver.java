@@ -50,7 +50,6 @@ import org.color4j.spectro.spi.helpers.CommDriverListener;
  * is that this implementation does not trim the response for whitespace characters.
  * </p>
  *
- * @author chc
  * @created May 30, 2002
  */
 public class HunterCommDriver

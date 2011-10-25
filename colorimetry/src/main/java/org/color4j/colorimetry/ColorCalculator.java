@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -44,7 +44,7 @@ import org.color4j.colorimetry.matching.ColorDifference;
 import org.color4j.colorimetry.matching.DifferenceAlgorithm;
 import org.color4j.colorimetry.matching.MatchingFactory;
 import org.color4j.colorimetry.observers.ObserverImpl;
-//import org.apache.log4j.Logger;
+//import org.slf4j.Logger;
 
 /**
  * The ColoCalculator is the central place for doing color operations.

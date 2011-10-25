@@ -23,7 +23,6 @@
 package org.color4j.spectro.drivers.sp62;
 
 /**
- * @author devteam
  */
 public class RetrieveMeasuredReflectanceCommand
     extends RetrieveReflectanceCommand

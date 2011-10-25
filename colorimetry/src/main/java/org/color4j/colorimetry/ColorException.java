@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -20,8 +20,6 @@ package org.color4j.colorimetry;
 
 public class ColorException extends Exception
 {
-    static final long serialVersionUID = 1L;
-
     public ColorException()
     {
         super();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -21,7 +21,6 @@ package org.color4j.colorimetry.illuminants;
 import org.color4j.colorimetry.IlluminationException;
 import org.color4j.colorimetry.Spectrum;
 import org.color4j.colorimetry.entities.Illuminant;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,10 +32,8 @@ import java.util.Map;
  * @see org.color4j.colorimetry.Spectrum
  */
 public class IlluminantImpl
-    implements Illuminant, Serializable
+    implements Illuminant
 {
-    static final long serialVersionUID = 1L;
-
     private Spectrum m_Spectrum;
     private static Map m_Illuminants;
 

@@ -22,11 +22,6 @@
  */
 package org.color4j.spectro.spi;
 
-/**
- * @author Wong Horng Yih
- *
- *         interface for invoking DLL library calls from Java
- */
 public interface SpectroFunction
 {
     /**

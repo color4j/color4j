@@ -30,7 +30,6 @@ import org.color4j.spectro.spi.SpectroSettings;
 import org.color4j.spectro.spi.SpectroStatus;
 
 /**
- * @author chc
  */
 public class CE3000Reading implements SpectroReading
 {

@@ -27,7 +27,6 @@ package org.color4j.spectro.gretagmacbeth.spectrolino;
 import org.color4j.spectro.spi.LightFilter;
 
 /**
- * @author chc
  */
 public class CustomLightFilter implements LightFilter
 {

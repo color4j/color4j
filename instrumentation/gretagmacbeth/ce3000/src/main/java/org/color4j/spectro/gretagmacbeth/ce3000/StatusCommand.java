@@ -31,7 +31,6 @@ import org.color4j.spectro.spi.SpectroSettings;
 import org.color4j.spectro.spi.SpectroStatus;
 
 /**
- * @author hywong
  */
 
 public class StatusCommand

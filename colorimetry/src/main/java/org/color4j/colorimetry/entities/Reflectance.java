@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -18,6 +18,7 @@
 
 package org.color4j.colorimetry.entities;
 
+import java.util.Date;
 import org.color4j.colorimetry.Spectrum;
 import java.util.Map;
 import java.util.SortedMap;
@@ -82,4 +83,14 @@ public interface Reflectance
     void setType( String type );
 
     String getName();
+
+    Date getCreationDate();
+
+    void setProperty( String key, Object value );
+
+    Object getProperty( String key );
+
+    boolean hasProperty( String key );
+
+    void setName( String name );
 }

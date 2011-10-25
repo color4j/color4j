@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -33,11 +33,11 @@ public interface ReflectanceSet
      *
      * @return A collection of reflectances
      */
-    public Collection getBatches();
+    public Collection<Reflectance> getBatches();
 
     /**
      * @param batches Collection of reflectances related to the
      *                standard reflectance.
      */
-    public void setBatches( Collection batches );
+    public void setBatches( Collection<Reflectance> batches );
 }

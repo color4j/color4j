@@ -23,7 +23,6 @@ import org.color4j.spectro.spi.SpectroEvent;
 import org.color4j.spectro.spi.SpectroStatus;
 
 /**
- * @author hywong
  */
 
 public class GetVersionCommand

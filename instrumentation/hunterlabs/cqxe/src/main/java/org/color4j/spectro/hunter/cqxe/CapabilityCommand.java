@@ -31,12 +31,6 @@ import org.color4j.spectro.spi.SpectroCommand;
 import org.color4j.spectro.spi.SpectroEvent;
 import org.color4j.spectro.spi.SpectroStatus;
 
-/**
- * @author devteam
- *
- *         To change the template for this generated type comment go to
- *         Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
 public class CapabilityCommand implements SpectroCommand
 {
     public static final int SENSOR_FIRMWARE_NAME = 0;

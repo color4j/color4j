@@ -25,7 +25,6 @@
 package org.color4j.spectro.drivers.manual;
 
 /**
- * @author hywong
  */
 public interface ManualReadingListener
 {

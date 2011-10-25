@@ -27,8 +27,6 @@ package org.color4j.spectro.spi.helpers;
  * for a majority of Spectrophotometer drivers, hence the importance of this
  * interface.</p>
  *
- * @author Niclas Hedhman
- * @created May 30, 2002
  * @see <{GenericCommDriver}>
  */
 public interface CommDriver

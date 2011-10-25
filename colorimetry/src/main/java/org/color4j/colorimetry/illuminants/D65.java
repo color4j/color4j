@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -26,8 +26,6 @@ import org.color4j.colorimetry.Spectrum;
 
 public class D65 extends Spectrum
 {
-    static final long serialVersionUID = 1L;
-
     private static float[] m_Readings =
         {
             0.034100f, 0.360140f, 0.686180f, 1.012220f, 1.338260f,  // 300-304

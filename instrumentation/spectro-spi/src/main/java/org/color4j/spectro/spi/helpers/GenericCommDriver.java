@@ -43,7 +43,6 @@ import javax.comm.UnsupportedCommOperationException;
  * The GenericCommDriver is a generic implementation of the CommDriver interface, available to Spectrophotometers who
  * follow this simple and straight forward communication style. </p>
  *
- * @author chc @created May 30, 2002
  */
 public class GenericCommDriver implements CommDriver, SerialPortEventListener,
                                           CommPortOwnershipListener

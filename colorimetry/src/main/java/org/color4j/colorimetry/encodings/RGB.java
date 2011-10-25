@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -34,8 +34,6 @@ import org.color4j.colorimetry.illuminants.IlluminantImpl;
  */
 public class RGB extends ColorEncoding
 {
-    static final long serialVersionUID = 1;
-
     /**
      * Class constructor
      */

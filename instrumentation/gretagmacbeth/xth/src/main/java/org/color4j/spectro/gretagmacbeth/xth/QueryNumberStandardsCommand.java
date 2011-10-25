@@ -29,7 +29,6 @@ import org.color4j.spectro.spi.SpectroCommand;
 import org.color4j.spectro.spi.SpectroEvent;
 
 /**
- * @author devteam
  */
 public class QueryNumberStandardsCommand implements SpectroCommand
 {

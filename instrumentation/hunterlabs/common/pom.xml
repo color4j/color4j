@@ -26,7 +26,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.color4j.spectro.hunter</groupId>
   <artifactId>spectro.hunter.common</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
   <name>Color4j Spectro - Hunter Labs Common</name>
   <version>1.0-SNAPSHOT</version>
 

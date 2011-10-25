@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -26,7 +26,6 @@ import org.color4j.colorimetry.entities.Observer;
 import org.color4j.colorimetry.illuminants.IlluminantImpl;
 import org.color4j.colorimetry.interpolation.Lagrange;
 import org.color4j.colorimetry.observers.ObserverImpl;
-import java.io.Serializable;
 import java.text.NumberFormat;
 
 /**
@@ -35,10 +34,8 @@ import java.text.NumberFormat;
  * to generate the weights table for 20 10 5 or 2 or 1 nm interval weight table
  */
 public class WeightsImpl
-    implements Weights, Serializable
+    implements Weights
 {
-    static final long serialVersionUID = 1L;
-
     double[] m_WX;
     double[] m_WY;
     double[] m_WZ;

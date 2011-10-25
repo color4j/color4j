@@ -23,7 +23,6 @@
 package org.color4j.spectro.spi.helpers;
 
 /**
- * @author kevin
  */
 public class SerialCommunicator
 {

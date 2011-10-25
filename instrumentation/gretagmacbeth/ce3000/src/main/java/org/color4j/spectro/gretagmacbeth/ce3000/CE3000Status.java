@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import org.color4j.spectro.spi.SpectroStatus;
 
 /**
- * @author devteam
  */
 public class CE3000Status implements SpectroStatus
 {

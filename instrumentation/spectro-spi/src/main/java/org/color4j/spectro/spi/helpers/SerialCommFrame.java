@@ -31,7 +31,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- * @author kevin
  */
 public class SerialCommFrame extends JFrame
     implements CommDriverListener

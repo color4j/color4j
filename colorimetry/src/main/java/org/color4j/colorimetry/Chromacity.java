@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -27,8 +27,6 @@ import org.color4j.colorimetry.encodings.XYZ;
  */
 public class Chromacity
 {
-    static final long serialVersionUID = 1;
-
     private double x;
     private double y;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Niclas Hedhman.
+ * Copyright (c) 2000-2011 Niclas Hedhman.
  *
  * Licensed  under the  Apache License, Version 2.0  (the "License");
  * you may not use  this file  except in  compliance with the License.
@@ -29,8 +29,6 @@ import org.slf4j.LoggerFactory;
 public abstract class ObserverImpl
     implements Observer
 {
-    static final long serialVersionUID = 1L;
-
     private static Observer_1964 m_1964 = null;
     private static Observer_1931 m_1931 = null;
     private static final String STRING_10 = "10";
