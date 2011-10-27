@@ -65,15 +65,15 @@ public class TestCaseDeltaEInColorCalculator extends TestCase
             DifferenceAlgorithm algo;
             if( i != 9 )
             {
-                CIELab tlab = new CIELab( target.toLab( white ) );
-                CIELab blab = new CIELab( batch.toLab( white ) );
+                CIELab tlab = target.toCIELab( white );
+                CIELab blab = batch.toCIELab( white );
                 algo = fact.getAlgorithm( s );
                 cd = algo.compute( tlab, blab );
             }
             else
             {
-                CIELuv tluv = new CIELuv( target.toLuv( white ) );
-                CIELuv bluv = new CIELuv( batch.toLuv( white ) );
+                CIELuv tluv = target.toCIELuv( white );
+                CIELuv bluv = batch.toCIELuv( white );
                 algo = fact.getAlgorithm( s );
                 cd = algo.compute( tluv, bluv );
             }

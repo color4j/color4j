@@ -28,9 +28,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.ReflectanceImpl;
 import org.color4j.colorimetry.Spectrum;
-import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.imports.AbstractTextFileReflectanceImporter;
 import org.color4j.imports.ImportException;
 import org.slf4j.Logger;
@@ -402,7 +402,7 @@ public class ImporterQTX extends AbstractTextFileReflectanceImporter
             }
         }
         Spectrum spectrum = Spectrum.create( nm, interval, values );
-        Reflectance sample = ReflectanceImpl.create( spectrum, null, conditionMap );
+        Reflectance sample = ReflectanceImpl.create( spectrum, conditionMap );
 
         String name = null; // Get and reset
         list = ( m.remove( type + "_NAME" ) );

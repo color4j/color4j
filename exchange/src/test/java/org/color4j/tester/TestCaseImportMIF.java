@@ -26,7 +26,7 @@
 package org.color4j.tester;
 
 import java.util.HashMap;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.imports.TextFileReflectanceImporter;
 import org.color4j.imports.mif.MIFParserContext;
 

@@ -18,12 +18,8 @@
 
 package org.color4j.colorimetry.encodings;
 
-import org.color4j.colorimetry.ColorCalculator;
 import org.color4j.colorimetry.ColorEncoding;
-import org.color4j.colorimetry.ColorException;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.math.Maths;
 
 /**
  * This class stores L, a and b value
@@ -32,22 +28,23 @@ import org.color4j.colorimetry.entities.Reflectance;
  * The L value represents the lightness and extends from 0 (black) to 100 (white).
  * a and b represent redness-greeness and yellowness-blueness respectively.</p>
  */
-public class HunterLab extends ColorEncoding
+public class HunterLab
+    implements ColorEncoding
 {
-    static public HunterLab create( Illuminant ill, Reflectance refl, Observer obs )
-        throws ColorException
-    {
-        XYZ xyz = ColorCalculator.computeXYZ( ill, refl, obs );
-        XYZ whitepoint = ColorCalculator.computeWhitepoint( ill, obs );
-        return new HunterLab( ColorCalculator.computeHunterLab( xyz, whitepoint ) );
-    }
+    private final double l;
+    private final double a;
+    private final double b;
+    /**
+     * by default, we will assume that the colors calculated are in-gamut
+     */
+    protected boolean m_InGamut = true;
 
     static public HunterLab convert( ColorEncoding ce, XYZ whitepoint )
         throws UnsupportedConversionException
     {
         if( ce instanceof XYZ )
         {
-            return new HunterLab( (XYZ) ce, whitepoint );
+            return ((XYZ) ce).toHunterLab( whitepoint );
         }
         else
         {
@@ -56,70 +53,42 @@ public class HunterLab extends ColorEncoding
         }
     }
 
-    private HunterLab( XYZ xyz, XYZ whitepoint )
-    {
-
-        m_Values = ColorCalculator.computeHunterLab( xyz, whitepoint );
-    }
-
-    public HunterLab( Number[] values )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = values[ 0 ].doubleValue();
-        m_Values[ 1 ] = values[ 1 ].doubleValue();
-        m_Values[ 2 ] = values[ 2 ].doubleValue();
-    }
-
-    public HunterLab( Number L, Number a, Number b )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = L.doubleValue();
-        m_Values[ 1 ] = a.doubleValue();
-        m_Values[ 2 ] = b.doubleValue();
-    }
-
-    public HunterLab( double[] values )
-    {
-
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = values[ 0 ];
-        m_Values[ 1 ] = values[ 1 ];
-        m_Values[ 2 ] = values[ 2 ];
-    }
-
     public HunterLab( double L, double a, double b )
     {
-
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = L;
-        m_Values[ 1 ] = a;
-        m_Values[ 2 ] = b;
+        this.l = L;
+        this.a = a;
+        this.b = b;
     }
 
     public double getL()
     {
-        return m_Values[ 0 ];
+        return this.l;
     }
 
     public double geta()
     {
-        return m_Values[ 1 ];
+        return this.a;
     }
 
     public double getb()
     {
-        return m_Values[ 2 ];
+        return this.b;
     }
 
     public double getc()
     {
-        double d1 = Math.pow( m_Values[ 1 ], 2.0 );
-        double d2 = Math.pow( m_Values[ 2 ], 2.0 );
+        double d1 = Math.pow( this.a, 2.0 );
+        double d2 = Math.pow( this.b, 2.0 );
         return Math.sqrt( d1 + d2 );
     }
 
     public double geth()
     {
-        return ColorCalculator.atan( m_Values[ 1 ], m_Values[ 2 ] );
+        return Maths.atan( this.a, this.b );
+    }
+
+    public boolean isInGamut()
+    {
+        return m_InGamut;
     }
 }

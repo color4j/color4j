@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Iterator;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.exports.AbstractReflectanceExporter;
 import org.color4j.exports.ExportException;
 import org.color4j.exports.TextFileReflectanceExporter;

@@ -18,122 +18,89 @@
 
 package org.color4j.colorimetry.encodings;
 
-import org.color4j.colorimetry.ColorCalculator;
 import org.color4j.colorimetry.ColorEncoding;
-import org.color4j.colorimetry.ColorException;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.math.Maths;
 
 /**
  * This class stores L, u and v value
  * <p> L value represent lightness. u and v represents chrominancy</p>
  */
-public class CIELuv extends ColorEncoding
+public class CIELuv
+    implements ColorEncoding
 {
+    private final double lStar;
+    private final double uStar;
+    private final double vStar;
+
+    /**
+     * by default, we will assume that the colors calculated are in-gamut
+     */
+    protected boolean m_InGamut = true;
     //private double m_Saturation;
-
-    static public CIELuv create( Illuminant ill, Reflectance refl, Observer obs )
-        throws ColorException
-    {
-        XYZ xyz = ColorCalculator.computeXYZ( ill, refl, obs );
-        XYZ whitepoint = ColorCalculator.computeWhitepoint( ill, obs );
-        return new CIELuv( xyz.toLuv( whitepoint ) );
-    }
-
-    static public CIELuv convert( ColorEncoding ce, XYZ whitepoint )
-        throws UnsupportedConversionException
-    {
-        if( ce instanceof XYZ )
-        {
-            return new CIELuv( (XYZ) ce, whitepoint );
-        }
-        else
-        {
-            throw new UnsupportedConversionException( "Unable to convert from " + ce.getClass()
-                .getName() + " to " + CIELuv.class.getName() );  //NOI18N
-        }
-    }
-
-    private CIELuv( XYZ xyz, XYZ whitepoint )
-    {
-
-        m_Values = xyz.toLuv( whitepoint );
-    }
-
-    public CIELuv( Number[] values )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = values[ 0 ].doubleValue();
-        m_Values[ 1 ] = values[ 1 ].doubleValue();
-        m_Values[ 2 ] = values[ 2 ].doubleValue();
-        /*if( values.length >= 4 )
-            m_Saturation = values[3].doubleValue();
-        else
-            m_Saturation = Double.NaN;
-        */
-    }
-
-    public CIELuv( Number l, Number u, Number v )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = l.doubleValue();
-        m_Values[ 1 ] = u.doubleValue();
-        m_Values[ 2 ] = v.doubleValue();
-    }
-
-    public CIELuv( double[] values )
-    {
-        this( values[ 0 ], values[ 1 ], values[ 2 ] );
-    }
 
     public CIELuv( double l, double u, double v )
     {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = l;
-        m_Values[ 1 ] = u;
-        m_Values[ 2 ] = v;
-    }
-
-    public CIELuv( double l, double u, double v, double s )
-    {
-        m_Values = new double[ 4 ];
-        m_Values[ 0 ] = l;
-        m_Values[ 1 ] = u;
-        m_Values[ 2 ] = v;
-        m_Values[ 3 ] = s;
+        lStar = l;
+        uStar = u;
+        vStar = v;
     }
 
     public double getL()
     {
-        return m_Values[ 0 ];
+        return lStar;
     }
 
     public double getu()
     {
-        return m_Values[ 1 ];
+        return uStar;
     }
 
     public double getv()
     {
-        return m_Values[ 2 ];
+        return vStar;
     }
 
     public double getCuv()
     {
-        double d1 = Math.pow( m_Values[ 1 ], 2.0 );
-        double d2 = Math.pow( m_Values[ 2 ], 2.0 );
+        double d1 = Math.pow( uStar, 2.0 );
+        double d2 = Math.pow( vStar, 2.0 );
         return Math.sqrt( d1 + d2 );
     }
 
     public double getHuv()
     {
-        return ColorCalculator.atan( m_Values[ 1 ], m_Values[ 2 ] );
+        return Maths.atan( uStar, vStar );
     }
 
     public double getSaturation()
     {
         return ( getCuv() / getL() );
         //return m_Saturation;
+    }
+
+    public boolean isInGamut()
+    {
+        return m_InGamut;
+    }
+
+    public XYZ toXYZ(XYZ whitepoint)
+    {
+        double y;
+        if( ( getL() / 903.3 ) <= .008856 )
+        {
+            y = getL() * whitepoint.getY() / 903.3;
+        }
+        else
+        {
+            y = whitepoint.getY() * Math.pow( ( getL() + 16.0 ) / 116.0, 3.0 );
+        }
+        double denum = whitepoint.getX() + 15 * whitepoint.getY() + 3 * whitepoint.getZ();
+        double uak = getu() + 13 * getL() * 4 * whitepoint.getX() / denum;
+        double vak = getv() + 13 * getL() * 9 * whitepoint.getY() / denum;
+
+        double x = 9 * y * uak / ( 4 * vak );
+        double z = ( 4 * 13 * getL() * x - uak * ( x + 15 * y ) ) / ( 3 * uak );
+
+        return new XYZ( x, y, z );
     }
 }

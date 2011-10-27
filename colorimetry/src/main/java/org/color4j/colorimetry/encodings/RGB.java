@@ -18,13 +18,8 @@
 
 package org.color4j.colorimetry.encodings;
 
-import org.color4j.colorimetry.ColorCalculator;
 import org.color4j.colorimetry.ColorEncoding;
-import org.color4j.colorimetry.ColorException;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
-import org.color4j.colorimetry.illuminants.IlluminantImpl;
+import org.color4j.colorimetry.math.Matrix;
 
 /**
  * Value container for sRGB values.
@@ -32,68 +27,23 @@ import org.color4j.colorimetry.illuminants.IlluminantImpl;
  * <p>The sole purpose of this class is to conveniently encapsulate the RGB values
  * into a manageable entity.</p>
  */
-public class RGB extends ColorEncoding
+public class RGB
+    implements ColorEncoding
 {
+    private final double r;
+    private final double g;
+    private final double b;
+
     /**
-     * Class constructor
+     * by default, we will assume that the colors calculated are in-gamut
      */
-    static public RGB create( Illuminant ill, Reflectance refl, Observer obs )
-        throws ColorException
-    {
-        XYZ xyz = ColorCalculator.computeXYZ( ill, refl, obs );
-        XYZ whitepoint = ColorCalculator.computeWhitepoint( ill, obs );
-        Illuminant illD65 = IlluminantImpl.create( "D65" );     //NOI18N
-        XYZ wpD65 = ColorCalculator.computeWhitepoint( illD65, obs );
-
-        return new RGB( xyz.toRGB( whitepoint, wpD65 ) );
-    }
-
-    static public RGB convert( ColorEncoding ce, XYZ whitepoint )
-        throws UnsupportedConversionException
-    {
-        if( ce instanceof XYZ )
-        {
-            XYZ xyz = (XYZ) ce;
-            return xyz.toRGB( whitepoint );
-        }
-        else
-        {
-            String message = "Unable to convert from " + ce.getClass().getName() + " to " + RGB.class.getName();
-            throw new UnsupportedConversionException( message );     //NOI18N
-        }
-    }
-
-    public RGB( Number[] rgb )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = rgb[ 0 ].doubleValue();
-        m_Values[ 1 ] = rgb[ 1 ].doubleValue();
-        m_Values[ 2 ] = rgb[ 2 ].doubleValue();
-    }
-
-    public RGB( Number r, Number g, Number b )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = r.doubleValue();
-        m_Values[ 1 ] = g.doubleValue();
-        m_Values[ 2 ] = b.doubleValue();
-    }
+    protected boolean m_InGamut = true;
 
     public RGB( double r, double g, double b )
     {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = r;
-        m_Values[ 1 ] = g;
-        m_Values[ 2 ] = b;
-    }
-
-    public RGB( double[] rgb )
-    {
-        super();
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = rgb[ 0 ];
-        m_Values[ 1 ] = rgb[ 1 ];
-        m_Values[ 2 ] = rgb[ 2 ];
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 
     /**
@@ -101,7 +51,7 @@ public class RGB extends ColorEncoding
      */
     public double getR()
     {
-        return m_Values[ 0 ];
+        return r;
     }
 
     /**
@@ -109,7 +59,7 @@ public class RGB extends ColorEncoding
      */
     public double getG()
     {
-        return m_Values[ 1 ];
+        return g;
     }
 
     /**
@@ -117,11 +67,62 @@ public class RGB extends ColorEncoding
      */
     public double getB()
     {
-        return m_Values[ 2 ];
+        return b;
     }
 
     public java.awt.Color toAWTColor()
     {
-        return new java.awt.Color( (float) m_Values[ 0 ], (float) m_Values[ 1 ], (float) m_Values[ 2 ] );
+        return new java.awt.Color( (float) r, (float) g, (float) b );
+    }
+
+    public boolean isInGamut()
+    {
+        return m_InGamut;
+    }
+
+    public XYZ toXYZ()
+    {
+        double r = getR();
+        double g = getG();
+        double b = getB();
+
+        if( r > 0.04045 )
+        {
+            r = Math.pow( ( r + 0.055 ) / 1.055, 2.4 );
+        }
+        else
+        {
+            r /= 12.92;
+        }
+        if( g > 0.04045 )
+        {
+            g = Math.pow( ( g + 0.055 ) / 1.055, 2.4 );
+        }
+        else
+        {
+            g /= 12.92;
+        }
+        if( b > 0.04045 )
+        {
+            b = Math.pow( ( b + 0.055 ) / 1.055, 2.4 );
+        }
+        else
+        {
+            b /= 12.92;
+        }
+
+        r *= 100;
+        g *= 100;
+        b *= 100;
+
+        // 	KH - Aug 25, 2004 : should be the inverse of m_RGBTristumulus
+        Matrix m = XYZ.getInvertedTristimulusMatrix();
+
+        double x = ( r * m.m00 ) + ( g * m.m01 ) + ( b * m.m02 );
+        double y = ( r * m.m10 ) + ( g * m.m11 ) + ( b * m.m12 );
+        double z = ( r * m.m20 ) + ( g * m.m21 ) + ( b * m.m22 );
+
+        return new XYZ( x, y, z );
     }
 }
+

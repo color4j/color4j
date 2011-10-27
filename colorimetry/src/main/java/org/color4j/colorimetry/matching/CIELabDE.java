@@ -20,9 +20,10 @@ package org.color4j.colorimetry.matching;
 
 import org.color4j.colorimetry.ColorEncoding;
 import org.color4j.colorimetry.encodings.CIELab;
+import org.color4j.colorimetry.math.Maths;
 
 public class CIELabDE
-    implements DifferenceAlgorithm
+    implements DifferenceAlgorithm<CIELab>
 {
     public CIELabDE()
     {
@@ -35,11 +36,7 @@ public class CIELabDE
 
         String[] s = cd.getAllValueNames();
         String[] st = new String[ s.length - 3 ];
-        for( int i = 0; i < s.length - 3; i++ )
-        {
-            st[ i ] = s[ i ];
-        }
-
+        System.arraycopy( s, 0, st, 0, s.length - 3 );
         return st;
     }
 
@@ -48,18 +45,8 @@ public class CIELabDE
         return MatchingFactory.LABDE;
     }
 
-    public ColorDifference compute( ColorEncoding target, ColorEncoding sample )
+    public ColorDifference compute( CIELab target, CIELab sample )
     {
-        if( !( target instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CIELabDE only accepts CIELab color encodings." );  //NOI18N
-        }
-
-        if( !( sample instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CIELabDE only accepts CIELab color encodings." );  //NOI18N
-        }
-
         double[] p = computeAll( target, sample );
         ColorDifference cd = new ColorDifferenceCIELab( this, p[ 0 ], p[ 1 ], p[ 2 ],
                                                         p[ 3 ], p[ 4 ], p[ 5 ] );
@@ -76,9 +63,7 @@ public class CIELabDE
         p[ 1 ] = blab.geta() - tlab.geta();          //a star
         p[ 2 ] = blab.getb() - tlab.getb();          //b star
         p[ 3 ] = blab.getc() - tlab.getc();          //c star
-        p[ 4 ] = Util.computeDifferenceHue(          //h star
-                                                     tlab.geth(), tlab.getc(),
-                                                     blab.geth(), blab.getc() );
+        p[ 4 ] = Maths.computeDifferenceHue( tlab.geth(), tlab.getc(), blab.geth(), blab.getc() ); //h star
 
         double k1 = Math.pow( p[ 0 ], 2.0 );
         double k2 = Math.pow( p[ 1 ], 2.0 );

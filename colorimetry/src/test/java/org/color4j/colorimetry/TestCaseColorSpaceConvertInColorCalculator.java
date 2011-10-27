@@ -18,12 +18,11 @@
 
 package org.color4j.colorimetry;
 
+import junit.framework.TestCase;
 import org.color4j.colorimetry.encodings.CIELab;
 import org.color4j.colorimetry.encodings.CIELuv;
 import org.color4j.colorimetry.encodings.HunterLab;
 import org.color4j.colorimetry.encodings.XYZ;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 
 public class TestCaseColorSpaceConvertInColorCalculator extends TestCase
 {
@@ -63,11 +62,11 @@ public class TestCaseColorSpaceConvertInColorCalculator extends TestCase
             //use difference method to test Lab
             if( i < 3 )
             {
-                lab = new CIELab( temp.toLab( white ) );
+                lab = temp.toCIELab( white );
             }
             else
             {
-                lab = (CIELab) ColorEncoding.createInstance( "CIELab", temp, white );
+                lab = temp.toCIELab( white );
                 assertTrue( "ColorEncoding unable to create CIELab from text.", lab != null );
             }
             //use difference method to test Luv
@@ -82,11 +81,11 @@ public class TestCaseColorSpaceConvertInColorCalculator extends TestCase
             //use difference method to test Lab
             if( i < 3 )
             {
-                luv = new CIELuv( temp.toLuv( white ) );
+                luv = temp.toCIELuv( white );
             }
             else
             {
-                luv = (CIELuv) ColorEncoding.createInstance( "CIELuv", temp, white );
+                luv = temp.toCIELuv( white );
                 assertTrue( "ColorEncoding unable to create CIELuv from text.", luv != null );
             }
             //use difference method to test Luv
@@ -102,11 +101,11 @@ public class TestCaseColorSpaceConvertInColorCalculator extends TestCase
             //use difference method to test Lab
             if( i < 3 )
             {
-                hlab = new HunterLab( ColorCalculator.computeHunterLab( temp, white ) );
+                hlab = temp.toHunterLab( white );
             }
             else
             {
-                hlab = (HunterLab) ColorEncoding.createInstance( "HunterLab", temp, white );
+                hlab = temp.toHunterLab( white );
                 assertTrue( "ColorEncoding unable to create HunterLab from text.", hlab != null );
             }
             //use difference method to test HunterLab
@@ -130,15 +129,12 @@ public class TestCaseColorSpaceConvertInColorCalculator extends TestCase
 
         void validate( HunterLab vlab )
         {
-            double[] set1r = vlab.getColorValues();
-            double[] set1e = m_Lab.getColorValues();
-            for( int i = 0; i < set1r.length; i++ )
-            {
-                if( Math.abs( set1r[ i ] - set1e[ i ] ) > ALLOWED_XYZ_DEVIANCE )
-                {
-                    Assert.fail( "HunterLab " + i + " is not within limit. Expected " + m_Lab + " got " + vlab );
-                }
-            }
+            assertTrue( "HunterLab L is not within limit. Expected " + m_Lab.getL() + " got " + vlab.getL(), Math.abs( vlab.getL() - m_Lab
+                .getL() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "HunterLab a is not within limit. Expected " + m_Lab.geta() + " got " + vlab.geta(), Math.abs( vlab.geta() - m_Lab
+                .geta() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "HunterLab b is not within limit. Expected " + m_Lab.getb() + " got " + vlab.getb(), Math.abs( vlab.getb() - m_Lab
+                .getb() ) < ALLOWED_XYZ_DEVIANCE );
         }
 
         XYZ getXYZ()
@@ -178,15 +174,12 @@ public class TestCaseColorSpaceConvertInColorCalculator extends TestCase
 
         void validate( CIELab clab )
         {
-            double[] set1r = clab.getColorValues();
-            double[] set1e = m_Lab.getColorValues();
-            for( int i = 0; i < set1r.length; i++ )
-            {
-                if( Math.abs( set1r[ i ] - set1e[ i ] ) > ALLOWED_XYZ_DEVIANCE )
-                {
-                    Assert.fail( "CIELab " + i + " is not within limit. Expected " + m_Lab + " got " + clab );
-                }
-            }
+            assertTrue( "CIELab L* is not within limit. Expected " + m_Lab.getL() + " got " + clab.getL(), Math.abs( clab.getL() - m_Lab
+                .getL() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "CIELab a* is not within limit. Expected " + m_Lab.geta() + " got " + clab.geta(), Math.abs( clab.geta() - m_Lab
+                .geta() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "CIELab b* is not within limit. Expected " + m_Lab.getb() + " got " + clab.getb(), Math.abs( clab.getb() - m_Lab
+                .getb() ) < ALLOWED_XYZ_DEVIANCE );
         }
 
         XYZ getXYZ()
@@ -226,15 +219,12 @@ public class TestCaseColorSpaceConvertInColorCalculator extends TestCase
 
         void validate( CIELuv cluv )
         {
-            double[] set1r = cluv.getColorValues();
-            double[] set1e = m_Luv.getColorValues();
-            for( int i = 0; i < set1r.length; i++ )
-            {
-                if( Math.abs( set1r[ i ] - set1e[ i ] ) > ALLOWED_XYZ_DEVIANCE )
-                {
-                    Assert.fail( "CIELuv " + i + " is not within limit. Expected " + m_Luv + " got " + cluv );
-                }
-            }
+            assertTrue( "CIELuv L is not within limit. Expected " + m_Luv.getL() + " got " + cluv.getL(),
+                        Math.abs( m_Luv.getL() - cluv.getL() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "CIELuv u is not within limit. Expected " + m_Luv.getu() + " got " + cluv.getu(),
+                        Math.abs( m_Luv.getu() - cluv.getu() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "CIELuv v is not within limit. Expected " + m_Luv.getv() + " got " + cluv.getv(),
+                        Math.abs( m_Luv.getv() - cluv.getv() ) < ALLOWED_XYZ_DEVIANCE );
         }
 
         XYZ getXYZ()

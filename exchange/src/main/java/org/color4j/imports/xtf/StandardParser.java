@@ -29,9 +29,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.ReflectanceImpl;
 import org.color4j.colorimetry.Spectrum;
-import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.imports.ImportException;
 import org.color4j.imports.ini.AbstractGlobalsParser;
 import org.color4j.imports.ini.AbstractSectionParser;
@@ -41,7 +41,7 @@ import org.color4j.imports.ini.ParserContext;
  */
 public class StandardParser extends AbstractSectionParser
 {
-    private static final Collection m_headers = new ArrayList();
+    private static final Collection<String> m_headers = new ArrayList<String>();
 
     //must instatiate HEADERS from abstract class
     static
@@ -77,8 +77,8 @@ public class StandardParser extends AbstractSectionParser
     public static final String EXCLUDED = "EXCLUDED";
     public static final String INCLUDED = "INCLUDED";
 
-    private Map m_standards;
-    private Map m_attributes;
+    private Map<String,String> m_standards;
+    private Map<String,String> m_attributes;
     private int m_noteCounter;
 
 /*    
@@ -100,7 +100,7 @@ public class StandardParser extends AbstractSectionParser
 
     private void initialize()
     {
-        m_standards = new HashMap();
+        m_standards = new HashMap<String, String>();
         m_attributes = new HashMap();
         m_noteCounter = 1;
     }
@@ -235,20 +235,20 @@ public class StandardParser extends AbstractSectionParser
     protected static void processReflectanceName( String value,
                                                   ParserContext ctx,
                                                   Map attributes,
-                                                  Map standards,
+                                                  Map<String, String> standards,
                                                   String type,
                                                   int index
     )
         throws ImportException
     {
-        Map common = (Map) ctx.getGlobals().get( AbstractGlobalsParser.COMMON_MAP );
-        String angle = (String) common.get( ANGLES_KEY );
+        Map<String, String> common = ctx.getGlobals().get( AbstractGlobalsParser.COMMON_MAP );
+        String angle = common.get( ANGLES_KEY );
         String name;
 
         //modifies name if sample
         if( type.equals( XTFParserFactory.SAMPLE ) )
         {
-            name = (String) common.get( NAME_PROPER );
+            name = common.get( NAME_PROPER );
             name = name + "_" + XTFParserFactory.SAMPLE + "_" + index;
         }
         else
@@ -341,7 +341,7 @@ public class StandardParser extends AbstractSectionParser
      * name comes in to format of name, 2ndary description, date, time
      * returns one name, adds rest of attributes to globals
      */
-    protected static String parseName( String name, Map common )
+    protected static String parseName( String name, Map<String, String> common )
     {
         String[] parts = name.split( "`" );
 
@@ -356,7 +356,7 @@ public class StandardParser extends AbstractSectionParser
     /**
      * will get a line with a tolerance value and add it to the global map of attributes
      */
-    private void processTolerance( String value, Map attributes )
+    private void processTolerance( String value, Map<String,String> attributes )
     {
         String[] parts = value.split( "`" );
         attributes.put( TOLERANCE_KEY + "_" + parts[ 0 ], value );
@@ -381,8 +381,8 @@ public class StandardParser extends AbstractSectionParser
      * @param standards map of standards
      */
     public static void createReflectance( ParserContext ctx,
-                                          Map standards,
-                                          Map attributes,
+                                          Map<String,String> standards,
+                                          Map<String,String> attributes,
                                           Map<String, String> template,
                                           Map cachedKeys
     )
@@ -390,13 +390,12 @@ public class StandardParser extends AbstractSectionParser
     {
         if( standards != null )
         {
-            for( Object o : standards.entrySet() )
+            for( Map.Entry<String,String> entry : standards.entrySet() )
             {
-                Map.Entry entry = (Map.Entry) o;
-                String reflName = (String) entry.getKey();
-                String refValue = (String) entry.getValue();
+                String reflName = entry.getKey();
+                String refValue = entry.getValue();
 
-                Map conditions = new HashMap();
+                Map<String, String> conditions = new HashMap<String, String>();
                 //still needs to specify the Specular inclusion
                 conditions.put( Reflectance.CONDITION_MODE, "Reflectance" );
                 conditions.put( Reflectance.CONDITION_LIGHTFILTER, "UV Inc" );
@@ -425,9 +424,8 @@ public class StandardParser extends AbstractSectionParser
                         //check first value and number of points
                         Integer angle = new Integer( values[ 0 ] );
                         ctx.getLogger()
-                            .debug( "angle == " + angle.intValue() + " number of points == " + ( values.length - 1 ) );
-                        if( ( angle.intValue() != 1 && angle.intValue() != 2 && angle.intValue() != 3 && angle.intValue() != 0 && angle
-                                                                                                                                      .intValue() != 4 ) || values.length - 1 != REFLPTS )
+                            .debug( "angle == " + angle + " number of points == " + ( values.length - 1 ) );
+                        if( ( angle != 1 && angle != 2 && angle != 3 && angle != 0 && angle != 4 ) || values.length - 1 != REFLPTS )
                         {
                             throw new ImportException();
                         }
@@ -448,7 +446,7 @@ public class StandardParser extends AbstractSectionParser
                             }
                         }
                         Spectrum spectrum = Spectrum.create( REFLLOW, INTERVAL, nm );
-                        Reflectance sample = ReflectanceImpl.create( spectrum, null, conditions );
+                        Reflectance sample = ReflectanceImpl.create( spectrum, conditions );
 //                        sample.setName( reflName );
                         //Map props = sample.getProperties();
 

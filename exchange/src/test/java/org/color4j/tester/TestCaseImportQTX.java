@@ -19,12 +19,12 @@
 package org.color4j.tester;
 
 import java.util.HashMap;
-import org.color4j.colorimetry.ColorCalculator2;
+import org.color4j.colorimetry.Illuminant;
+import org.color4j.colorimetry.Observer;
 import org.color4j.colorimetry.encodings.CIELab;
+import org.color4j.colorimetry.encodings.EncodingFactory;
 import org.color4j.colorimetry.encodings.XYZ;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.illuminants.IlluminantImpl;
 import org.color4j.colorimetry.matching.ColorDifference;
 import org.color4j.colorimetry.matching.DifferenceAlgorithm;
@@ -46,6 +46,7 @@ public class TestCaseImportQTX extends TestCase
 {
     private static final double MAXIMUM_DELTAE_TOLERANCE = 0.12;
 
+    private EncodingFactory factory;
     private TextFileReflectanceImporter m_Importer;
     private InputStream m_Content;
     private String m_Filename;
@@ -197,20 +198,18 @@ public class TestCaseImportQTX extends TestCase
         if( m_Content == null )
             fail( "Could not find the Test QTX file." );
 
-        ColorCalculator2 cc = ColorCalculator2.getInstance();
-
         Reflectance[] refls = m_Importer.doImport( m_Content, new HashMap<String, String>() );
         assertEquals( "Wrong numbers of Colors parsed in file:" + m_Filename, m_ColorsInFile, refls.length );
 
         Observer obs = ObserverImpl.create( m_ObserverName );
         Illuminant ill = IlluminantImpl.create( m_IlluminantName );
-        XYZ wp = cc.computeWhitepoint( ill, obs );
+        XYZ wp = factory.createWhitePoint( ill, obs );
         XYZ expected;
         for( Reflectance r : refls )
         {
-            XYZ xyz = (XYZ) cc.create( XYZ.class, ill, r, obs );
+            XYZ xyz = factory.createXYZ( ill, r, obs );
 
-            CIELab lab_sample = (CIELab) cc.create( CIELab.class, ill, r, obs );
+            CIELab lab_sample = factory.createCIELab(ill, r, obs );
             try
             {
                 if( r.hasProperty( "STD_X" ) )
@@ -228,7 +227,7 @@ public class TestCaseImportQTX extends TestCase
                     expected = new XYZ( x, y, z );
                 }
 
-                CIELab lab_ref = (CIELab) cc.convert( CIELab.class, expected, wp );
+                CIELab lab_ref = expected.toCIELab( wp );
 
                 DifferenceAlgorithm algo = MatchingFactory.getInstance().getDefaultAlgorithm();
 

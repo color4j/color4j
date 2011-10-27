@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.imports.AbstractTextFileReflectanceImporter;
 import org.color4j.imports.ImportException;
 import org.color4j.imports.XMLException;

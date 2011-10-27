@@ -30,7 +30,7 @@ import java.util.TreeMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 
 /**
  */

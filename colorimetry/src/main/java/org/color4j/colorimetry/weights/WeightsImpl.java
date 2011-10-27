@@ -18,13 +18,13 @@
 
 package org.color4j.colorimetry.weights;
 
-import org.color4j.colorimetry.CalcFunc;
 import org.color4j.colorimetry.ColorException;
+import org.color4j.colorimetry.Illuminant;
+import org.color4j.colorimetry.Observer;
 import org.color4j.colorimetry.Weights;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
+import org.color4j.colorimetry.encodings.XYZ;
 import org.color4j.colorimetry.illuminants.IlluminantImpl;
-import org.color4j.colorimetry.interpolation.Lagrange;
+import org.color4j.colorimetry.math.Maths;
 import org.color4j.colorimetry.observers.ObserverImpl;
 import java.text.NumberFormat;
 
@@ -162,15 +162,15 @@ public class WeightsImpl
             ie_offset = i_E - o_E;
             m_Ending = o_E;
         }
-        double[] ill_final = CalcFunc.getSameIntervalR( illuminant.getSpectrum().getValues(), is_offset, ie_offset );
-        double[] obs_y_final = CalcFunc.getSameIntervalR( observer.get_y(), os_offset, oe_offset );
+        double[] ill_final = Maths.getSameIntervalR( illuminant.getSpectrum().getValues(), is_offset, ie_offset );
+        double[] obs_y_final = Maths.getSameIntervalR( observer.get_y(), os_offset, oe_offset );
         double k = computeK( ill_final, obs_y_final );
         m_WY = compute( ill_final, obs_y_final, interval, k );
-        obs_y_final = CalcFunc.getSameIntervalR( observer.get_x(), os_offset, oe_offset );
+        obs_y_final = Maths.getSameIntervalR( observer.get_x(), os_offset, oe_offset );
 
         m_WX = compute( ill_final, obs_y_final, interval, k );
 
-        obs_y_final = CalcFunc.getSameIntervalR( observer.get_z(), os_offset, oe_offset );
+        obs_y_final = Maths.getSameIntervalR( observer.get_z(), os_offset, oe_offset );
         //System.arraycopy( observer.get_z(), startpos, xyz, 0, length );
         m_WZ = compute( ill_final, obs_y_final, interval, k );
     }
@@ -237,6 +237,26 @@ public class WeightsImpl
     public double[] getWeightsZ()
     {
         return m_WZ;
+    }
+
+    /**
+     * whitepoint is the sum of weights factor
+     * @return the XYZ whitepoint.
+     */
+    @Override
+    public XYZ toWhitePoint()
+    {
+        double[] xyz_wp = new double[ 3 ];
+        double[][] w_xyz = { getWeightsX(), getWeightsY(), getWeightsZ() };
+        for( int i = 0; i < 3; i++ )
+        {
+            xyz_wp[ i ] = 0.0;
+            for( int j = 0; j < w_xyz[ 0 ].length; j++ )
+            {
+                xyz_wp[ i ] += w_xyz[ i ][ j ];
+            }
+        }
+        return new XYZ( xyz_wp[0], xyz_wp[1], xyz_wp[2] );
     }
 
     /**

@@ -20,11 +20,12 @@ package org.color4j.colorimetry.matching;
 
 import org.color4j.colorimetry.ColorEncoding;
 import org.color4j.colorimetry.encodings.CIELab;
+import org.color4j.colorimetry.math.Maths;
 
 public class CIE2000
-    implements DifferenceAlgorithm
+    implements DifferenceAlgorithm<CIELab>
 {
-    public CIE2000()
+    CIE2000()
     {
     }
 
@@ -46,16 +47,8 @@ public class CIE2000
         return st;
     }
 
-    public ColorDifference compute( ColorEncoding target, ColorEncoding sample )
+    public ColorDifference compute( CIELab target, CIELab sample )
     {
-        if( !( target instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CIE2000 only accepts CIELab color encodings." );   //NOI18N
-        }
-        if( !( sample instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CIE2000 only accepts CIELab color encodings." );   //NOI18N
-        }
         double[] p = computeAll( target, sample );
         return new ColorDifferenceB2000( this, p[ 0 ], p[ 1 ], p[ 2 ], p[ 3 ], p[ 4 ], p[ 5 ],
                                                        p[ 6 ], p[ 7 ], p[ 8 ], p[ 9 ], p[ 10 ], p[ 11 ], p[ 12 ] );
@@ -73,7 +66,7 @@ public class CIE2000
         CIELab blab = (CIELab) batch;
 
         p[ 11 ] = blab.getc() - tlab.getc();
-        p[ 12 ] = Util.computeDifferenceHue( tlab.geth(), tlab.getc(), blab.geth(), blab.getc() );
+        p[ 12 ] = Maths.computeDifferenceHue( tlab.geth(), tlab.getc(), blab.geth(), blab.getc() );
 
         double mean_lch1 = ( tlab.getc() + blab.getc() ) / 2.0;
         double G = 0.5 * ( 1 - Math.pow( ( Math.pow( mean_lch1, 7.0 ) / ( Math.pow( mean_lch1, 7.0 ) + seven25 ) ), .5 ) );
@@ -82,7 +75,7 @@ public class CIE2000
 
         double[] dlch = {
             blab2.getL() - tlab2.getL(), blab2.getc() - tlab2.getc(),
-            Util.computeDifferenceHue( tlab2.geth(), tlab2.getc(), blab2.geth(), blab2.getc() )
+            Maths.computeDifferenceHue( tlab2.geth(), tlab2.getc(), blab2.geth(), blab2.getc() )
         };
 
         double mean_lch20 = ( tlab2.getL() + blab2.getL() ) / 2.0;

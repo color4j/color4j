@@ -55,4 +55,10 @@ public abstract class AbstractWeights implements Weights
     public abstract XYZ getChecksum();
 
     abstract public XYZ getWhitePoint();
+
+    @Override
+    public XYZ toWhitePoint()
+    {
+        return getWhitePoint();
+    }
 }

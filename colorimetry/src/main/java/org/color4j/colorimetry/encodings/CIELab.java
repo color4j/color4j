@@ -18,12 +18,8 @@
 
 package org.color4j.colorimetry.encodings;
 
-import org.color4j.colorimetry.ColorCalculator;
 import org.color4j.colorimetry.ColorEncoding;
-import org.color4j.colorimetry.ColorException;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.math.Maths;
 
 /**
  * This class stores L, a and b value
@@ -32,98 +28,119 @@ import org.color4j.colorimetry.entities.Reflectance;
  * The L value represents the lightness and extends from 0 (black) to 100 (white).
  * a and b represent redness-greeness and yellowness-blueness respectively.</p>
  */
-public class CIELab extends ColorEncoding
+public class CIELab
+    implements ColorEncoding
 {
-    static public CIELab create( Illuminant ill, Reflectance refl, Observer obs )
-        throws ColorException
-    {
-        XYZ xyz = ColorCalculator.computeXYZ( ill, refl, obs );
-        XYZ whitepoint = ColorCalculator.computeWhitepoint( ill, obs );
-        return new CIELab( xyz.toLab( whitepoint ) );
-    }
+    private final double lStar;
+    private final double aStar;
+    private final double bStar;
+    private double cStar;
+    private double hStar;
 
-    static public CIELab convert( ColorEncoding ce, XYZ whitepoint )
-        throws UnsupportedConversionException
-    {
-        if( ce instanceof XYZ )
-        {
-            XYZ xyz = (XYZ) ce;
-            return new CIELab( xyz, whitepoint );
-        }
-        else
-        {
-            String message = "Unable to convert from " + ce.getClass().getName() + " to " + CIELab.class.getName();
-            throw new UnsupportedConversionException( message );  //NOI18N
-        }
-    }
-
-    private CIELab( XYZ xyz, XYZ whitepoint )
-    {
-        m_Values = xyz.toLab( whitepoint );
-    }
-
-    public CIELab( Number[] values )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = values[ 0 ].doubleValue();
-        m_Values[ 1 ] = values[ 1 ].doubleValue();
-        m_Values[ 2 ] = values[ 2 ].doubleValue();
-    }
-
-    public CIELab( Number L, Number a, Number b )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = L.doubleValue();
-        m_Values[ 1 ] = a.doubleValue();
-        m_Values[ 2 ] = b.doubleValue();
-    }
-
-    public CIELab( double[] values )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = values[ 0 ];
-        m_Values[ 1 ] = values[ 1 ];
-        m_Values[ 2 ] = values[ 2 ];
-    }
+    /**
+     * by default, we will assume that the colors calculated are in-gamut
+     */
+    private final boolean m_InGamut = true;
 
     public CIELab( double L, double a, double b )
     {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = L;
-        m_Values[ 1 ] = a;
-        m_Values[ 2 ] = b;
+        lStar = L;
+        aStar = a;
+        bStar = b;
+        cStar = Math.sqrt( Math.pow( a, 2.0 ) + Math.pow( b, 2.0 ) );
+        hStar = Maths.atan( a, b );
     }
 
     public double getL()
     {
-        return m_Values[ 0 ];
+        return lStar;
     }
 
     public double geta()
     {
-        return m_Values[ 1 ];
+        return aStar;
     }
 
     public double getb()
     {
-        return m_Values[ 2 ];
+        return bStar;
     }
 
     public double getc()
     {
-        double d1 = Math.pow( m_Values[ 1 ], 2.0 );
-        double d2 = Math.pow( m_Values[ 2 ], 2.0 );
-        return Math.sqrt( d1 + d2 );
+        return cStar;
     }
 
     public double geth()
     {
-        return ColorCalculator.atan( m_Values[ 1 ], m_Values[ 2 ] );
+        return hStar;
     }
 
-    /*
-    public ColorConvetor getConvertor( ColorEncoding encoding )
+    public double getDE( CIELab batch )
     {
-        return null;
-    }*/
+        double k;
+        double dL = batch.getL() - getL();
+        double da = batch.geta() - geta();
+        double db = batch.getb() - getb();
+        double dc = batch.getc() - getc();
+        double dh = batch.geth() - geth();
+
+        if( dh > 0.0 )
+        {
+            k = 1.0;
+        }
+        else
+        {
+            k = -1.0;
+        }
+        dh = k * ( Math.pow( da, 2.0 ) + Math.pow( db, 2.0 ) - Math.pow( dc, 2.0 ) );
+        return Math.sqrt( Math.pow( dL, 2.0 ) + Math.pow( dc, 2.0 ) + Math.pow( dh, 2.0 ) );
+    }
+
+
+    public boolean isInGamut()
+    {
+        return m_InGamut;
+    }
+
+    public XYZ toXYZ( XYZ whitepoint )
+    {
+        double fn1 = lStar / 116.0;
+        double fn0 = fn1 + aStar / 500.0;
+        double fn2 = fn1 - bStar / 200.0;
+        double x = morphToXyz( whitepoint.getX(), fn0 );
+        double y = morphToXyz( whitepoint.getY(), fn1 );
+        double z = morphToXyz( whitepoint.getZ(), fn2 );
+        return new XYZ( x, y, z );
+    }
+
+    private double morphToXyz( double whitepoint, double function )
+    {
+        double luminance = lStar / 116.0;
+        double result;
+        if( luminance <= 0.068961672 )
+        {
+            result = whitepoint * function / 7.787;
+        }
+        else
+        {
+            result = whitepoint * Math.pow( function + 16.0 / 116.0, 3.0 );
+        }
+        return result;
+    }
+
+    public Din99Lab toDin99Lab(double Ke, double Kch)
+    {
+        double dp = Math.PI / 180.0;
+        double e = geta() * Math.cos( 16 * dp ) + getb() * Math.sin( 16 * dp );
+        double f = 0.7 * ( -geta() * Math.sin( 16 * dp ) + getb() * Math.cos( 16 * dp ) );
+
+        double g = Math.sqrt( Math.pow( e, 2 ) + Math.pow( f, 2 ) );
+        double hef = Maths.atan( f, e ) * dp;
+        double c99 = Math.log( 1 + 0.045 * g ) / ( 0.045 * Ke * Kch );
+        double lStar = ( 105.51 / Ke ) * Math.log( 1 + 0.0158 * getL() );
+        double aStar = c99 * Math.cos( hef );
+        double bStar = c99 * Math.sin( hef );
+        return new Din99Lab( lStar, aStar, bStar, c99, hef );
+    }
 }

@@ -18,6 +18,8 @@
 
 package org.color4j.colorimetry;
 
+import org.color4j.colorimetry.encodings.XYZ;
+
 public interface Weights
 {
     int getInterval();
@@ -31,4 +33,13 @@ public interface Weights
     int getLongestWavelength();
 
     int getShortestWavelength();
+
+    /**
+     * Whitepoint is the sum of weights factor for XYZ, it is a combination of
+     *
+     * illuminant & observer. It is use to convert from XYZ to other color space
+     *
+     * like CIELab, CIELuv..
+     */
+    XYZ toWhitePoint();
 }

@@ -27,7 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.exports.AbstractReflectanceExporter;
 import org.color4j.exports.ExportException;
 import org.color4j.exports.TextFileReflectanceExporter;

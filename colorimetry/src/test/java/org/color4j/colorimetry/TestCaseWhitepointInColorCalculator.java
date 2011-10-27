@@ -19,12 +19,10 @@
 package org.color4j.colorimetry;
 
 import org.color4j.colorimetry.encodings.XYZ;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
 import org.color4j.colorimetry.illuminants.IlluminantImpl;
 import org.color4j.colorimetry.observers.ObserverImpl;
-import junit.framework.Assert;
 import junit.framework.TestCase;
+import org.color4j.colorimetry.weights.WeightsCache;
 
 public class TestCaseWhitepointInColorCalculator extends TestCase
 {
@@ -56,8 +54,9 @@ public class TestCaseWhitepointInColorCalculator extends TestCase
         {
             Illuminant ill = IlluminantImpl.create( m_TestWhitepoints[ i ].getill() );
             Observer obs = ObserverImpl.create( m_TestWhitepoints[ i ].getobs() );
-            XYZ wp = ColorCalculator.computeWhitepoint( ill, obs );
-            m_TestWhitepoints[ i ].validate( wp, m_TestWhitepoints[ i ].getwp() );
+            Weights weights = WeightsCache.getInstance().getWeights( ill, obs );
+            XYZ whitepoint = weights.toWhitePoint();
+            m_TestWhitepoints[ i ].validate( whitepoint, m_TestWhitepoints[ i ].getwp() );
         }
     }
 
@@ -77,16 +76,9 @@ public class TestCaseWhitepointInColorCalculator extends TestCase
 
         void validate( XYZ cxyz, XYZ exyz )
         {
-            double[] xyzc = cxyz.getColorValues();
-            double[] xyze = exyz.getColorValues();
-
-            for( int i = 0; i < 3; i++ )
-            {
-                if( Math.abs( xyzc[ i ] - xyze[ i ] ) > ALLOWED_XYZ_DEVIANCE )
-                {
-                    Assert.fail( "Whitepoint is not within limit. Expected " + exyz + " got " + cxyz );
-                }
-            }
+            assertTrue( "Whitepoint X is not within limit. Expected " + exyz.getX() + " got " + cxyz.getX(),  Math.abs( exyz.getX() - exyz.getX() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "Whitepoint Y is not within limit. Expected " + exyz.getY() + " got " + cxyz.getY(),  Math.abs( exyz.getY() - exyz.getY() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "Whitepoint Z is not within limit. Expected " + exyz.getZ() + " got " + cxyz.getZ(),  Math.abs( exyz.getZ() - exyz.getZ() ) < ALLOWED_XYZ_DEVIANCE );
         }
 
         String getill()

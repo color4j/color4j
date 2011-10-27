@@ -20,7 +20,7 @@ package org.color4j.colorimetry.matching;
 
 import org.color4j.colorimetry.ColorEncoding;
 
-public interface DifferenceAlgorithm
+public interface DifferenceAlgorithm<T extends ColorEncoding>
 {
     /**
      * Returns the Name of the Algorithm
@@ -31,7 +31,7 @@ public interface DifferenceAlgorithm
      * Returns the ColorDifference between the target
      * and the sample, using this Algorithm.
      */
-    ColorDifference compute( ColorEncoding target, ColorEncoding sample );
+    ColorDifference compute( T standard, T batch );
 
     String[] getAllDeltaNames();
 }

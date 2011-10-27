@@ -22,11 +22,6 @@ import org.color4j.colorimetry.ColorException;
 
 public class UnsupportedConversionException extends ColorException
 {
-    public UnsupportedConversionException()
-    {
-        super();
-    }
-
     public UnsupportedConversionException( String message )
     {
         super( message );

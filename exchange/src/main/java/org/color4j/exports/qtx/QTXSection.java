@@ -25,8 +25,8 @@ import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.Spectrum;
-import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.exports.ExportException;
 
 class QTXSection

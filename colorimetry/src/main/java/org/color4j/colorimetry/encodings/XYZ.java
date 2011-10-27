@@ -19,209 +19,75 @@
 package org.color4j.colorimetry.encodings;
 
 import java.awt.color.ICC_ColorSpace;
-import org.color4j.colorimetry.CalcFunc;
-import org.color4j.colorimetry.ColorCalculator;
 import org.color4j.colorimetry.ColorEncoding;
-import org.color4j.colorimetry.ColorException;
-import org.color4j.colorimetry.Spectrum;
+import org.color4j.colorimetry.Illuminant;
+import org.color4j.colorimetry.Observer;
 import org.color4j.colorimetry.Weights;
-import org.color4j.colorimetry.WeightsCache;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.illuminants.IlluminantImpl;
+import org.color4j.colorimetry.math.Matrix;
+import org.color4j.colorimetry.observers.ObserverImpl;
+import org.color4j.colorimetry.weights.WeightsCache;
 
 /**
  * Value container for XYZ values.
  * <p>This class holds the XYZ values, irrespective of the Standard Observer.</p>
- * <p>The sole purpose of this class is to conviniently encapsulate the XYZ values
+ * <p>The sole purpose of this class is to conveniently encapsulate the XYZ values
  * into a manageable entity.</p>
  */
-public class XYZ extends ColorEncoding
+public class XYZ
+    implements ColorEncoding
 {
     public static final double D50X = 96.42;
     public static final double D50Y = 100.0;
     public static final double D50Z = 82.49;
 
-    static public XYZ create( Illuminant ill, Reflectance refl, Observer obs )
-        throws ColorException
-    {
-        if( ill == null )
-        {
-            throw new IllegalArgumentException( "An null parameter for Illuminant is not allowed." );   //NOI18N
-        }
-        if( obs == null )
-        {
-            throw new IllegalArgumentException( "An null parameter for Observer is not allowed." );     //NOI18N
-        }
-        if( refl == null )
-        {
-            throw new IllegalArgumentException( "An null parameter for Reflectance is not allowed." );  //NOI18N
-        }
+    public static XYZ WHITEPOINT_D65_10;
 
-        // return value
-        double rt_value[] = { 0.0, 0.0, 0.0 };
-        //use to figure out the start & ending nm so that they can be same
-        int start_r, end_r, start_w, end_w;
-        //detect the reflectance interval
-        Spectrum spectrum = refl.getSpectrum();
-        if( spectrum == null )
-        {
-            throw new ColorException( "Reflectance " + refl.getName() + " does not have a Spectrum." );     //NOI18N
-        }
-        int interval = spectrum.getInterval();
 
-        //get the weights of ill & observer given
-        Weights w = WeightsCache.getInstance().getWeights( ill, obs, interval );
-
-        //start nm of weights
-        int w_S = w.getShortestWavelength();
-        //ending nm of weights
-        int w_E = w.getLongestWavelength();
-        //start nm of reflectance
-        int r_S = spectrum.getShortestWavelength();
-        //ending nm of reflectance
-        int r_E = spectrum.getLongestWavelength();
-
-        if( r_S < w_S )
-        {   //we need to take offset of amount 'start_r' of reflectance
-            start_r = ( w_S - r_S ) / interval;
-            start_w = 0;
-        }
-        else
-        {   //we need to take offset of amount 'start_w' of weights
-            start_r = 0;
-            start_w = ( r_S - w_S ) / interval;
-        }
-        if( r_E < w_E )
-        {   //we need to 'compound' ending of weight of amount end_w
-            end_r = 0;
-            end_w = ( w_E - r_E ) / interval;
-        }
-        else
-        {   //we need to 'truncte' ending of reflectance of amount end_r
-            end_w = 0;
-            end_r = ( r_E - w_E ) / interval;
-        }
-
-        double[] r_xyz = CalcFunc.getSameIntervalR( refl.getSpectrum().getValues(), start_r, end_r );
-        double[] w_x = CalcFunc.getSameIntervalW( w.getWeightsX(), start_w, end_w );
-        double[] w_y = CalcFunc.getSameIntervalW( w.getWeightsY(), start_w, end_w );
-        double[] w_z = CalcFunc.getSameIntervalW( w.getWeightsZ(), start_w, end_w );
-
-        double length = ( w_x.length <= r_xyz.length ) ? w_x.length : r_xyz.length;
-        for( int j = 0; j < length; j++ )
-        {
-            rt_value[ 0 ] += w_x[ j ] * r_xyz[ j ];
-            rt_value[ 1 ] += w_y[ j ] * r_xyz[ j ];
-            rt_value[ 2 ] += w_z[ j ] * r_xyz[ j ];
-        }
-        //return the XYZ object of deside value
-        //return the XYZ object of deside value
-
-        return new XYZ( rt_value );
-    }
-
-    static public XYZ convert( ColorEncoding ce )
-        throws UnsupportedConversionException
-    {
-        if( ce instanceof XYZ )
-        {
-            return (XYZ) ce;
-        }
-        else
-        {
-            throw new UnsupportedConversionException( "Unable to convert from " + ce.getClass()
-                .getName() + " to " + XYZ.class.getName() );     //NOI18N
-        }
-    }
-
-    public XYZ( CIELab lab, XYZ whitepoint )
-    {
-        m_Values = ColorCalculator.convertLabToXYZ( lab, whitepoint );
-    }
-
-    public XYZ( XYZ xyz )
-    {
-        m_Values[ 0 ] = xyz.getX();
-        m_Values[ 1 ] = xyz.getY();
-        m_Values[ 2 ] = xyz.getZ();
-    }
-
-    public XYZ( CIELuv luv, XYZ whitepoint )
-    {
-        m_Values = ColorCalculator.convertLuvToXYZ( luv, whitepoint );
-    }
+    private final double x;
+    private final double y;
+    private final double z;
 
     /**
-     * Constructor using indivdual Numbers.
+     * by default, we will assume that the colors calculated are in-gamut
      */
-    public XYZ( Number x, Number y, Number z )
-    {
-        super();
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = x.doubleValue();
-        m_Values[ 1 ] = y.doubleValue();
-        m_Values[ 2 ] = z.doubleValue();
-    }
+    protected boolean m_InGamut = true;
 
     /**
      * Constructor using indivdual doubles.
+     * @param x The X value
+     * @param y The Y value
+     * @param z The Z value
      */
     public XYZ( double x, double y, double z )
     {
-        super();
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = x;
-        m_Values[ 1 ] = y;
-        m_Values[ 2 ] = z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     /**
-     * Constructor using an array of Numbers.
-     */
-    public XYZ( Number[] xyz )
-    {
-        super();
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = xyz[ 0 ].doubleValue();
-        m_Values[ 1 ] = xyz[ 1 ].doubleValue();
-        m_Values[ 2 ] = xyz[ 2 ].doubleValue();
-    }
-
-    /**
-     * Constructor using indivdual doubles.
-     */
-    public XYZ( double[] xyz )
-    {
-        super();
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = xyz[ 0 ];
-        m_Values[ 1 ] = xyz[ 1 ];
-        m_Values[ 2 ] = xyz[ 2 ];
-    }
-
-    /**
-     * returns X value
+     * @return X value
      */
     public double getX()
     {
-        return m_Values[ 0 ];
+        return x;
     }
 
     /**
-     * returns Y value
+     * @return Y value
      */
     public double getY()
     {
-        return m_Values[ 1 ];
+        return y;
     }
 
     /**
-     * returns Z value
+     * @return Z value
      */
     public double getZ()
     {
-        return m_Values[ 2 ];
+        return z;
     }
 
     /**
@@ -234,9 +100,8 @@ public class XYZ extends ColorEncoding
      * </pre></code>
      */
 
-    public double[] toLab( XYZ whitepoint )
+    public CIELab toCIELab( XYZ whitepoint )
     {
-        double[] lab = new double[ 3 ];
         double[] FN = new double[ 3 ];
         double XYZ_v[] =
             { getX(), getY(), getZ() };
@@ -253,22 +118,10 @@ public class XYZ extends ColorEncoding
                 FN[ i ] = Math.pow( XYZ_v[ i ] / ILL[ i ], 1.0 / 3.0 );
             }
         }
-        lab[ 0 ] = 116.0 * FN[ 1 ] - 16.0;
-        lab[ 1 ] = 500.0 * ( FN[ 0 ] - FN[ 1 ] );
-        lab[ 2 ] = 200.0 * ( FN[ 1 ] - FN[ 2 ] );
-        return ( lab );
-    }
-
-    public double[] toLch( XYZ whitepoint )
-    {
-        double[] lch = new double[ 3 ];
-        double[] lab = toLab( whitepoint );
-        lch[ 0 ] = lab[ 0 ];
-        double d1 = Math.pow( lab[ 1 ], 2.0 );
-        double d2 = Math.pow( lab[ 2 ], 2.0 );
-        lch[ 1 ] = Math.sqrt( d1 + d2 );
-        lch[ 2 ] = ColorCalculator.atan( lab[ 1 ], lab[ 2 ] );
-        return ( lch );
+        double lStar = 116.0 * FN[ 1 ] - 16.0;
+        double aStar = 500.0 * ( FN[ 0 ] - FN[ 1 ] );
+        double bStar = 200.0 * ( FN[ 1 ] - FN[ 2 ] );
+        return new CIELab( lStar, aStar, bStar );
     }
 
     public CMYK toCMYK( XYZ whitepoint )
@@ -295,14 +148,25 @@ public class XYZ extends ColorEncoding
         }
         else
         {
-            return new RGB( toRGB( whitepoint, ColorCalculator.m_WhitePointD65 ) );
+            return toRGB( whitepoint, WHITEPOINT_D65_10 );
         }
     }
 
-    public double[] toRGB( XYZ whitepoint, XYZ whitepointD65 )//XYZ whitepointD50
+    public HunterLab toHunterLab( XYZ whitepoint )
+    {
+        double fnX = getX() / whitepoint.getX();
+        double fnY = getY() / whitepoint.getY();
+        double fnZ = getZ() / whitepoint.getZ();
+
+        double l = 100.0 * Math.pow( fnY, .5 );
+        double a = 175.0 * ( fnX - fnY ) * Math.pow( .0102 * whitepoint.getX() / fnY, .5 );
+        double b = .4 * 175.0 * ( fnY - fnZ ) * Math.pow( .00847 * whitepoint.getZ() / fnY, .5 );
+        return new HunterLab( l, a, b );
+    }
+
+    public RGB toRGB( XYZ whitepoint, XYZ whitepointD65 )//XYZ whitepointD50
     {
         double temp[] = new double[ 3 ];
-        double rgb[] = new double[ 3 ];
         double D65[] =
             { whitepointD65.getX(), whitepointD65.getY(), whitepointD65.getZ() };
 
@@ -316,51 +180,46 @@ public class XYZ extends ColorEncoding
         {
             temp[ i ] = xyzv[ i ] * D65[ i ] / illum[ i ];
         }
-/*
-        // KH - Aug 25, 2004 : moved hard-coded values into m_RGBTristimulus matrix
+        double tempX = getX() * whitepointD65.getX() / whitepoint.getX();
+        double tempY = getY() * whitepointD65.getY() / whitepoint.getY();
+        double tempZ = getZ() * whitepointD65.getZ() / whitepoint.getZ();
 
-        //the mark up part is another RGB calculation by Adobe under D50
-        //rgb[0] = 1.8241 * temp[0] - .5048 * temp[1] - 0.308 * temp[2];
-        rgb[0] = 3.2406 * temp[0] - 1.5372 * temp[1] - 0.4986 * temp[2];
-        rgb[0] = rgb[0] / 100.0;
-        //rgb[1] = -0.9935 * temp[0] + 1.9228 * temp[1] + 0.0426 * temp[2];
-        rgb[1] = -0.9689 * temp[0] + 1.8758 * temp[1] + 0.0415 * temp[2];
-        rgb[1] = rgb[1] / 100.0;
-        //rgb[2] = 0.0184 * temp[0] - 0.1616 * temp[1] + 1.3864 * temp[2];
-        rgb[2] = 0.0557 * temp[0] - 0.204 * temp[1] + 1.057 * temp[2];
-        rgb[2] = rgb[2] / 100.0;
-*/
         // KH - Aug 25, 2004 : adapting to use static matrix
-        rgb[ 0 ] = ColorCalculator.m_RGBTristimulus[ 0 ][ 0 ] * temp[ 0 ] + ColorCalculator.m_RGBTristimulus[ 0 ][ 1 ] * temp[ 1 ] + ColorCalculator.m_RGBTristimulus[ 0 ][ 2 ] * temp[ 2 ];
-        rgb[ 0 ] = rgb[ 0 ] / 100.0;
-        rgb[ 1 ] = ColorCalculator.m_RGBTristimulus[ 1 ][ 0 ] * temp[ 0 ] + ColorCalculator.m_RGBTristimulus[ 1 ][ 1 ] * temp[ 1 ] + ColorCalculator.m_RGBTristimulus[ 1 ][ 2 ] * temp[ 2 ];
-        rgb[ 1 ] = rgb[ 1 ] / 100.0;
-        rgb[ 2 ] = ColorCalculator.m_RGBTristimulus[ 2 ][ 0 ] * temp[ 0 ] + ColorCalculator.m_RGBTristimulus[ 2 ][ 1 ] * temp[ 1 ] + ColorCalculator.m_RGBTristimulus[ 2 ][ 2 ] * temp[ 2 ];
-        rgb[ 2 ] = rgb[ 2 ] / 100.0;
+        double r = RGBTristimulus[ 0 ][ 0 ] * tempX + RGBTristimulus[ 0 ][ 1 ] * tempY + RGBTristimulus[ 0 ][ 2 ] * tempZ;
+        r = r / 100.0;
+        double g = RGBTristimulus[ 1 ][ 0 ] * tempX + RGBTristimulus[ 1 ][ 1 ] * tempY + RGBTristimulus[ 1 ][ 2 ] * tempZ;
+        g = g / 100.0;
+        double b = RGBTristimulus[ 2 ][ 0 ] * tempX + RGBTristimulus[ 2 ][ 1 ] * tempY + RGBTristimulus[ 2 ][ 2 ] * tempZ;
+        b = b / 100.0;
 
         // KH - Dec 26, 2004 : obviously, if rgb[i] ends up to be > 1, it is out of gamut
         // if it is less than 0
-        for( int i = 0; i < 3; i++ )
-        {
-            if( rgb[ i ] < 0.0 )
-            {
-                rgb[ i ] = 0.0;
-            }
-            else if( rgb[ i ] > 1.0 )
-            {
-                rgb[ i ] = 1.0;
-            }
+        r = checkBoundaries( r );
+        g = checkBoundaries( g );
+        b = checkBoundaries( b );
+        return new RGB( r, g, b );
+    }
 
-            if( rgb[ i ] <= 0.0031308 )  // HanSoong said; 0.00304
-            {
-                rgb[ i ] = 12.92 * rgb[ i ];
-            }
-            else
-            {
-                rgb[ i ] = ( 1.055 * Math.pow( rgb[ i ], 1.0 / 2.4 ) - 0.055 );
-            }
+    private double checkBoundaries( double value )
+    {
+        if( value < 0.0 )
+        {
+            value = 0.0;
         }
-        return rgb;
+        else if( value > 1.0 )
+        {
+            value = 1.0;
+        }
+
+        if( value <= 0.0031308 )  // HanSoong said; 0.00304
+        {
+            value = 12.92 * value;
+        }
+        else
+        {
+            value = ( 1.055 * Math.pow( value, 1.0 / 2.4 ) - 0.055 );
+        }
+        return value;
     }
 
     private float[] computePCSXYZ( XYZ whitepoint )
@@ -371,66 +230,99 @@ public class XYZ extends ColorEncoding
         return new float[]{ (float) X, (float) Y, (float) Z };
     }
 
-
     /**
      * this is the implementation of XYZ -> Luv
      */
-    public double[] toLuv( XYZ whitepoint )
+    public CIELuv toCIELuv( XYZ whitepoint )
     {
         //the return value
-        double[] luv = new double[ 3 ];
         double IU, IV, denom, D, SU, SV;
-        double[] xyz_v =
-            { getX(), getY(), getZ() };
 
-        double[] xyz_wp =
-            { whitepoint.getX(), whitepoint.getY(), whitepoint.getZ() };
+        denom = whitepoint.getX() + 15.0 * whitepoint.getY() + 3.0 * whitepoint.getZ();
 
-        denom = xyz_wp[ 0 ] + 15.0 * xyz_wp[ 1 ] + 3.0 * xyz_wp[ 2 ];
+        IU = 4.0 * whitepoint.getX() / denom;
+        IV = 9.0 * whitepoint.getY() / denom;
+        D = getX() + 15.0 * getY() + 3.0 * getZ();
+        SU = 4.0 * getX() / D;
+        SV = 9.0 * getY() / D;
+        double l = getY() / whitepoint.getY();
 
-        IU = 4.0 * xyz_wp[ 0 ] / denom;
-        IV = 9.0 * xyz_wp[ 1 ] / denom;
-        D = xyz_v[ 0 ] + 15.0 * xyz_v[ 1 ] + 3.0 * xyz_v[ 2 ];
-        SU = 4.0 * xyz_v[ 0 ] / D;
-        SV = 9.0 * xyz_v[ 1 ] / D;
-        luv[ 0 ] = xyz_v[ 1 ] / xyz_wp[ 1 ];
-
-        if( luv[ 0 ] <= 0.008856 )
+        if( l <= 0.008856 )
         {
-            luv[ 0 ] = 903.292 * ( luv[ 0 ] );
+            l = 903.292 * l;
         }
         else
         {
-            luv[ 0 ] = 116.0 * Math.pow( luv[ 0 ], 1.0 / 3.0 ) - 16.0;
+            l = 116.0 * Math.pow( l, 1.0 / 3.0 ) - 16.0;
         }
 
-        luv[ 1 ] = 13.0 * ( luv[ 0 ] ) * ( SU - IU );
-        luv[ 2 ] = 13.0 * ( luv[ 0 ] ) * ( SV - IV );
-        return luv;
+        double u = 13.0 * l * ( SU - IU );
+        double v = 13.0 * l * ( SV - IV );
+        return new CIELuv( l,  u, v);
     }
 
     public CMYK toCMYK( XYZ whitepoint, ICC_ColorSpace printerColorSpace )
     {
-        double[] rgb = toRGB( whitepoint ).getColorValues();
+        RGB rgb = toRGB( whitepoint );
         if( printerColorSpace != null )
         {
-            float[] f = printerColorSpace.fromRGB( new float[]{ (float) rgb[ 0 ], (float) rgb[ 1 ], (float) rgb[ 2 ] } );
+            float[] f = printerColorSpace.fromRGB( new float[]{ (float) rgb.getR(), (float) rgb.getG(), (float) rgb.getB() } );
             if( f != null && f.length == 4 )
             {
-                return new CMYK( f );
+                return new CMYK( f[ 0 ], f[ 1 ], f[ 2 ], f[ 3 ] );
             }
         }
 
-        double c = 1.0 - rgb[ 0 ];
-        double m = 1.0 - rgb[ 1 ];
-        double y = 1.0 - rgb[ 2 ];
+        double c = 1.0 - rgb.getR();
+        double m = 1.0 - rgb.getG();
+        double y = 1.0 - rgb.getB();
         double min = Math.min( Math.min( c, m ), y );
 
         c = ( c - min ) / ( 1 - min );
         m = ( m - min ) / ( 1 - min );
         y = ( y - min ) / ( 1 - min );
 
-        return new CMYK( new double[]{ c, m, y, min } );
+        return new CMYK( c, m, y, min );
     }
 
+    public boolean isInGamut()
+    {
+        return m_InGamut;
+    }
+
+    private static float[][] RGBTristimulus;
+
+    private static final Matrix INVERTED_TRISTIMULUS;
+
+    static
+    {
+        RGBTristimulus = new float[][]
+            {
+                new float[]{ 3.2406f, -1.5372f, -0.4986f, 0 },
+                new float[]{ -0.9689f, 1.8758f, 0.0415f, 0 },
+                new float[]{ 0.0557f, -0.204f, 1.057f, 0 },
+                new float[]{ 0, 0, 0, 1 }
+            };
+        INVERTED_TRISTIMULUS = new Matrix( RGBTristimulus ).inverse();
+        try
+        {
+            Illuminant d65 = IlluminantImpl.create( "D65" );  //NOI18N
+            Observer obs = ObserverImpl.create( Observer.NAME_CIE1964 );
+            Weights weights = WeightsCache.getInstance().getWeights( d65, obs );
+            WHITEPOINT_D65_10 = weights.toWhitePoint();
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace(); // Shouldn't happen
+            InternalError internalError = new InternalError( "Color system malfunction." );
+            internalError.initCause( e );
+            throw internalError;  //NOI18N
+        }
+
+    }
+
+    public static Matrix getInvertedTristimulusMatrix()
+    {
+        return INVERTED_TRISTIMULUS;
+    }
 }

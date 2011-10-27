@@ -30,9 +30,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.ReflectanceImpl;
 import org.color4j.colorimetry.Spectrum;
-import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.imports.ImportException;
 import org.color4j.imports.ini.AbstractGlobalsParser;
 import org.color4j.imports.ini.AbstractSectionParser;
@@ -246,7 +246,7 @@ public class MeasurementParser extends AbstractSectionParser
                 m_conditions.put( Reflectance.CONDITION_SPECULAR, "SCE" );
             }
 
-            ret = ReflectanceImpl.create( spec, null, m_conditions );
+            ret = ReflectanceImpl.create( spec, m_conditions );
             m_conditions.remove( Reflectance.CONDITION_SPECULAR );
 //            Entity e =(Entity)ret;
             ret.setName( newName );
@@ -291,7 +291,7 @@ public class MeasurementParser extends AbstractSectionParser
         return ret;
     }
 
-    protected void duplicateKeyMapping( Map<String,String> map, List<String> list, String tag )
+    protected void duplicateKeyMapping( Map<String, String> map, List<String> list, String tag )
     {
         if( list != null && list.size() > 0 )
         {

@@ -18,7 +18,7 @@
 
 package org.color4j.colorimetry;
 
-public class ColorException extends Exception
+public class ColorException extends RuntimeException
 {
     public ColorException()
     {

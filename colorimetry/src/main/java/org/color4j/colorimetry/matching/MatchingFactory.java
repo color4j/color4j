@@ -119,7 +119,7 @@ public class MatchingFactory
         //register( HUNTERDE, new HunterLabDE() );
         register( CIE2000DE, new CIE2000() );
         register( JPC79, new JPC79() );
-        register( DIN99, new Din99( 1.0, 1.0 ) );
+        register( DIN99, new Din99() );
         setDefaultAlgorithm( CMC21 );
     }
 }

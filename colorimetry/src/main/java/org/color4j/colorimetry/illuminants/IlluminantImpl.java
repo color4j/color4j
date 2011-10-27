@@ -18,9 +18,9 @@
 
 package org.color4j.colorimetry.illuminants;
 
+import org.color4j.colorimetry.Illuminant;
 import org.color4j.colorimetry.IlluminationException;
 import org.color4j.colorimetry.Spectrum;
-import org.color4j.colorimetry.entities.Illuminant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,14 +28,14 @@ import java.util.Map;
  * Implementation of the Illuminant.
  * <p>The IlluminantImpl serves two independent purposes. First it is the implementation that understands the Standard Illuminant Names, and can create (<code>static public Illuminant create( String illlumant)</code> method) hardcoded Illuminant instances. But it also allows the user to create Illuminant objects out of given <code>org.color4j.colorimetry.Spectrum</code> objects, and associate it with a new.</p>
  *
- * @see org.color4j.colorimetry.entities.Illuminant
+ * @see org.color4j.colorimetry.Illuminant
  * @see org.color4j.colorimetry.Spectrum
  */
 public class IlluminantImpl
     implements Illuminant
 {
     private Spectrum m_Spectrum;
-    private static Map m_Illuminants;
+    private static Map<String, Illuminant> m_Illuminants;
 
     static private final String[] m_Standards =
         {
@@ -72,7 +72,9 @@ public class IlluminantImpl
      * Creates a Standard Illuminant.
      * <p>The given parameter <code>name</code> refers to one of the Standard Illuminants available on the current system. The method <code>getStandardIlluminantNames</code> can be used to retrieve the available standard illuminant names.</p>
      *
+     * @param name The name of illuminant to be created. Must not be 'null'.
      * @throws IlluminationException if the given <code>name</code> does not exist.
+     * @return The requested Illuminant instance, which may be a shared copy as Illuminants are immutable.
      */
     static synchronized public Illuminant create( String name )
         throws IlluminationException
@@ -83,23 +85,23 @@ public class IlluminantImpl
         }
         if( m_Illuminants == null )
         {
-            m_Illuminants = new HashMap();
+            m_Illuminants = new HashMap<String, Illuminant>();
         }
 
-        Illuminant cache = (Illuminant) m_Illuminants.get( name );
+        Illuminant cache = m_Illuminants.get( name );
         if( cache != null )
         {
             return cache;
         }
 
         Spectrum spectrum = null;
-        for( int i = 0; i < m_Standards.length; i++ )
+        for( String standard : m_Standards )
         {
-            if( m_Standards[ i ].equals( name ) )
+            if( standard.equals( name ) )
             {
                 try
                 {
-                    String classname = "org.color4j.colorimetry.illuminants." + m_Standards[ i ];  //NOI18N
+                    String classname = "org.color4j.colorimetry.illuminants." + standard;  //NOI18N
                     Class cls = IlluminantImpl.class.getClassLoader().loadClass( classname );
                     Object obj = cls.newInstance();
                     if( !( obj instanceof Spectrum ) )
@@ -169,7 +171,7 @@ public class IlluminantImpl
         return m_Spectrum;
     }
 
-    public Class getTypeInterface()
+    public Class<Illuminant> getTypeInterface()
     {
         return Illuminant.class;
     }

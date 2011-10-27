@@ -18,26 +18,22 @@
 
 package org.color4j.colorimetry.encodings;
 
-import org.color4j.colorimetry.ColorCalculator;
 import org.color4j.colorimetry.ColorEncoding;
-import org.color4j.colorimetry.ColorException;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
 import java.awt.Color;
 
 /**
  */
-public class CMYK extends ColorEncoding
+public class CMYK
+    implements ColorEncoding
 {
-    static public CMYK create( Illuminant ill, Reflectance refl, Observer obs )
-        throws ColorException
-    {
-        XYZ xyz = ColorCalculator.computeXYZ( ill, refl, obs );
-        XYZ whitepoint = ColorCalculator.computeWhitepoint( ill, obs );
-
-        return xyz.toCMYK( whitepoint );
-    }
+    private final double c;
+    private final double m;
+    private final double y;
+    private final double k;
+    /**
+     * by default, we will assume that the colors calculated are in-gamut
+     */
+    protected boolean m_InGamut = true;
 
     static public CMYK convert( ColorEncoding ce, XYZ whitepoint )
         throws UnsupportedConversionException
@@ -52,86 +48,34 @@ public class CMYK extends ColorEncoding
     }
 
     /**
-     * expects an array.length == 4
-     */
-    public CMYK( Number[] cmyk )
-        throws ColorException
-    {
-        if( cmyk.length != 4 )
-        {
-            throw new ColorException( "unexpected array size; expected length == 4, found " + cmyk.length );
-        }
-        m_Values = new double[ 4 ];
-        m_Values[ 0 ] = cmyk[ 0 ].doubleValue();
-        m_Values[ 1 ] = cmyk[ 1 ].doubleValue();
-        m_Values[ 2 ] = cmyk[ 2 ].doubleValue();
-        m_Values[ 3 ] = cmyk[ 3 ].doubleValue();
-    }
-
-    /**
-     * Class constructor
-     */
-    public CMYK( Number c, Number m, Number y, Number k )
-    {
-        m_Values = new double[ 3 ];
-        m_Values[ 0 ] = c.doubleValue();
-        m_Values[ 1 ] = m.doubleValue();
-        m_Values[ 2 ] = y.doubleValue();
-        m_Values[ 3 ] = k.doubleValue();
-    }
-
-    /**
      * Class constructor
      */
     public CMYK( double c, double m, double y, double k )
     {
-        m_Values = new double[ 4 ];
-        m_Values[ 0 ] = c;
-        m_Values[ 1 ] = m;
-        m_Values[ 2 ] = y;
-        m_Values[ 3 ] = k;
-    }
-
-    public CMYK( double[] cmyk )
-    {
-        super();
-
-        m_Values = new double[ 4 ];
-        m_Values[ 0 ] = cmyk[ 0 ];
-        m_Values[ 1 ] = cmyk[ 1 ];
-        m_Values[ 2 ] = cmyk[ 2 ];
-        m_Values[ 3 ] = cmyk[ 3 ];
-    }
-
-    public CMYK( float[] cmyk )
-    {
-        super();
-
-        m_Values = new double[ 4 ];
-        m_Values[ 0 ] = cmyk[ 0 ];
-        m_Values[ 1 ] = cmyk[ 1 ];
-        m_Values[ 2 ] = cmyk[ 2 ];
-        m_Values[ 3 ] = cmyk[ 3 ];
+        this.c = c;
+        this.m = m;
+        this.y = y;
+        this.k = k;
     }
 
     public double getC()
     {
-        return m_Values[ 0 ];
+        return c;
     }
 
     public double getM()
     {
-        return m_Values[ 1 ];
+        return m;
     }
 
     public double getY()
     {
-        return m_Values[ 2 ];
+        return y;
     }
 
     public double getK()
     {
-        return m_Values[ 3 ];
+        return k;
     }
 
     public Color toAWTColor()
@@ -148,4 +92,8 @@ public class CMYK extends ColorEncoding
         return new double[]{ 1.0 - c, 1.0 - m, 1.0 - y };
     }
 
+    public boolean isInGamut()
+    {
+        return m_InGamut;
+    }
 }

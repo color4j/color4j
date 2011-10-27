@@ -20,9 +20,10 @@ package org.color4j.colorimetry.matching;
 
 import org.color4j.colorimetry.ColorEncoding;
 import org.color4j.colorimetry.encodings.CIELab;
+import org.color4j.colorimetry.math.Maths;
 
 public class BFD
-    implements DifferenceAlgorithm
+    implements DifferenceAlgorithm<CIELab>
 {
     public BFD()
     {
@@ -33,18 +34,8 @@ public class BFD
         return MatchingFactory.BFD;// For now this will be OK.
     }
 
-    public ColorDifference compute( ColorEncoding target, ColorEncoding sample )
+    public ColorDifference compute( CIELab target, CIELab sample )
     {
-        if( !( target instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "BFD only accepts CIELab color encodings." );   //NOI18N
-        }
-
-        if( !( sample instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "BFD only accepts CIELab color encodings." );   //NOI18N
-        }
-
         double[] p = computeAll( target, sample );
         ColorDifference cd = new ColorDifferenceB2000( this, p[ 0 ], p[ 1 ], p[ 2 ], p[ 3 ], p[ 4 ], p[ 5 ],
                                                        p[ 6 ], p[ 7 ], p[ 8 ], p[ 9 ], p[ 10 ], p[ 11 ], p[ 12 ] );
@@ -175,7 +166,7 @@ public class BFD
         p[ 9 ] = a2 - a1;                             //delta a star
         p[ 10 ] = b2 - b1;//delta b star
         p[ 11 ] = c2 - c1;//delta c star
-        p[ 12 ] = Util.computeDifferenceHue( h1, c1, h2, c2 );
+        p[ 12 ] = Maths.computeDifferenceHue( h1, c1, h2, c2 );
 
         return p;
     }

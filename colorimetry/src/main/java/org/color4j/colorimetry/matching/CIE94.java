@@ -20,9 +20,10 @@ package org.color4j.colorimetry.matching;
 
 import org.color4j.colorimetry.ColorEncoding;
 import org.color4j.colorimetry.encodings.CIELab;
+import org.color4j.colorimetry.math.Maths;
 
 public class CIE94
-    implements DifferenceAlgorithm
+    implements DifferenceAlgorithm<CIELab>
 {
     public CIE94()
     {
@@ -36,11 +37,7 @@ public class CIE94
 
         String[] s = cd.getAllValueNames();
         String[] st = new String[ s.length - 3 ];
-        for( int i = 0; i < s.length - 3; i++ )
-        {
-            st[ i ] = s[ i ];
-        }
-
+        System.arraycopy( s, 0, st, 0, s.length - 3 );
         return st;
     }
 
@@ -49,18 +46,8 @@ public class CIE94
         return MatchingFactory.CIE94DE;
     }
 
-    public ColorDifference compute( ColorEncoding target, ColorEncoding sample )
+    public ColorDifference compute( CIELab target, CIELab sample )
     {
-        if( !( target instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CIE94 only accepts ANLab color encodings." );  //NOI18N
-        }
-
-        if( !( sample instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CIE94 only accepts ANLab color encodings." );  //NOI18N
-        }
-
         double[] p = computeAll( target, sample );
         ColorDifference cdiff = new ColorDifferenceCJ94( this, p[ 0 ], p[ 1 ], p[ 2 ], p[ 3 ],
                                                          p[ 4 ], p[ 5 ], p[ 6 ], p[ 7 ],
@@ -80,7 +67,7 @@ public class CIE94
 
         dlch[ 0 ] = blab.getL() - tlab.getL();
         dlch[ 1 ] = blab.getc() - tlab.getc();
-        dlch[ 2 ] = Util.computeDifferenceHue( tlab.geth(), tlab.getc(), blab.geth(), blab.getc() );
+        dlch[ 2 ] = Maths.computeDifferenceHue( tlab.geth(), tlab.getc(), blab.geth(), blab.getc() );
 
         CT = 1.0 + 0.045 * tlab.getc();
         HT = 1.0 + 0.015 * tlab.getc();

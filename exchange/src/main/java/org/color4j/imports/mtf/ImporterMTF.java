@@ -29,8 +29,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.ReflectanceImpl;
-import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.imports.AbstractTextFileReflectanceImporter;
 import org.color4j.imports.ImportException;
 

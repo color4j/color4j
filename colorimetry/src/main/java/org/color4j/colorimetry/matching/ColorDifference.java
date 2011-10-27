@@ -18,12 +18,13 @@
 
 package org.color4j.colorimetry.matching;
 
+import org.color4j.colorimetry.ColorEncoding;
 import org.color4j.colorimetry.ColorException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public abstract class ColorDifference
+public abstract class ColorDifference<T extends ColorEncoding>
 {
     public static final String DELTA_E = "DeltaE";  //NOI18N
     public static final String DELTA_L_s = "DeltaLStar";  //NOI18N
@@ -37,34 +38,34 @@ public abstract class ColorDifference
     public static final String DELTA_c = "DeltaC";  //NOI18N
     public static final String DELTA_h = "DeltaH";  //NOI18N
 
-    private DifferenceAlgorithm m_Algorithm;
+    private DifferenceAlgorithm<T> m_Algorithm;
 
-    protected ColorDifference( DifferenceAlgorithm algorithm )
+    protected ColorDifference( DifferenceAlgorithm<T> algorithm )
     {
         m_Algorithm = algorithm;
     }
 
-    public DifferenceAlgorithm getAlgorithm()
+    public DifferenceAlgorithm<T> getAlgorithm()
     {
         return m_Algorithm;
     }
 
     public String[] getAllValueNames()
     {
-        ArrayList result = new ArrayList();
+        ArrayList<String> result = new ArrayList<String>();
         Method[] methods = getClass().getMethods();
-        for( int i = 0; i < methods.length; i++ )
+        for( Method method : methods )
         {
-            if( methods[ i ].getName().startsWith( "get" ) &&     //NOI18N
-                methods[ i ].getParameterTypes().length == 0 )
+            if( method.getName().startsWith( "get" ) &&     //NOI18N
+                method.getParameterTypes().length == 0 )
             {
-                result.add( methods[ i ].getName().substring( 3 ) );
+                result.add( method.getName().substring( 3 ) );
             }
         }
         String[] names = new String[ result.size() ];
         for( int i = 0; i < names.length; i++ )
         {
-            names[ i ] = (String) result.get( i );
+            names[ i ] = result.get( i );
         }
         return names;
     }
@@ -74,8 +75,8 @@ public abstract class ColorDifference
     {
         try
         {
-            Method method = getClass().getMethod( "get" + name, null );     //NOI18N
-            Object obj = method.invoke( this, null );
+            Method method = getClass().getMethod( "get" + name );     //NOI18N
+            Object obj = method.invoke( this );
             return ( (Number) obj ).doubleValue();
         }
         catch( IllegalAccessException e )

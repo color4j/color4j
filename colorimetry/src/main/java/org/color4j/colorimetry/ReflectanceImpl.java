@@ -20,8 +20,6 @@ package org.color4j.colorimetry;
 
 import java.util.Date;
 import java.util.HashMap;
-import org.color4j.colorimetry.entities.Reflectance;
-import org.color4j.colorimetry.entities.Spectro;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -29,10 +27,9 @@ import java.util.TreeMap;
 public class ReflectanceImpl
     implements Reflectance
 {
-    private SortedMap<Integer,Double> m_SpectrumMap;
+    private SortedMap<Integer, Double> m_SpectrumMap;
     private Spectrum m_Spectrum;
     private Map m_Conditions;
-    private Spectro m_Spectro;
     private String m_Type;
     private String m_Name;
     private Date m_CreationDate;
@@ -40,15 +37,14 @@ public class ReflectanceImpl
 
     public static Reflectance create( Spectrum spectrum )
     {
-        return new ReflectanceImpl( spectrum, null, null );
+        return new ReflectanceImpl( spectrum, null );
     }
 
     public static Reflectance create( Spectrum spectrum,
-                                      Spectro spectro,
                                       Map conditions
     )
     {
-        return new ReflectanceImpl( spectrum, spectro, conditions );
+        return new ReflectanceImpl( spectrum, conditions );
     }
 
     public ReflectanceImpl()
@@ -56,11 +52,10 @@ public class ReflectanceImpl
         m_Name = "<unidentified>";
     }
 
-    private ReflectanceImpl( Spectrum spectrum, Spectro spectro, Map conditions )
+    private ReflectanceImpl( Spectrum spectrum, Map conditions )
     {
         this();
         m_Spectrum = spectrum;
-        m_Spectro = spectro;
         m_Conditions = conditions;
         createSpectrumMap();
     }
@@ -79,7 +74,7 @@ public class ReflectanceImpl
 
     private void createSpectrumMap()
     {
-        TreeMap<Integer,Double> map = new TreeMap<Integer, Double>();
+        TreeMap<Integer, Double> map = new TreeMap<Integer, Double>();
         if( m_Spectrum != null )
         {
             int start = m_Spectrum.getShortestWavelength();
@@ -96,7 +91,7 @@ public class ReflectanceImpl
         m_SpectrumMap = map;
     }
 
-    public SortedMap<Integer,Double> getSpectrumMap()
+    public SortedMap<Integer, Double> getSpectrumMap()
     {
         return m_SpectrumMap;
     }
@@ -104,16 +99,6 @@ public class ReflectanceImpl
     public void setSpectrumMap( SortedMap map )
     {
         m_SpectrumMap = map;
-    }
-
-    public Spectro getSpectro()
-    {
-        return m_Spectro;
-    }
-
-    public void setSpectro( Spectro spectro )
-    {
-        m_Spectro = spectro;
     }
 
     public String getType()
@@ -146,7 +131,7 @@ public class ReflectanceImpl
     @Override
     public Object getProperty( String key )
     {
-        return properties.get(key);
+        return properties.get( key );
     }
 
     @Override

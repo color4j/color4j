@@ -26,7 +26,7 @@ package org.color4j.imports.ini;
 
 import java.util.Collection;
 import java.util.Map;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.slf4j.Logger;
 
 /**

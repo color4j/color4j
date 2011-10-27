@@ -22,13 +22,16 @@ import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Date;
-import org.color4j.colorimetry.ColorCalculator;
 import org.color4j.colorimetry.ColorException;
+import org.color4j.colorimetry.Illuminant;
+import org.color4j.colorimetry.Observer;
+import org.color4j.colorimetry.Weights;
+import org.color4j.colorimetry.encodings.DefaultEncodingFactory;
+import org.color4j.colorimetry.encodings.EncodingFactory;
+import org.color4j.colorimetry.weights.WeightsCache;
 import org.color4j.colorimetry.encodings.RGB;
 import org.color4j.colorimetry.encodings.XYZ;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.illuminants.IlluminantImpl;
 import org.color4j.colorimetry.observers.ObserverImpl;
 import org.color4j.exports.AbstractReflectanceExporter;
@@ -38,6 +41,7 @@ public class ExporterAI extends AbstractReflectanceExporter implements TextFileR
 {
     private Illuminant m_Ill;
     private Observer m_Obs;
+    private EncodingFactory factory = new DefaultEncodingFactory();
 
     public ExporterAI()
     {
@@ -63,7 +67,7 @@ public class ExporterAI extends AbstractReflectanceExporter implements TextFileR
                     // (Blue 0.01) Pc
                     try
                     {
-                        rgb = XYZ.create( m_Ill, r, m_Obs ).toRGB( wp );
+                        rgb = factory.createXYZ( m_Ill, r, m_Obs ).toRGB( wp );
                         sb.append( df.format( rgb.getR() ) );
                         sb.append( " " );
                         sb.append( df.format( rgb.getG() ) );
@@ -92,18 +96,18 @@ public class ExporterAI extends AbstractReflectanceExporter implements TextFileR
     // KH - Dec 16, 2004 : initializes the illuminant, observer, and whitepoint to use
     private XYZ getWhitePoint()
     {
-        XYZ toRet = null;
         try
         {
             m_Ill = IlluminantImpl.create( getProperties().get( PROP_ILLUMINANT ).toString() );
             m_Obs = ObserverImpl.create( getProperties().get( PROP_OBSERVER ).toString() );
-            toRet = ColorCalculator.computeWhitepoint( m_Ill, m_Obs );
+            Weights weights = WeightsCache.getInstance().getWeights( m_Ill, m_Obs );
+            return weights.toWhitePoint();
         }
         catch( ColorException e )
         {
             m_Logger.error( e.getMessage(), e );
+            throw e;
         }
-        return toRet;
     }
 
     public void resetState()

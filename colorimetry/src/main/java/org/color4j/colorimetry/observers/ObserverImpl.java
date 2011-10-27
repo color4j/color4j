@@ -19,9 +19,9 @@
 package org.color4j.colorimetry.observers;
 
 import org.color4j.colorimetry.ColorException;
+import org.color4j.colorimetry.Illuminant;
+import org.color4j.colorimetry.Observer;
 import org.color4j.colorimetry.Weights;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
 import org.color4j.colorimetry.weights.WeightsImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,8 +88,7 @@ public abstract class ObserverImpl
 
     static public String[] getObserverNames()
     {
-        String[] sa = { NAME_CIE1931, NAME_CIE1964 };
-        return sa;
+        return new String[]{ NAME_CIE1931, NAME_CIE1964 };
     }
 
     protected ObserverImpl( String name )
@@ -108,16 +107,14 @@ public abstract class ObserverImpl
         // tan( angle/2 ) = (diameter/2) / distance
 
         double alpha = getAngle() / 2;
-        double diameter = Math.tan( alpha ) * distance * 2;
-        return diameter;
+        return Math.tan( alpha ) * distance * 2;
     }
 
     public double getViewDistance( double diameter )
     {
         // tan( angle/2 ) = (diameter/2) / distance
         double alpha = getAngle() / 2;
-        double distance = ( diameter / 2 ) / Math.tan( alpha );
-        return distance;
+        return ( diameter / 2 ) / Math.tan( alpha );
     }
 
     public abstract double getAngle();

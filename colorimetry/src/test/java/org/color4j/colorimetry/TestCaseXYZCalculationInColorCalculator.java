@@ -18,13 +18,11 @@
 
 package org.color4j.colorimetry;
 
+import org.color4j.colorimetry.encodings.DefaultEncodingFactory;
+import org.color4j.colorimetry.encodings.EncodingFactory;
 import org.color4j.colorimetry.encodings.XYZ;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.colorimetry.illuminants.IlluminantImpl;
 import org.color4j.colorimetry.observers.ObserverImpl;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class TestCaseXYZCalculationInColorCalculator extends TestCase
@@ -37,6 +35,7 @@ public class TestCaseXYZCalculationInColorCalculator extends TestCase
     private static final double ALLOWED_XYZ_DEVIANCE = 0.1;
 
     private ReflectanceCase[] m_TestReflectances;
+    private EncodingFactory factory = new DefaultEncodingFactory();
 
     public TestCaseXYZCalculationInColorCalculator( String name )
     {
@@ -59,7 +58,7 @@ public class TestCaseXYZCalculationInColorCalculator extends TestCase
             Observer obs = m_TestReflectances[ i ].getObserver();
             Reflectance refl = m_TestReflectances[ i ].getReflectance();
 
-            XYZ xyz = ColorCalculator.computeXYZ( ill, refl, obs );
+            XYZ xyz = factory.createXYZ( ill, refl, obs );
             m_TestReflectances[ i ].validate( xyz );
         }
     }
@@ -89,17 +88,9 @@ public class TestCaseXYZCalculationInColorCalculator extends TestCase
 
         void validate( XYZ result )
         {
-            double[] set1 = result.getColorValues();
-            double[] set2 = m_ExpectedResult.getColorValues();
-//			@TODO: Clean up. ML - 05/08/2003
-//            boolean equality = true;
-            for( int i = 0; i < set1.length; i++ )
-            {
-                if( Math.abs( set1[ i ] - set2[ i ] ) > ALLOWED_XYZ_DEVIANCE )
-                {
-                    Assert.fail( "ColorValue " + i + " is not within limit. Expected " + result + " got " + m_ExpectedResult );
-                }
-            }
+            assertTrue( "ColorValue X is not within limit. Expected " + m_ExpectedResult.getX() + " got " + result.getX(),  Math.abs( result.getX() - m_ExpectedResult.getX() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "ColorValue Y is not within limit. Expected " + m_ExpectedResult.getY() + " got " + result.getY(),  Math.abs( result.getY() - m_ExpectedResult.getY() ) < ALLOWED_XYZ_DEVIANCE );
+            assertTrue( "ColorValue Z is not within limit. Expected " + m_ExpectedResult.getZ() + " got " + result.getZ(),  Math.abs( result.getZ() - m_ExpectedResult.getZ() ) < ALLOWED_XYZ_DEVIANCE );
         }
 
         Reflectance getReflectance()

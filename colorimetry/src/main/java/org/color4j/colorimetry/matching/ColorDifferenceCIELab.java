@@ -18,7 +18,9 @@
 
 package org.color4j.colorimetry.matching;
 
-public class ColorDifferenceCIELab extends ColorDifference
+import org.color4j.colorimetry.encodings.CIELab;
+
+public class ColorDifferenceCIELab extends ColorDifference<CIELab>
 {
     private double m_DeltaL;
     private double m_DeltaA;
@@ -27,7 +29,7 @@ public class ColorDifferenceCIELab extends ColorDifference
     private double m_DeltaHue;
     private double m_DeltaE;
 
-    public ColorDifferenceCIELab( DifferenceAlgorithm algorithm,
+    public ColorDifferenceCIELab( DifferenceAlgorithm<CIELab> algorithm,
                                   double deltaL, double deltaA, double deltaB,
                                   double deltaC, double deltaH, double deltaE
     )

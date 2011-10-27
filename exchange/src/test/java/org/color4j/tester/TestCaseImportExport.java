@@ -18,11 +18,6 @@
 
 package org.color4j.tester;
 
-import org.color4j.exports.ReflectanceExporter;
-import org.color4j.exports.qtx.ExporterBatchedQTX;
-import org.color4j.exports.qtx.ExporterQTX;
-import org.color4j.imports.TextFileReflectanceImporter;
-import org.color4j.imports.qtx.ImporterQTX;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -33,19 +28,24 @@ import java.util.SortedMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.color4j.colorimetry.ColorCalculator2;
+import org.color4j.colorimetry.Illuminant;
+import org.color4j.colorimetry.Observer;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.Spectrum;
 import org.color4j.colorimetry.encodings.CIELab;
+import org.color4j.colorimetry.encodings.DefaultEncodingFactory;
+import org.color4j.colorimetry.encodings.EncodingFactory;
 import org.color4j.colorimetry.encodings.XYZ;
-import org.color4j.colorimetry.entities.Illuminant;
-import org.color4j.colorimetry.entities.Observer;
-import org.color4j.colorimetry.entities.Reflectance;
-import org.color4j.colorimetry.entities.Spectro;
 import org.color4j.colorimetry.illuminants.IlluminantImpl;
 import org.color4j.colorimetry.matching.ColorDifference;
 import org.color4j.colorimetry.matching.DifferenceAlgorithm;
 import org.color4j.colorimetry.matching.MatchingFactory;
 import org.color4j.colorimetry.observers.ObserverImpl;
+import org.color4j.exports.ReflectanceExporter;
+import org.color4j.exports.qtx.ExporterBatchedQTX;
+import org.color4j.exports.qtx.ExporterQTX;
+import org.color4j.imports.TextFileReflectanceImporter;
+import org.color4j.imports.qtx.ImporterQTX;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +53,7 @@ public class TestCaseImportExport extends TestCase
 {
     private static final double MAXIMUM_DELTAE_TOLERANCE = 0.005;
 
+    private EncodingFactory factory = new DefaultEncodingFactory();
     private ReflectanceExporter m_Exporter;
     private TextFileReflectanceImporter m_Importer;
     private static Logger m_Logger;
@@ -158,18 +159,16 @@ public class TestCaseImportExport extends TestCase
     private void compare( Reflectance r1, Reflectance r2 )
         throws Exception
     {
-        ColorCalculator2 cc = ColorCalculator2.getInstance();
-
         Illuminant ill = IlluminantImpl.create( "D65" );
         Observer obs = ObserverImpl.create( Observer.NAME_CIE1964 );
 
-        XYZ xyz1 = (XYZ) cc.create( XYZ.class, ill, r1, obs );
-        XYZ xyz2 = (XYZ) cc.create( XYZ.class, ill, r2, obs );
+        XYZ xyz1 = factory.create( XYZ.class, ill, r1, obs );
+        XYZ xyz2 = factory.create( XYZ.class, ill, r2, obs );
 
-        XYZ wp = cc.computeWhitepoint( ill, obs );
+        XYZ wp = factory.createWhitePoint( ill, obs );
 
-        CIELab lab1 = (CIELab) cc.convert( CIELab.class, xyz1, wp );
-        CIELab lab2 = (CIELab) cc.convert( CIELab.class, xyz2, wp );
+        CIELab lab1 = xyz1.toCIELab( wp );
+        CIELab lab2 = xyz2.toCIELab( wp );
 
         DifferenceAlgorithm algo = MatchingFactory.getInstance().getDefaultAlgorithm();
 
@@ -182,7 +181,7 @@ public class TestCaseImportExport extends TestCase
     private Reflectance[] retrieve( InputStream in )
         throws Exception
     {
-        Reflectance[] refls = m_Importer.doImport( in, new HashMap<String, String>()  );
+        Reflectance[] refls = m_Importer.doImport( in, new HashMap<String, String>() );
         return refls;
     }
 
@@ -191,7 +190,6 @@ public class TestCaseImportExport extends TestCase
     {
         private String m_Name;
         private Spectrum m_Spectrum;
-        private Spectro m_Spectro;
         private Map m_Conditions;
         private Map m_Properties;
         private Number m_UID;
@@ -201,7 +199,6 @@ public class TestCaseImportExport extends TestCase
         {
             m_Name = name;
             m_Spectrum = spectrum;
-            m_Spectro = null;
             m_Conditions = new HashMap();
             m_Properties = new HashMap();
             m_UID = null;
@@ -220,11 +217,6 @@ public class TestCaseImportExport extends TestCase
         public SortedMap getSpectrumMap()
         {
             return null;
-        }
-
-        public Spectro getSpectro()
-        {
-            return m_Spectro;
         }
 
         public Map getConditions()
@@ -260,11 +252,6 @@ public class TestCaseImportExport extends TestCase
         }
 
         public void setSpectrumMap( SortedMap map )
-        {
-
-        }
-
-        public void setSpectro( Spectro spectro )
         {
 
         }

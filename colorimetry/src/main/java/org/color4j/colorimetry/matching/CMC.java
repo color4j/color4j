@@ -22,7 +22,7 @@ import org.color4j.colorimetry.ColorEncoding;
 import org.color4j.colorimetry.encodings.CIELab;
 
 public class CMC
-    implements DifferenceAlgorithm
+    implements DifferenceAlgorithm<CIELab>
 {
     private double m_l;
 
@@ -39,11 +39,7 @@ public class CMC
 
         String[] s = cd.getAllValueNames();
         String[] st = new String[ s.length - 3 ];
-        for( int i = 0; i < s.length - 3; i++ )
-        {
-            st[ i ] = s[ i ];
-        }
-
+        System.arraycopy( s, 0, st, 0, s.length - 3 );
         return st;
     }
 
@@ -57,18 +53,8 @@ public class CMC
         return MatchingFactory.CMC11;
     }
 
-    public ColorDifference compute( ColorEncoding target, ColorEncoding sample )
+    public ColorDifference compute( CIELab target, CIELab sample )
     {
-        if( !( target instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CMC only accepts CIELab color encodings." );   //NOI18N
-        }
-
-        if( !( sample instanceof CIELab ) )
-        {
-            throw new IllegalArgumentException( "CMC only accepts CIELab color encodings." );   //NOI18N
-        }
-
         double[] p = computeAll( target, sample );
         ColorDifference cd = new ColorDifferenceCJ94( this, p[ 0 ], p[ 1 ], p[ 2 ],
                                                       p[ 3 ], p[ 4 ], p[ 5 ], p[ 6 ],

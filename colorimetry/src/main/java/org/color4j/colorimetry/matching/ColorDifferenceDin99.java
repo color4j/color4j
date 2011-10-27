@@ -18,7 +18,9 @@
 
 package org.color4j.colorimetry.matching;
 
-public class ColorDifferenceDin99 extends ColorDifference
+import org.color4j.colorimetry.encodings.Din99Lab;
+
+public class ColorDifferenceDin99 extends ColorDifference<Din99Lab>
 {
     /**
      * the variable end with star mean is using CIELab model,just the difference of
@@ -38,7 +40,7 @@ public class ColorDifferenceDin99 extends ColorDifference
     private double m_dC99;
     private double m_dH99;
 
-    public ColorDifferenceDin99( DifferenceAlgorithm algorithm,
+    public ColorDifferenceDin99( DifferenceAlgorithm<Din99Lab> algorithm,
                                  double dL99,
                                  double da99,
                                  double db99,

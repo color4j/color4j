@@ -18,7 +18,9 @@
 
 package org.color4j.colorimetry.matching;
 
-public class ColorDifferenceB2000 extends ColorDifference
+import org.color4j.colorimetry.encodings.CIELab;
+
+public class ColorDifferenceB2000 extends ColorDifference<CIELab>
 {
     /**
      * the variable end with star mean is using CIELab model,just the difference of
@@ -41,7 +43,7 @@ public class ColorDifferenceB2000 extends ColorDifference
     private double m_dHDot;
 
     //BCJ : B:BFD, C:CMC, J:JPC
-    public ColorDifferenceB2000( DifferenceAlgorithm algorithm, double dLDot,
+    public ColorDifferenceB2000( DifferenceAlgorithm<CIELab> algorithm, double dLDot,
                                  double dCDot, double dHDot, double sL,
                                  double sC, double sH, double dR,
                                  double dE, double dLs, double dAs, double dBs,

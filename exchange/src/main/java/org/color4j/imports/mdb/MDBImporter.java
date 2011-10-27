@@ -31,9 +31,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.colorimetry.ReflectanceImpl;
 import org.color4j.colorimetry.Spectrum;
-import org.color4j.colorimetry.entities.Reflectance;
 import org.color4j.imports.DBReflectanceImporter;
 import org.color4j.imports.ImportException;
 

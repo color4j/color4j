@@ -18,8 +18,8 @@
 
 package org.color4j.colorimetry.observers;
 
+import org.color4j.colorimetry.Observer;
 import org.color4j.colorimetry.encodings.XYZ;
-import org.color4j.colorimetry.entities.Observer;
 import java.util.SortedMap;
 import java.util.TreeMap;
 

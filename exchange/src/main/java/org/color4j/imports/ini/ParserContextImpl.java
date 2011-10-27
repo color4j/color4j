@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import org.color4j.colorimetry.entities.Reflectance;
+import org.color4j.colorimetry.Reflectance;
 import org.color4j.imports.AbstractTextFileReflectanceImporter;
 import org.color4j.imports.ImportException;
 import org.slf4j.Logger;

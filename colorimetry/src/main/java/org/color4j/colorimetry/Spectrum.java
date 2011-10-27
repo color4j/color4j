@@ -54,7 +54,7 @@ public class Spectrum
     }
 
     /**
-     * Returns the longest wavelength included in the Spectrum.
+     * @return the longest wavelength included in the Spectrum.
      */
     public int getLongestWavelength()
     {
@@ -62,7 +62,7 @@ public class Spectrum
     }
 
     /**
-     * Returns the shortest wavelength included in the Spectrum.
+     * @return the shortest wavelength included in the Spectrum.
      */
     public int getShortestWavelength()
     {
@@ -70,7 +70,7 @@ public class Spectrum
     }
 
     /**
-     * Returns the Interval between the wavelength readings.
+     * @return the Interval between the wavelength readings.
      */
     public int getInterval()
     {
@@ -80,11 +80,7 @@ public class Spectrum
     public double[] getValues()
     {
         double[] result = new double[ m_Values.length ];
-        for( int i = 0; i < result.length; i++ )
-        {
-            result[ i ] = m_Values[ i ];
-        }
-
+        System.arraycopy( m_Values, 0, result, 0, result.length );
         return result;
     }
 }
